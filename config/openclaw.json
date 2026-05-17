@@ -1,0 +1,51 @@
+{
+  "ai": {
+    "primary": {
+      "provider": "groq",
+      "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+      "max_tokens": 1024,
+      "temperature": 0.3,
+      "timeout_ms": 8000,
+      "retry": 2
+    },
+    "fallback": {
+      "provider": "gemini",
+      "model": "gemini-2.0-flash",
+      "max_tokens": 1024,
+      "temperature": 0.3,
+      "timeout_ms": 10000,
+      "retry": 1
+    }
+  },
+  "kios": {
+    "nama": "Kios Desa Maju",
+    "pemilik": "Ruflo",
+    "lokasi": "Desa",
+    "jam_buka": "06:00",
+    "jam_tutup": "21:00",
+    "timezone": "Asia/Makassar"
+  },
+  "jadwal": {
+    "laporan_pagi": "0 6 * * *",
+    "laporan_siang": "0 12 * * *",
+    "laporan_malam": "0 20 * * *",
+    "cek_stok": "0 */3 * * *",
+    "backup": "0 22 * * *",
+    "checkpoint": "*/5 * * * *"
+  },
+  "alert": {
+    "stok_minimum": 5,
+    "stok_kritis": 2,
+    "omzet_target_harian": 500000
+  },
+  "hosting": {
+    "url": "https://kiossaya.vercel.app",
+    "provider": "vercel",
+    "plan": "free"
+  },
+  "network": {
+    "max_bandwidth_kb": 512,
+    "compress_response": true,
+    "cache_ttl_seconds": 300
+  }
+}

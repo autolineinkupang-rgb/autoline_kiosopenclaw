@@ -1,0 +1,16 @@
+{
+  "checkpoints": [
+    {
+      "id": 1,
+      "ts": "2026-05-17T08:28:01.053Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    }
+  ],
+  "last_id": 1,
+  "max_keep": 288
+}

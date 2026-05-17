@@ -1,0 +1,40 @@
+{
+  "name": "kios-openclaw",
+  "version": "1.0.0",
+  "description": "Sistem Manajemen Kios Desa berbasis AI - Groq + Gemini",
+  "main": "scripts/startup.js",
+  "scripts": {
+    "start": "node scripts/startup.js",
+    "laporan": "node scripts/laporan-harian.js",
+    "cek-stok": "node scripts/cek-stok.js",
+    "backup": "node scripts/backup.js",
+    "snapshot": "node scripts/cctv-snapshot.js",
+    "checkpoint": "node scripts/memory-checkpoint.js",
+    "dashboard": "cd dashboard && npm run dev",
+    "dashboard:build": "cd dashboard && npm run build",
+    "dashboard:deploy": "cd dashboard && npx vercel --prod",
+    "test:laporan": "node scripts/laporan-harian.js --test",
+    "test:stok": "node scripts/cek-stok.js --test",
+    "setup": "node scripts/startup.js --setup-only",
+    "signal:start": "node signal/bot-handler.js"
+  },
+  "dependencies": {
+    "groq-sdk": "^0.9.1",
+    "@google/generative-ai": "^0.21.0",
+    "axios": "^1.7.7",
+    "csv-parse": "^5.5.6",
+    "csv-stringify": "^6.5.1",
+    "dotenv": "^16.4.5",
+    "node-cron": "^3.0.3",
+    "js-yaml": "^4.1.0",
+    "chalk": "^4.1.2",
+    "dayjs": "^1.11.13"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "keywords": ["kios", "desa", "ai", "groq", "manajemen", "stok"],
+  "author": "Ruflo + Claude Code",
+  "license": "MIT"
+}

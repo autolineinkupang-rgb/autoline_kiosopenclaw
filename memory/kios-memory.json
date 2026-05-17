@@ -1,0 +1,47 @@
+{
+  "versi": "1.0",
+  "last_checkpoint": "2026-05-17T08:28:01.053Z",
+  "kios": {
+    "nama": "Kios Desa Maju",
+    "pemilik": "Ruflo",
+    "status": "aktif",
+    "jam_operasional": {
+      "buka": "06:00",
+      "tutup": "21:00"
+    }
+  },
+  "harian": {
+    "tanggal": "2026-05-17",
+    "total_transaksi": 0,
+    "omzet": 0,
+    "stok_kritis": []
+  },
+  "bulanan": {
+    "bulan": null,
+    "total_omzet": 0,
+    "total_transaksi": 0,
+    "rata_harian": 0
+  },
+  "alert": {
+    "pending": [],
+    "terkirim": [],
+    "last_sent": null
+  },
+  "ai": {
+    "provider_aktif": "groq",
+    "total_request": 0,
+    "total_token_digunakan": 0,
+    "fallback_count": 0,
+    "last_request": null
+  },
+  "signal": {
+    "status": "disconnected",
+    "pesan_terkirim": 0,
+    "last_message": null
+  },
+  "system": {
+    "startup_time": null,
+    "version": "1.0.0",
+    "environment": "production"
+  }
+}

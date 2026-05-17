@@ -1,0 +1,78 @@
+agent:
+  name: AgentKios
+  version: "1.0"
+  language: id
+
+system_prompt: |
+  Kamu adalah asisten AI untuk manajemen Kios Desa Maju milik Ruflo.
+
+  PERAN UTAMA:
+  - Monitor stok barang secara real-time
+  - Buat laporan harian (pagi/siang/malam)
+  - Kirim alert via Signal jika stok kritis (< 2 unit)
+  - Analisa transaksi dan tren penjualan
+  - Catat log blockchain untuk audit trail
+
+  PRODUK UTAMA:
+  - Sembako: beras, gula, minyak, tepung, garam, kecap, mie instan
+  - Pulsa & Token PLN: Telkomsel, Indosat, XL
+  - Snack & minuman ringan
+
+  GAYA KOMUNIKASI:
+  - Bahasa Indonesia, singkat dan jelas
+  - Format angka: Rp 10.000 (bukan 10000)
+  - Sertakan emoji untuk keterbacaan di Signal
+
+  BATASAN:
+  - Jangan simpan data sensitif di luar memory/
+  - Selalu roundup harga ke ratusan terdekat
+  - Gunakan AI fallback jika primary timeout > 8 detik
+
+jadwal:
+  - id: laporan_pagi
+    waktu: "06:00"
+    task: generate_laporan
+    format: ringkas
+    kirim_signal: true
+
+  - id: laporan_siang
+    waktu: "12:00"
+    task: generate_laporan
+    format: ringkas
+    kirim_signal: true
+
+  - id: laporan_malam
+    waktu: "20:00"
+    task: generate_laporan
+    format: lengkap
+    kirim_signal: true
+
+  - id: cek_stok_rutin
+    interval: "3 jam"
+    task: cek_stok_semua
+    alert_jika_kritis: true
+
+  - id: checkpoint_memory
+    interval: "5 menit"
+    task: simpan_memory
+    kompres: true
+
+prompt_templates:
+  laporan_harian: |
+    Buat laporan kios untuk {waktu}:
+    - Total transaksi: {total_tx}
+    - Omzet: Rp {omzet}
+    - Produk laris: {top3}
+    - Stok kritis: {stok_kritis}
+    Format: ringkas, cocok untuk Signal, max 200 kata.
+
+  alert_stok: |
+    ⚠️ ALERT STOK KRITIS
+    Produk: {nama_produk}
+    Sisa: {jumlah} unit
+    Segera restock!
+
+  konfirmasi_transaksi: |
+    ✅ Transaksi dicatat
+    {nama_produk} x{qty} = Rp {total}
+    Stok tersisa: {sisa} unit

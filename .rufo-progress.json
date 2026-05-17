@@ -1,0 +1,9 @@
+{
+  "tahap1_setup_awal": { "status": "completed", "ts": "2026-05-17T08:20:00Z" },
+  "tahap2_konfigurasi": { "status": "completed", "ts": "2026-05-17T08:22:00Z" },
+  "tahap3_data_csv": { "status": "completed", "ts": "2026-05-17T08:24:00Z" },
+  "tahap4_scripts": { "status": "completed", "ts": "2026-05-17T08:26:00Z" },
+  "tahap5_signal": { "status": "completed", "ts": "2026-05-17T08:27:00Z" },
+  "tahap6_dashboard": { "status": "completed", "ts": "2026-05-17T08:28:00Z" },
+  "tahap7_finalisasi": { "status": "completed", "ts": "2026-05-17T08:29:00Z" }
+}

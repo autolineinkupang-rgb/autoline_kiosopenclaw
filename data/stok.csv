@@ -1,0 +1,15 @@
+id,nama,kategori,satuan,stok,harga_beli,harga_jual,stok_minimum,stok_kritis,supplier,last_update
+001,Beras Premium 5kg,sembako,karung,25,62000,70000,10,3,Pak Haji Soleh,2026-05-17
+002,Beras Medium 5kg,sembako,karung,30,55000,62000,10,3,Pak Haji Soleh,2026-05-17
+003,Gula Pasir 1kg,sembako,bungkus,20,13500,15000,8,2,Distributor UD Maju,2026-05-17
+004,Minyak Goreng 1L,sembako,botol,18,17000,19000,8,2,Distributor UD Maju,2026-05-17
+005,Tepung Terigu 1kg,sembako,bungkus,15,12000,14000,5,2,Distributor UD Maju,2026-05-17
+006,Garam 250gr,sembako,bungkus,30,2000,2500,10,3,Distributor UD Maju,2026-05-17
+007,Kecap Manis 275ml,sembako,botol,12,8000,10000,5,2,Distributor UD Maju,2026-05-17
+008,Mie Instan Goreng,snack,bungkus,50,2700,3500,20,5,Indomaret Grosir,2026-05-17
+009,Mie Instan Kuah,snack,bungkus,45,2700,3500,20,5,Indomaret Grosir,2026-05-17
+010,Kopi Sachetan,minuman,dus,8,35000,45000,3,1,Indomaret Grosir,2026-05-17
+011,Teh Celup 25pcs,minuman,kotak,10,8000,10000,5,2,Indomaret Grosir,2026-05-17
+012,Snack Ringan Mix,snack,bal,6,25000,32000,3,1,Indomaret Grosir,2026-05-17
+013,Sabun Mandi,kebutuhan,buah,20,3500,5000,8,2,Distributor UD Maju,2026-05-17
+014,Deterjen 500gr,kebutuhan,bungkus,15,9000,12000,5,2,Distributor UD Maju,2026-05-17

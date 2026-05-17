@@ -1,0 +1,15 @@
+id,operator,nominal,harga_beli,harga_jual,tipe,stok,aktif
+P001,Telkomsel,10000,9700,11000,pulsa,999,true
+P002,Telkomsel,20000,19400,21500,pulsa,999,true
+P003,Telkomsel,50000,48500,52000,pulsa,999,true
+P004,Telkomsel,100000,97000,103000,pulsa,999,true
+P005,Indosat,10000,9600,11000,pulsa,999,true
+P006,Indosat,20000,19200,21500,pulsa,999,true
+P007,Indosat,50000,48000,52000,pulsa,999,true
+P008,XL Axiata,10000,9650,11000,pulsa,999,true
+P009,XL Axiata,20000,19300,21500,pulsa,999,true
+P010,XL Axiata,50000,48200,52000,pulsa,999,true
+T001,PLN Token,20000,20000,21500,token_listrik,999,true
+T002,PLN Token,50000,50000,52000,token_listrik,999,true
+T003,PLN Token,100000,100000,102000,token_listrik,999,true
+T004,PLN Token,200000,200000,202000,token_listrik,999,true

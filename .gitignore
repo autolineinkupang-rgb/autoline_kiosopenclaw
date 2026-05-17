@@ -1,0 +1,30 @@
+# Environment
+.env
+.env.local
+.env.production
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Next.js
+dashboard/.next/
+dashboard/out/
+
+# Logs
+logs/*.log
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Ruflo progress (optional keep)
+# .rufo-progress.json
+
+# Vercel
+.vercel
+
+# Local backups
+backups/
+.env
