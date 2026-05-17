@@ -29,9 +29,7 @@ export async function GET() {
       produkCount[t.nama_produk] = (produkCount[t.nama_produk] || 0) + Number(t.qty || 0);
     });
     const top3 = Object.entries(produkCount)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 3)
-      .map(([nama]) => nama);
+      .sort((a, b) => b[1] - a[1]).slice(0, 3).map(([nama]) => nama);
 
     let memory = {};
     try { memory = JSON.parse(readFileSync(MEMORY_FILE, 'utf8')); } catch {}
@@ -42,7 +40,7 @@ export async function GET() {
       lastCheckpoint: memory.last_checkpoint,
       ts: new Date().toISOString(),
     });
-  } catch (err) {
-    return Response.json({ error: err.message }, { status: 500 });
+  } catch {
+    return Response.json({ error: 'Gagal membuat laporan' }, { status: 500 });
   }
 }

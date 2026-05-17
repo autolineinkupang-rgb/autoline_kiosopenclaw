@@ -6,17 +6,16 @@ const CSV_PATH = path.join(process.cwd(), '..', 'data', 'stok.csv');
 
 export async function GET() {
   try {
-    // Coba baca dari file lokal (dev) atau Vercel KV (prod)
-    let data;
+    let data = [];
     try {
       const content = readFileSync(CSV_PATH, 'utf8');
       data = parse(content, { columns: true, skip_empty_lines: true });
     } catch {
-      // Fallback: data kosong jika di Vercel tanpa KV
-      data = [];
+      // File tidak ada — kembalikan array kosong, bukan error detail
     }
     return Response.json({ data, count: data.length, ts: new Date().toISOString() });
-  } catch (err) {
-    return Response.json({ error: err.message, data: [] }, { status: 500 });
+  } catch {
+    // Jangan ekspos detail error ke client
+    return Response.json({ error: 'Gagal membaca data stok', data: [] }, { status: 500 });
   }
 }

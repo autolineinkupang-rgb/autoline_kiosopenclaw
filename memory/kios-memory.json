@@ -1,6 +1,6 @@
 {
   "versi": "1.0",
-  "last_checkpoint": "2026-05-17T08:28:01.053Z",
+  "last_checkpoint": "2026-05-17T13:28:02.502Z",
   "kios": {
     "nama": "Kios Desa Maju",
     "pemilik": "Ruflo",
@@ -40,7 +40,7 @@
     "last_message": null
   },
   "system": {
-    "startup_time": null,
+    "startup_time": "2026-05-17T11:07:59.808Z",
     "version": "1.0.0",
     "environment": "production"
   }
