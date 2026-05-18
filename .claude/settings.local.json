@@ -1,7 +1,25 @@
 {
   "permissions": {
     "allow": [
-      "Bash(node *)"
+      "Bash(node *)",
+      "Bash(npm run *)",
+      "Bash(npm install *)",
+      "Bash(ELECTRON_DEV=1 npx electron --no-sandbox electron/main.js)",
+      "Bash(echo \"PID: $!\")",
+      "Bash(lsof -ti:3000)",
+      "Bash(pkill -f \"next-server\\\\|next start\\\\|electron\")",
+      "Bash(xargs kill -9)",
+      "Bash(awk '{print $1, $2, $8, $11}')",
+      "Bash(ps -p 21284 -o pid,cmd)",
+      "Bash(kill -9 18313 18312 20404 20424 20425 20438 20440 20441 20462 20532 20905 21220 21241 21256 21284)",
+      "Bash(awk '{print $2, $8, substr\\($0, index\\($0,$11\\), 60\\)}')",
+      "Bash(pkill -9 -f \"electron/dist/electron\")",
+      "Bash(pkill -9 -f \"next-server\\\\|standalone/server\")",
+      "Bash(awk '{print \"PID:\"$2, \"Status:\"$8}')"
     ]
-  }
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "ruflo"
+  ]
 }

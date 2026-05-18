@@ -1,1 +1,9 @@
-id,tanggal,jam,produk_id,nama_produk,kategori,qty,harga_satuan,total,metode_bayar,kasir,catatan
+id,tanggal,jam,produk_id,nama_produk,kategori,qty,harga_satuan,total,metode_bayar,kasir,catatan,session_id
+TRX-0001,2026-05-17,22:28:30,002,Beras Medium 5kg,sembako,1,62000,62000,tunai,Ruflo,,
+TRX-0002,2026-05-17,23:11:00,001,Beras Premium 5kg,sembako,1,70000,70000,qris,Kasir,,SESS-20260517-0002
+TRX-0003,2026-05-17,23:11:00,005,Tepung Terigu 1kg,sembako,1,14000,14000,qris,Kasir,,SESS-20260517-0002
+TRX-0004,2026-05-17,23:11:00,003,Gula Pasir 1kg,sembako,1,15000,15000,qris,Kasir,,SESS-20260517-0002
+TRX-0005,2026-05-18,12:32:30,003,Gula Pasir 1kg,sembako,1,15000,15000,tunai,Kasir,,SESS-20260518-0005
+TRX-0006,2026-05-18,12:32:30,006,Garam 250gr,sembako,1,2500,2500,tunai,Kasir,,SESS-20260518-0005
+TRX-0007,2026-05-18,12:32:30,005,Tepung Terigu 1kg,sembako,1,14000,14000,tunai,Kasir,,SESS-20260518-0005
+TRX-0008,2026-05-18,12:32:30,009,Mie Instan Kuah,snack,1,3500,3500,tunai,Kasir,,SESS-20260518-0005

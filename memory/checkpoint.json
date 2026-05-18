@@ -299,8 +299,578 @@
         "stok_kritis": [],
         "ai_provider": "groq"
       }
+    },
+    {
+      "id": 31,
+      "ts": "2026-05-17T13:33:02.598Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 32,
+      "ts": "2026-05-17T13:38:02.700Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 33,
+      "ts": "2026-05-17T13:43:02.705Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 34,
+      "ts": "2026-05-17T13:48:02.709Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 35,
+      "ts": "2026-05-17T13:53:02.815Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 36,
+      "ts": "2026-05-17T13:58:02.914Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 37,
+      "ts": "2026-05-17T14:03:03.013Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 38,
+      "ts": "2026-05-17T14:08:03.061Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 39,
+      "ts": "2026-05-17T14:13:03.173Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 40,
+      "ts": "2026-05-17T14:18:03.264Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 41,
+      "ts": "2026-05-17T14:23:03.369Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 42,
+      "ts": "2026-05-17T14:28:03.474Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 43,
+      "ts": "2026-05-17T14:33:03.581Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 44,
+      "ts": "2026-05-17T14:38:03.673Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 45,
+      "ts": "2026-05-17T14:43:03.771Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 46,
+      "ts": "2026-05-17T14:48:03.871Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 47,
+      "ts": "2026-05-17T14:53:03.975Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 48,
+      "ts": "2026-05-17T14:58:04.072Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 49,
+      "ts": "2026-05-17T15:03:04.106Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 50,
+      "ts": "2026-05-17T15:08:04.139Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 51,
+      "ts": "2026-05-17T15:13:04.261Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 52,
+      "ts": "2026-05-17T15:18:04.302Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 53,
+      "ts": "2026-05-17T15:23:04.346Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 54,
+      "ts": "2026-05-17T15:28:04.362Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 55,
+      "ts": "2026-05-17T15:33:04.373Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 56,
+      "ts": "2026-05-17T15:38:04.466Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 57,
+      "ts": "2026-05-17T15:43:04.570Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 58,
+      "ts": "2026-05-17T15:48:04.618Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 59,
+      "ts": "2026-05-17T15:53:04.719Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 60,
+      "ts": "2026-05-17T15:58:04.816Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 61,
+      "ts": "2026-05-17T16:03:04.918Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 62,
+      "ts": "2026-05-17T16:08:04.952Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 63,
+      "ts": "2026-05-18T03:29:53.809Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 64,
+      "ts": "2026-05-18T03:34:53.835Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 65,
+      "ts": "2026-05-18T03:39:53.842Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 66,
+      "ts": "2026-05-18T03:44:53.952Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 67,
+      "ts": "2026-05-18T03:49:54.044Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 68,
+      "ts": "2026-05-18T03:54:54.066Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 69,
+      "ts": "2026-05-18T03:59:54.156Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 70,
+      "ts": "2026-05-18T04:04:54.257Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 71,
+      "ts": "2026-05-18T04:09:54.358Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 72,
+      "ts": "2026-05-18T04:14:54.405Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 73,
+      "ts": "2026-05-18T04:19:54.505Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 74,
+      "ts": "2026-05-18T04:24:54.605Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 75,
+      "ts": "2026-05-18T04:29:54.703Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 76,
+      "ts": "2026-05-18T04:34:54.734Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 77,
+      "ts": "2026-05-18T04:39:54.834Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 78,
+      "ts": "2026-05-18T04:44:54.939Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 79,
+      "ts": "2026-05-18T04:49:55.037Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 80,
+      "ts": "2026-05-18T04:54:55.141Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 81,
+      "ts": "2026-05-18T04:59:55.244Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 82,
+      "ts": "2026-05-18T05:04:55.351Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 83,
+      "ts": "2026-05-18T05:09:55.389Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 84,
+      "ts": "2026-05-18T05:14:55.489Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 85,
+      "ts": "2026-05-18T05:19:55.559Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 86,
+      "ts": "2026-05-18T05:24:55.661Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 87,
+      "ts": "2026-05-18T05:29:55.760Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
     }
   ],
-  "last_id": 30,
+  "last_id": 87,
   "max_keep": 288
 }

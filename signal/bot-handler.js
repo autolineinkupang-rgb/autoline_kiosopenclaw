@@ -11,6 +11,7 @@ const dayjs = require('dayjs');
 
 const { parsePerintah, validasiPerintah } = require('./message-parser');
 const Formatter = require('./response-formatter');
+const { prosesAI } = require('./ai-handler');
 const { sanitizeInput, buatBarisCsvAman, cekRateLimit, isPhoneAllowed } = require('../scripts/security');
 
 const ROOT = path.join(__dirname, '..');
@@ -72,7 +73,7 @@ function cariProduk(nama, stok) {
   );
 }
 
-function catatJual(produk, qty) {
+function catatJual(produk, qty, metode) {
   const stok = bacaStok();
   const item = cariProduk(produk, stok);
   if (!item) return { ok: false, error: `Produk tidak ditemukan` }; // jangan echo input user ke error detail
@@ -88,29 +89,91 @@ function catatJual(produk, qty) {
   const header = Object.keys(stok[0]);
   fs.writeFileSync(path.join(DATA_DIR, 'stok.csv'), stringify(stokBaru, { header: true, columns: header }));
 
-  // Catat transaksi — gunakan buatBarisCsvAman cegah CSV injection
+  const tanggal = dayjs().format('YYYY-MM-DD');
+  const jam = dayjs().format('HH:mm:ss');
+  const total = qty * Number(item.harga_jual);
+
+  const txFile = path.join(DATA_DIR, 'transaksi.csv');
+  const txData = parse(fs.readFileSync(txFile, 'utf8'), { columns: true, skip_empty_lines: true });
+  const maxId = txData.reduce((max, r) => Math.max(max, parseInt(r.id?.replace(/\D/g, '') || '0')), 0);
+
+  // session_id kosong untuk transaksi tunggal via Signal
   const tx = {
-    id: `TX${Date.now()}`,
-    tanggal: dayjs().format('YYYY-MM-DD'),
-    jam: dayjs().format('HH:mm:ss'),
+    id: `TRX-${String(maxId + 1).padStart(4, '0')}`,
+    tanggal, jam,
     produk_id: item.id,
-    nama_produk: item.nama,           // sudah dari file CSV (trusted)
+    nama_produk: item.nama,
     kategori: item.kategori,
     qty,
     harga_satuan: item.harga_jual,
-    total: qty * Number(item.harga_jual),
-    metode_bayar: 'tunai',
+    total,
+    metode_bayar: metode || 'tunai',
     kasir: 'signal-bot',
     catatan: '',
+    session_id: '',
   };
 
-  const txFile = path.join(DATA_DIR, 'transaksi.csv');
-  const txContent = fs.readFileSync(txFile, 'utf8').trim();
-  // Gunakan csv-stringify (bukan string join manual) — aman dari injection
-  const baris = stringify([Object.values(tx)]);
-  fs.writeFileSync(txFile, txContent + '\n' + baris.trim() + '\n');
+  const TX_HEADERS = ['id','tanggal','jam','produk_id','nama_produk','kategori','qty','harga_satuan','total','metode_bayar','kasir','catatan','session_id'];
+  const tmp = txFile + '.tmp';
+  const lines = [TX_HEADERS.join(','), ...txData.map(r => TX_HEADERS.map(h => {
+    const v = String(r[h] ?? '');
+    return v.includes(',') || v.includes('"') ? `"${v.replace(/"/g,'""')}"` : v;
+  }).join(',')), TX_HEADERS.map(h => {
+    const v = String(tx[h] ?? '');
+    return v.includes(',') || v.includes('"') ? `"${v.replace(/"/g,'""')}"` : v;
+  }).join(',')].join('\n') + '\n';
+  fs.writeFileSync(tmp, lines, 'utf8');
+  fs.renameSync(tmp, txFile);
 
-  return { ok: true, item, qty, total: tx.total, sisa: sisaSekarang - qty };
+  return { ok: true, item, qty, total, sisa: sisaSekarang - qty };
+}
+
+function catatBeli(namaProduk, qty, hargaBeli) {
+  const stok = bacaStok();
+  const item = cariProduk(namaProduk, stok);
+  if (!item) return { ok: false, error: 'Produk tidak ditemukan' };
+
+  const tanggal = dayjs().format('YYYY-MM-DD');
+  const stokBaru = stok.map(s => {
+    if (s.id !== item.id) return s;
+    const stokUpdated = { ...s, stok: Number(s.stok) + qty, last_update: tanggal };
+    if (hargaBeli > 0) stokUpdated.harga_beli = String(hargaBeli);
+    return stokUpdated;
+  });
+
+  const STOK_HEADERS = ['id','nama','kategori','satuan','stok','harga_beli','harga_jual','stok_minimum','stok_kritis','supplier','last_update','has_exp','exp_date'];
+  const stokFile = path.join(DATA_DIR, 'stok.csv');
+  const stokLines = [STOK_HEADERS.join(','), ...stokBaru.map(r => STOK_HEADERS.map(h => {
+    const v = String(r[h] ?? '');
+    return v.includes(',') || v.includes('"') ? `"${v.replace(/"/g,'""')}"` : v;
+  }).join(','))].join('\n') + '\n';
+  const stokTmp = stokFile + '.tmp';
+  fs.writeFileSync(stokTmp, stokLines, 'utf8');
+  fs.renameSync(stokTmp, stokFile);
+
+  // Catat ke pembelian.csv
+  const pemFile = path.join(DATA_DIR, 'pembelian.csv');
+  const pemData = fs.existsSync(pemFile)
+    ? parse(fs.readFileSync(pemFile, 'utf8'), { columns: true, skip_empty_lines: true })
+    : [];
+  const maxPemId = pemData.reduce((max, r) => Math.max(max, parseInt(r.id?.replace(/\D/g,'') || '0')), 0);
+  const pem = {
+    id: `PEM-${String(maxPemId + 1).padStart(4, '0')}`,
+    session_id: '',
+    tanggal, jam: dayjs().format('HH:mm:ss'),
+    produk_id: item.id, nama_produk: item.nama,
+    qty: String(qty), harga_beli: String(hargaBeli),
+    subtotal: String(qty * hargaBeli),
+    supplier: item.supplier || '', kasir: 'signal-bot', catatan: '',
+  };
+  const PEM_HEADERS = ['id','session_id','tanggal','jam','produk_id','nama_produk','qty','harga_beli','subtotal','supplier','kasir','catatan'];
+  const pemLines = [PEM_HEADERS.join(','), ...pemData.map(r => PEM_HEADERS.map(h => String(r[h]??'')).join(',')),
+    PEM_HEADERS.map(h => { const v = String(pem[h]??''); return v.includes(',') ? `"${v}"` : v; }).join(',')
+  ].join('\n') + '\n';
+  fs.writeFileSync(pemFile, pemLines, 'utf8');
+
+  const stokBawaanItem = stokBaru.find(s => s.id === item.id);
+  return { ok: true, item, qty, hargaBeli, stokBaru: stokBawaanItem?.stok };
 }
 
 async function prosesPerintah(teks) {
@@ -132,9 +195,29 @@ async function prosesPerintah(teks) {
       });
     }
     case 'JUAL': {
-      const hasil = catatJual(parsed.produk, parsed.qty);
+      const hasil = catatJual(parsed.produk, parsed.qty, parsed.metode);
       if (!hasil.ok) return Formatter.error(hasil.error);
-      return Formatter.konfirmasiJual(hasil.item.nama, hasil.qty, hasil.total, hasil.sisa);
+      return Formatter.konfirmasiJual(hasil.item.nama, hasil.qty, hasil.item.satuan, hasil.total, hasil.sisa, parsed.metode);
+    }
+    case 'BELI': {
+      const hasil = catatBeli(parsed.produk, parsed.qty, parsed.harga);
+      if (!hasil.ok) return Formatter.error(hasil.error);
+      return Formatter.konfirmasiBeli(hasil.item.nama, hasil.qty, hasil.item.satuan, hasil.hargaBeli, hasil.stokBaru);
+    }
+    case 'EXP': {
+      return Formatter.ringkasanExp(bacaStok());
+    }
+    case 'CARI': {
+      const stok = bacaStok();
+      const produk = cariProduk(parsed.produk, stok);
+      if (!produk) return Formatter.error('Produk tidak ditemukan');
+      return Formatter.detailProduk(produk);
+    }
+    case 'HARGA': {
+      const stok = bacaStok();
+      const produk = cariProduk(parsed.produk, stok);
+      if (!produk) return Formatter.error('Produk tidak ditemukan');
+      return `💲 *${produk.nama}*\nHarga jual: Rp ${Number(produk.harga_jual).toLocaleString('id-ID')}\nStok: ${produk.stok} ${produk.satuan}`;
     }
     case 'BANTUAN': return Formatter.bantuan();
     case 'STATUS': {
@@ -146,8 +229,31 @@ async function prosesPerintah(teks) {
       spawn(process.execPath, [path.join(ROOT, 'scripts/backup.js')], { stdio: 'ignore', detached: true }).unref();
       return '💾 Backup dimulai...';
     }
-    case 'AI_CHAT':
-      return '🤖 Ketik *bantuan* untuk daftar perintah.';
+    case 'AI_CHAT': {
+      const stokAI = bacaStok();
+      const memoryAI = (() => {
+        try { return JSON.parse(fs.readFileSync(MEMORY_FILE, 'utf8')); } catch { return {}; }
+      })();
+      const aiResult = await prosesAI({ teks: parsed.teks, stok: stokAI, memory: memoryAI });
+
+      if (aiResult.tipe === 'AI_RESPONS') return aiResult.teks;
+
+      // AI memilih aksi — validasi dan eksekusi
+      const validAI = validasiPerintah(aiResult);
+      if (!validAI.valid) return Formatter.error(validAI.error);
+
+      if (aiResult.tipe === 'JUAL') {
+        const hasil = catatJual(aiResult.produk, aiResult.qty, aiResult.metode);
+        if (!hasil.ok) return Formatter.error(hasil.error);
+        return Formatter.konfirmasiJual(hasil.item.nama, hasil.qty, hasil.item.satuan, hasil.total, hasil.sisa, aiResult.metode);
+      }
+      if (aiResult.tipe === 'BELI') {
+        const hasil = catatBeli(aiResult.produk, aiResult.qty, aiResult.harga);
+        if (!hasil.ok) return Formatter.error(hasil.error);
+        return Formatter.konfirmasiBeli(hasil.item.nama, hasil.qty, hasil.item.satuan, hasil.hargaBeli, hasil.stokBaru);
+      }
+      return Formatter.bantuan();
+    }
     default:
       return Formatter.bantuan();
   }

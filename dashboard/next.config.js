@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 
+const isDev = process.env.NODE_ENV === 'development';
+
 const securityHeaders = [
   // Cegah clickjacking
   { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
@@ -16,7 +18,8 @@ const securityHeaders = [
     key: 'Content-Security-Policy',
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline'",  // unsafe-inline diperlukan Next.js + Recharts
+      // unsafe-eval hanya di development (React membutuhkan eval() untuk debugging)
+      `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''}`,
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob:",
       "font-src 'self'",
@@ -32,6 +35,7 @@ const nextConfig = {
   output: 'standalone',
   compress: true,
   poweredByHeader: false, // Sembunyikan "X-Powered-By: Next.js"
+  turbopack: { root: __dirname },
 
   async headers() {
     return [

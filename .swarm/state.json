@@ -1,0 +1,29 @@
+{
+  "swarmId": "swarm-mp9v3aom",
+  "objective": "optimasi sistem kios desa, cek semua script dan perbaiki jika perlu\n  Gunakan Ruflo untuk orchestrate task secara paralel.",
+  "strategy": "optimization",
+  "status": "initialized",
+  "agents": 5,
+  "agentPlan": [
+    {
+      "role": "Performance Lead",
+      "type": "optimizer",
+      "count": 1,
+      "purpose": "Performance strategy"
+    },
+    {
+      "role": "Profiler",
+      "type": "analyst",
+      "count": 2,
+      "purpose": "Profiling"
+    },
+    {
+      "role": "Optimizer",
+      "type": "coder",
+      "count": 2,
+      "purpose": "Optimization"
+    }
+  ],
+  "startedAt": "2026-05-17T14:19:46.017Z",
+  "parallel": true
+}

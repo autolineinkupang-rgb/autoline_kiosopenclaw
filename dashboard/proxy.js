@@ -23,7 +23,7 @@ function tolak(pesan, status) {
   });
 }
 
-export function middleware(request) {
+export function proxy(request) {
   const { pathname } = request.nextUrl;
 
   // Hanya lindungi /api/* routes

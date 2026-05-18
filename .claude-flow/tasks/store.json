@@ -1,0 +1,20 @@
+{
+  "tasks": {
+    "task-1779029228857-5io1i3": {
+      "taskId": "task-1779029228857-5io1i3",
+      "type": "optimization",
+      "description": "optimasi sistem kios desa, cek script dan perbaiiki",
+      "priority": "critical",
+      "status": "in_progress",
+      "progress": 0,
+      "assignedTo": [
+        "optimizer-mp9vw46b"
+      ],
+      "tags": [],
+      "createdAt": "2026-05-17T14:47:08.857Z",
+      "startedAt": "2026-05-17T14:54:03.841Z",
+      "completedAt": null
+    }
+  },
+  "version": "3.0.0"
+}
