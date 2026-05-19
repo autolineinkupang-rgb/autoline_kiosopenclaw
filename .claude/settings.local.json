@@ -15,7 +15,17 @@
       "Bash(awk '{print $2, $8, substr\\($0, index\\($0,$11\\), 60\\)}')",
       "Bash(pkill -9 -f \"electron/dist/electron\")",
       "Bash(pkill -9 -f \"next-server\\\\|standalone/server\")",
-      "Bash(awk '{print \"PID:\"$2, \"Status:\"$8}')"
+      "Bash(awk '{print \"PID:\"$2, \"Status:\"$8}')",
+      "Bash(python3 skills/stok.py)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\('OK, total produk:', len\\(d['data']['stok']\\)\\)\")",
+      "Bash(python3 skills/laporan.py)",
+      "Bash(python3 skills/harga.py)",
+      "Bash(python3 skills/notif.py)",
+      "Bash(SIGNAL_PHONE_NUMBER= node *)",
+      "Bash(SIGNAL_NUMBER= SIGNAL_GROUP_ID= node *)",
+      "Bash(SIGNAL_NUMBER= SIGNAL_RECIPIENT=+1234 node *)",
+      "Bash(SIGNAL_NUMBER= timeout 3 node signal/bot-handler.js)",
+      "Bash(xargs -I{} basename {})"
     ]
   },
   "enableAllProjectMcpServers": true,

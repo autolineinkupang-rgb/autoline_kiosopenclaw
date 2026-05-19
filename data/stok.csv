@@ -13,3 +13,4 @@ id,nama,kategori,satuan,stok,harga_beli,harga_jual,stok_minimum,stok_kritis,supp
 012,Snack Ringan Mix,snack,bal,6,25000,32000,3,1,Indomaret Grosir,2026-05-17,0,
 013,Sabun Mandi,kebutuhan,buah,20,3500,5000,8,2,Distributor UD Maju,2026-05-17,0,
 014,Deterjen 500gr,kebutuhan,bungkus,15,9000,12000,5,2,Distributor UD Maju,2026-05-17,0,
+015,153,rokok,bungkus,10,13500,15000,5,2,nata,2026-05-18,0,
