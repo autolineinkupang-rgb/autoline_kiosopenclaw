@@ -25,7 +25,13 @@
       "Bash(SIGNAL_NUMBER= SIGNAL_GROUP_ID= node *)",
       "Bash(SIGNAL_NUMBER= SIGNAL_RECIPIENT=+1234 node *)",
       "Bash(SIGNAL_NUMBER= timeout 3 node signal/bot-handler.js)",
-      "Bash(xargs -I{} basename {})"
+      "Bash(xargs -I{} basename {})",
+      "Bash(SIGNAL_NUMBER= timeout 5 node --trace-deprecation signal/bot-handler.js)",
+      "Bash(SIGNAL_NUMBER= node --trace-deprecation signal/bot-handler.js)",
+      "Bash(python3 -c \"import json,sys; p=json.load\\(sys.stdin\\); print\\('Package:', p['name'], p['version']\\)\")",
+      "Bash(npm ls *)",
+      "Bash(SIGNAL_NUMBER= node signal/bot-handler.js)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\('Riwayat OK, total tx:', len\\(d['data']['transaksi']\\)\\)\")"
     ]
   },
   "enableAllProjectMcpServers": true,

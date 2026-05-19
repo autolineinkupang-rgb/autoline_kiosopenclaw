@@ -5,66 +5,115 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from helper import baca_csv, ok, err, baca_request, DATA_DIR, ROOT
 
 
-def hitung_ringkasan(tx_list, tanggal=None):
-    if tanggal:
-        tx_list = [t for t in tx_list if t.get('tanggal') == tanggal]
+def _tx_periode(periode):
+    """Kembalikan list tx sesuai periode: hari_ini / minggu / bulan."""
+    tx_data = baca_csv('transaksi.csv')
+    hari_ini = datetime.now().strftime('%Y-%m-%d')
+
+    if periode == 'minggu':
+        dates = {(datetime.now() - timedelta(days=i)).strftime('%Y-%m-%d') for i in range(7)}
+        return [t for t in tx_data if t.get('tanggal') in dates]
+    if periode == 'bulan':
+        bulan = datetime.now().strftime('%Y-%m')
+        return [t for t in tx_data if t.get('tanggal', '').startswith(bulan)]
+    # default: hari_ini
+    return [t for t in tx_data if t.get('tanggal') == hari_ini]
+
+
+def _hitung_laba(tx_list):
+    """Hitung omzet, modal, laba dari daftar transaksi."""
+    stok = baca_csv('stok.csv')
+    harga_beli_map = {s['id']: int(float(s.get('harga_beli', 0))) for s in stok}
+
     omzet = sum(int(float(t.get('total', 0))) for t in tx_list)
-    return {
-        'total_transaksi': len(tx_list),
-        'omzet': omzet,
-    }
+    modal = sum(
+        int(float(t.get('qty', 0))) * harga_beli_map.get(t.get('produk_id', ''), 0)
+        for t in tx_list
+    )
+    return {'omzet': omzet, 'modal': modal, 'laba': omzet - modal}
 
 
-def top_produk(tx_list, n=3):
-    dari_produk = {}
+def _top_produk(tx_list, n=3):
+    dari = {}
     for t in tx_list:
         nama = t.get('nama_produk', '-')
-        dari_produk[nama] = dari_produk.get(nama, 0) + int(float(t.get('qty', 0)))
-    sorted_items = sorted(dari_produk.items(), key=lambda x: -x[1])
-    return [nama for nama, _ in sorted_items[:n]]
+        dari[nama] = dari.get(nama, 0) + int(float(t.get('qty', 0)))
+    return [nama for nama, _ in sorted(dari.items(), key=lambda x: -x[1])[:n]]
 
 
-def stok_kritis_list():
-    stok = baca_csv('stok.csv')
-    return [s['nama'] for s in stok if int(s['stok']) <= int(s['stok_kritis'])]
+def _stok_kritis_list():
+    return [
+        s['nama'] for s in baca_csv('stok.csv')
+        if int(s['stok']) <= int(s['stok_kritis'])
+    ]
 
 
 def aksi_ringkas(params):
     tanggal = params.get('tanggal', datetime.now().strftime('%Y-%m-%d'))
     tx_data = baca_csv('transaksi.csv')
-    ringkasan = hitung_ringkasan(tx_data, tanggal)
-    top3 = top_produk([t for t in tx_data if t.get('tanggal') == tanggal])
-    kritis = stok_kritis_list()
+    hari = [t for t in tx_data if t.get('tanggal') == tanggal]
+    laba = _hitung_laba(hari)
     ok({
         'sesi': 'Harian',
         'tanggal': datetime.strptime(tanggal, '%Y-%m-%d').strftime('%d/%m/%Y'),
-        'omzet': ringkasan['omzet'],
-        'totalTx': ringkasan['total_transaksi'],
-        'top3': top3,
-        'stokKritis': kritis,
+        'omzet': laba['omzet'],
+        'laba': laba['laba'],
+        'totalTx': len(hari),
+        'top3': _top_produk(hari),
+        'stokKritis': _stok_kritis_list(),
     })
 
 
 def aksi_mingguan(params):
+    tx_list = _tx_periode('minggu')
+    laba = _hitung_laba(tx_list)
     hari_ini = datetime.now()
-    tujuh_hari = [(hari_ini - timedelta(days=i)).strftime('%Y-%m-%d') for i in range(7)]
-    tx_data = baca_csv('transaksi.csv')
-    tx_minggu = [t for t in tx_data if t.get('tanggal') in tujuh_hari]
-    ringkasan = hitung_ringkasan(tx_minggu)
-    top3 = top_produk(tx_minggu)
     ok({
         'sesi': 'Mingguan',
-        'tanggal': f"{tujuh_hari[-1]} s/d {tujuh_hari[0]}",
-        'omzet': ringkasan['omzet'],
-        'totalTx': ringkasan['total_transaksi'],
-        'top3': top3,
-        'stokKritis': stok_kritis_list(),
+        'tanggal': f"{(hari_ini - timedelta(days=6)).strftime('%d/%m')} s/d {hari_ini.strftime('%d/%m/%Y')}",
+        'omzet': laba['omzet'],
+        'laba': laba['laba'],
+        'totalTx': len(tx_list),
+        'top3': _top_produk(tx_list),
+        'stokKritis': _stok_kritis_list(),
     })
+
+
+def aksi_bulanan(params):
+    tx_list = _tx_periode('bulan')
+    laba = _hitung_laba(tx_list)
+    ok({
+        'sesi': 'Bulanan',
+        'tanggal': datetime.now().strftime('%B %Y'),
+        'omzet': laba['omzet'],
+        'laba': laba['laba'],
+        'totalTx': len(tx_list),
+        'top3': _top_produk(tx_list),
+        'stokKritis': _stok_kritis_list(),
+    })
+
+
+def aksi_laba(params):
+    periode = params.get('periode', 'hari_ini')
+    tx_list = _tx_periode(periode)
+    laba = _hitung_laba(tx_list)
+    label = {'hari_ini': 'Hari Ini', 'minggu': '7 Hari Terakhir', 'bulan': 'Bulan Ini'}.get(periode, periode)
+    ok({'periode': label, 'totalTx': len(tx_list), **laba})
+
+
+def aksi_riwayat(params):
+    periode = params.get('periode', 'hari_ini')
+    tx_list = _tx_periode(periode)
+    label = {'hari_ini': 'Hari Ini', 'minggu': '7 Hari', 'bulan': 'Bulan Ini'}.get(periode, periode)
+    ok({'periode': label, 'transaksi': tx_list[-20:]})  # max 20 terbaru
 
 
 AKSI = {
     'ringkas': aksi_ringkas,
     'mingguan': aksi_mingguan,
+    'bulanan': aksi_bulanan,
+    'laba': aksi_laba,
+    'riwayat': aksi_riwayat,
 }
 
 if __name__ == '__main__':

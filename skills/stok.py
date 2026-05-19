@@ -12,9 +12,8 @@ def aksi_cek(params):
 
 
 def aksi_cari(params):
-    nama = params.get('produk', '')
     stok = baca_csv('stok.csv')
-    item = cari_produk(nama, stok)
+    item = cari_produk(params.get('produk', ''), stok)
     if not item:
         return err('Produk tidak ditemukan')
     ok({'item': item})
@@ -63,7 +62,6 @@ def aksi_jual(params):
     }
     tx_data.append(tx)
     tulis_csv('transaksi.csv', tx_data, TX_HEADERS)
-
     ok({'item': item, 'qty': qty, 'total': total, 'sisa': sisa - qty, 'metode': metode})
 
 
@@ -111,12 +109,131 @@ def aksi_tambah(params):
     ok({'item': item, 'qty': qty, 'harga_beli': harga_beli, 'stok_baru': stok_item_baru['stok']})
 
 
+def aksi_tambah_produk(params):
+    stok = baca_csv('stok.csv')
+    max_id = max(
+        (int(s['id']) for s in stok if s.get('id', '').isdigit()),
+        default=0,
+    )
+    new_id = str(max_id + 1).zfill(3)
+    exp_raw = str(params.get('exp_date', '')).strip()
+    has_exp = '1' if exp_raw else '0'
+
+    produk_baru = {
+        'id': new_id,
+        'nama': str(params.get('nama', '')).strip(),
+        'kategori': str(params.get('kategori', 'umum')).strip(),
+        'satuan': str(params.get('satuan', 'pcs')).strip(),
+        'stok': str(int(float(params.get('stok', 0)))),
+        'harga_beli': str(int(float(params.get('harga_beli', 0)))),
+        'harga_jual': str(int(float(params.get('harga_jual', 0)))),
+        'stok_minimum': str(int(float(params.get('stok_minimum', 5)))),
+        'stok_kritis': str(int(float(params.get('stok_kritis', 2)))),
+        'supplier': str(params.get('supplier', '')).strip(),
+        'last_update': tanggal_hari_ini(),
+        'has_exp': has_exp,
+        'exp_date': exp_raw,
+    }
+
+    if not produk_baru['nama']:
+        return err('Nama produk wajib diisi')
+    if int(produk_baru['harga_jual']) == 0:
+        return err('Harga jual wajib diisi')
+
+    stok.append(produk_baru)
+    tulis_csv('stok.csv', stok, STOK_HEADERS)
+    ok({'produk': produk_baru})
+
+
+def aksi_hapus(params):
+    nama = params.get('produk', '')
+    stok = baca_csv('stok.csv')
+    item = cari_produk(nama, stok)
+    if not item:
+        return err('Produk tidak ditemukan')
+    stok_baru = [s for s in stok if s['id'] != item['id']]
+    tulis_csv('stok.csv', stok_baru, STOK_HEADERS)
+    ok({'item': item})
+
+
+def aksi_update_exp(params):
+    nama = params.get('produk', '')
+    exp_date = str(params.get('exp_date', '')).strip()
+    if not exp_date:
+        return err('exp_date wajib diisi')
+
+    stok = baca_csv('stok.csv')
+    item = cari_produk(nama, stok)
+    if not item:
+        return err('Produk tidak ditemukan')
+
+    stok_baru = [
+        {**s, 'has_exp': '1', 'exp_date': exp_date, 'last_update': tanggal_hari_ini()}
+        if s['id'] == item['id'] else s
+        for s in stok
+    ]
+    tulis_csv('stok.csv', stok_baru, STOK_HEADERS)
+    ok({'item': next(s for s in stok_baru if s['id'] == item['id'])})
+
+
+def aksi_set_stok(params):
+    nama = params.get('produk', '')
+    stok_baru_val = int(float(params.get('stok_baru', 0)))
+
+    stok = baca_csv('stok.csv')
+    item = cari_produk(nama, stok)
+    if not item:
+        return err('Produk tidak ditemukan')
+
+    stok_lama = int(item['stok'])
+    stok_updated = [
+        {**s, 'stok': str(stok_baru_val), 'last_update': tanggal_hari_ini()}
+        if s['id'] == item['id'] else s
+        for s in stok
+    ]
+    tulis_csv('stok.csv', stok_updated, STOK_HEADERS)
+    ok({'item': item, 'stok_lama': stok_lama, 'stok_baru': stok_baru_val})
+
+
+def aksi_batalkan_tx(params):
+    tx_id = str(params.get('id', '')).strip().upper()
+    if not tx_id:
+        return err('ID transaksi wajib diisi')
+
+    tx_data = baca_csv('transaksi.csv')
+    tx = next((t for t in tx_data if t['id'].upper() == tx_id), None)
+    if not tx:
+        return err(f'Transaksi {tx_id} tidak ditemukan')
+
+    # Kembalikan stok
+    stok = baca_csv('stok.csv')
+    produk = next((s for s in stok if s['id'] == tx['produk_id']), None)
+    if produk:
+        qty_kembali = int(float(tx['qty']))
+        stok_updated = [
+            {**s, 'stok': str(int(s['stok']) + qty_kembali), 'last_update': tanggal_hari_ini()}
+            if s['id'] == tx['produk_id'] else s
+            for s in stok
+        ]
+        tulis_csv('stok.csv', stok_updated, STOK_HEADERS)
+
+    # Hapus transaksi
+    tx_baru = [t for t in tx_data if t['id'].upper() != tx_id]
+    tulis_csv('transaksi.csv', tx_baru, TX_HEADERS)
+    ok({'tx': tx})
+
+
 AKSI = {
     'cek': aksi_cek,
     'cari': aksi_cari,
     'exp': aksi_exp,
     'jual': aksi_jual,
     'tambah': aksi_tambah,
+    'tambah_produk': aksi_tambah_produk,
+    'hapus': aksi_hapus,
+    'update_exp': aksi_update_exp,
+    'set_stok': aksi_set_stok,
+    'batalkan_tx': aksi_batalkan_tx,
 }
 
 if __name__ == '__main__':
