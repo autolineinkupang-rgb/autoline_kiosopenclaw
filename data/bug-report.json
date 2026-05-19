@@ -4,10 +4,10 @@
     "date": "2026-05-19 05:15",
     "error_type": "Error",
     "location": "prosesEnvelope",
-    "root_cause": "[stok/tambah_produk] Traceback (most recent call last):\n  File \"/home/kevinman/kios-openclaw/skills/stok.py\", line 331, in <module>\n    handler(req.get('params', {}))\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/kevinman/kios-openclaw/skills/stok.py\", line 215, in aksi_tambah_produk\n    'harga_beli': str(int(float(params.get('harga_beli', 0)))),\n                          ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: could not convert string to float: ''",
+    "root_cause": "[stok/tambah_produk] ValueError: could not convert string to float: '' — parameter harga_beli kosong string bukan angka",
     "input": "Tambahkan produk baru susu kaleng omela kental manis seharga 14000 dengan jumlah 50",
-    "fix_applied": null,
-    "test_result": null,
-    "prevention_rule": null
+    "fix_applied": "Refaktor aksi_tambah_produk menggunakan fungsi _n() untuk konversi aman ke int — handle None, '', dan string kosong",
+    "test_result": "FIXED — stok.py baris 224: 'harga_beli': str(_n(params.get('harga_beli'), 0))",
+    "prevention_rule": "Semua konversi numerik dari params harus pakai _n() bukan int(float())"
   }
 ]

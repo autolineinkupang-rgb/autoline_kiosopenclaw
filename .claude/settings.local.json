@@ -34,7 +34,8 @@
       "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\('Riwayat OK, total tx:', len\\(d['data']['transaksi']\\)\\)\")",
       "Bash(python3 -c \"import ast; ast.parse\\(open\\('/home/kevinman/kios-openclaw/skills/stok.py'\\).read\\(\\)\\); print\\('stok.py OK'\\)\")",
       "Bash(python3 -c \"import ast; ast.parse\\(open\\('/home/kevinman/kios-openclaw/skills/helper.py'\\).read\\(\\)\\); print\\('helper.py OK'\\)\")",
-      "Bash(python3 *)"
+      "Bash(python3 *)",
+      "Bash(grep -n \"^\\\\s*[a-zA-Z].*[,\\(]\\\\s*$\\\\|^  [a-zA-Z].*\\(\\\\|module\\\\.exports\" /home/kevinman/kios-openclaw/signal/response-formatter.js)"
     ]
   },
   "enableAllProjectMcpServers": true,

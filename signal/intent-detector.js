@@ -54,7 +54,7 @@ const RE = {
 
   CUACA: /^(?:cuaca|gelombang|angin|kapal|pasokan|info\s+cuaca|bmkg)/i,
 
-  HARGA_PASAR: /^(?:harga\s+pasar|riset\s+harga|market|harga\s+di\s+pasar|bandingkan\s+harga)\s*(.+)?$/i,
+  HARGA_PASAR: /^(?:harga\s+pasar|riset\s+harga|market|harga\s+di\s+pasar|bandingkan\s+harga|harga\s+(?:bersaing|kompetitif)|harga.*kios\s+lain|kios\s+lain.*harga)\s*(.+)?$/i,
   UPDATE_HARGA_PASAR: /^(?:update\s+harga\s+pasar|set\s+harga\s+pasar)\s+(.+?)\s+(\d+)/i,
 
   // STOCK OPNAME — hitung fisik / audit stok
@@ -235,7 +235,44 @@ function detect(teks) {
   // PRICE HISTORY
   if ((m = tl.match(RE.RIWAYAT_HARGA))) return { tipe: 'RIWAYAT_HARGA', produk: (m[1] || '').trim() };
 
-  if ((m = tl.match(RE.CARI))) return { tipe: 'CARI', produk: m[1].trim() };
+  // Pertanyaan analisis harga kompetitif → HARGA_PASAR, ekstrak nama produk jika ada
+  {
+    const kompMatch = tl.match(/\b(bersaing|kompetitif|kios\s+lain|toko\s+lain|pesaing)\b/i);
+    if (kompMatch) {
+      const idx = tl.indexOf(kompMatch[1].toLowerCase());
+      const before = tl.slice(0, idx).trim();
+      const after  = tl.slice(idx + kompMatch[1].length).trim();
+      let produk = null;
+      // Coba ambil dari "after" (e.g. "kompetitif ultra milk 200ml")
+      if (after && !/^(?:dengan|di\s|kak|ya|nih|dong|tidak|kios|toko|saja)\b/i.test(after) &&
+          !/^(?:dari|untuk|tentang)\s+(?:suatu|sebuah|satu|beberapa|semua|berbagai)\b/i.test(after)) {
+        produk = after.replace(/\bper\s+(?:satu|dua|tiga|\d+)\s+\w+/gi, '').trim() || null;
+      }
+      // Coba ambil dari "before" setelah kata "harga" (e.g. "harga ultra milk kompetitif")
+      if (!produk) {
+        const hm = before.match(/\bharga\s+(.+)/i);
+        if (hm) {
+          const c = hm[1].trim().replace(/\s+(?:kita|kami|kios|toko|anda)$/i, '').trim();
+          if (c && !/^(?:kita|kios|toko|di\s|pasar|kami|semua)\b/i.test(c)) produk = c;
+        }
+      }
+      return { tipe: 'HARGA_PASAR', produk };
+    }
+  }
+  // "cek harga [produk]" → HARGA, bukan CARI (agar produk tidak dapat prefix "harga")
+  if ((m = tl.match(/^(?:cek|berapa|info)\s+harga\s+(.+)/i))) {
+    const produk = m[1].trim();
+    if (!/\b(?:apakah|bagaimana|bersaing|kompetitif|kios\s+lain)\b/i.test(produk) && produk.length <= 40) {
+      if (!/\bdi\b|\bdari\b|\bpasar\b|\bntt\b|\brote\b|\bkupang\b/i.test(produk)) return { tipe: 'HARGA', produk };
+    }
+  }
+  if ((m = tl.match(RE.CARI))) {
+    const produk = m[1].trim();
+    if (/\b(?:apakah|bagaimana|mengapa|kenapa|bisakah|dapatkah|haruskah)\b/i.test(produk) ||
+        /\bdi\b|\bdari\b|\bpasar\b|\bntt\b|\brote\b|\bkupang\b/i.test(produk) ||
+        produk.length > 45) return null;
+    return { tipe: 'CARI', produk };
+  }
   if ((m = tl.match(RE.HARGA))) {
     const produk = m[1].trim();
     if (/\bdi\b|\bdari\b|\bpasar\b|\bntt\b|\brote\b|\bkupang\b/i.test(produk)) return null;

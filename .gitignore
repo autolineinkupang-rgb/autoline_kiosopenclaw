@@ -28,3 +28,11 @@ Thumbs.db
 # Local backups
 backups/
 .env
+
+# Runtime database files
+agentdb.rvf
+agentdb.rvf.lock
+ruvector.db
+
+# Redundant gitignore file (tidak dipakai Git)
+gitignore
