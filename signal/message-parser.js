@@ -15,7 +15,7 @@ const PERINTAH = {
   // exp — lihat produk kadaluarsa / hampir kadaluarsa
   EXP: /^(exp|kadaluarsa|expired?)/i,
   BACKUP: /^(backup|simpan)/i,
-  BANTUAN: /^(bantuan|help|tolong|\?)/i,
+  BANTUAN: /^(?:bantuan|help|tolong|\?|berikan\s+(?:format|contoh|panduan|info|petunjuk)|format\s+(?:perintah|input|command)|contoh\s+(?:perintah|format|input|command)|cara\s+(?:penggunaan|order|input))/i,
   STATUS: /^(status|info|ping)$/i,
 };
 

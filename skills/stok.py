@@ -319,6 +319,17 @@ def aksi_batalkan_tx(params):
     ok({'tx': tx})
 
 
+def aksi_stok_menipis(params):
+    """Return semua produk dengan stok <= stok_minimum."""
+    stok = baca_csv('stok.csv')
+    menipis = [
+        {**s, 'qty_dibutuhkan': max(0, _n(s.get('stok_minimum', 5)) * 3 - _n(s['stok']))}
+        for s in stok
+        if _n(s.get('stok', 0)) <= _n(s.get('stok_minimum', 5))
+    ]
+    ok({'menipis': menipis})
+
+
 AKSI = {
     'cek': aksi_cek,
     'cari': aksi_cari,
@@ -330,6 +341,7 @@ AKSI = {
     'update_exp': aksi_update_exp,
     'set_stok': aksi_set_stok,
     'batalkan_tx': aksi_batalkan_tx,
+    'stok_menipis': aksi_stok_menipis,
 }
 
 if __name__ == '__main__':

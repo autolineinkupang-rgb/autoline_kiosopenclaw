@@ -108,12 +108,43 @@ def aksi_riwayat(params):
     ok({'periode': label, 'transaksi': tx_list[-20:]})  # max 20 terbaru
 
 
+def aksi_terlaris(params):
+    periode = params.get('periode', 'bulan')
+    top_n = int(params.get('top', 10))
+    tx_list = _tx_periode(periode)
+
+    agg = {}
+    for t in tx_list:
+        nama = t.get('nama_produk', '-')
+        qty = int(float(t.get('qty', 0)))
+        total = int(float(t.get('total', 0)))
+        if nama not in agg:
+            agg[nama] = {'nama': nama, 'qty': 0, 'omzet': 0}
+        agg[nama]['qty'] += qty
+        agg[nama]['omzet'] += total
+
+    sorted_produk = sorted(agg.values(), key=lambda x: -x['qty'])[:top_n]
+    label = {'hari_ini': 'Hari Ini', 'minggu': '7 Hari Terakhir', 'bulan': 'Bulan Ini'}.get(periode, periode)
+    ok({'periode': label, 'produk': sorted_produk, 'total_tx': len(tx_list)})
+
+
+def aksi_riwayat_harga(params):
+    produk = params.get('produk', '')
+    hist = baca_csv('price-history.csv')
+    if produk:
+        q = produk.lower()
+        hist = [h for h in hist if q in h.get('nama_produk', '').lower()]
+    ok({'riwayat': hist[-20:], 'produk': produk})
+
+
 AKSI = {
     'ringkas': aksi_ringkas,
     'mingguan': aksi_mingguan,
     'bulanan': aksi_bulanan,
     'laba': aksi_laba,
     'riwayat': aksi_riwayat,
+    'terlaris': aksi_terlaris,
+    'riwayat_harga': aksi_riwayat_harga,
 }
 
 if __name__ == '__main__':

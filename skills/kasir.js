@@ -54,16 +54,44 @@ function jual({ produk, qty, metode = 'tunai', bayar = null }) {
   const r = callSkill('stok', 'jual', { produk, qty, metode: metode || 'tunai' });
   if (!r.ok) return { ok: false, error: r.error };
 
-  const { item, total, sisa, tx } = r.data;
+  const { item, total, sisa } = r.data;
   const txId = r.data.txId || r.data.id || 'TRX-???';
-  const struk = buatStruk(
+
+  // Cek promo aktif — jika ada, tampilkan di struk
+  let diskon = 0;
+  let promoInfo = null;
+  try {
+    const pr = callSkill('promo', 'cek', { produk: item.nama, qty, harga_jual: item.harga_jual });
+    if (pr.ok && pr.data.promo) { diskon = pr.data.diskon; promoInfo = pr.data.promo; }
+  } catch {}
+
+  const totalFinal = Math.max(0, total - diskon * qty);
+  const struk = buatStrukPromo(
     [{ nama: item.nama, qty, satuan: item.satuan, harga_jual: item.harga_jual }],
-    total,
+    totalFinal,
     bayar,
     txId,
+    promoInfo ? `Promo: -${rp(diskon * qty)}` : '',
   );
 
-  return { ok: true, struk, sisa, item, total, txId };
+  return { ok: true, struk, sisa, item, total: totalFinal, diskon: diskon * qty, promoInfo, txId };
+}
+
+function buatStrukPromo(items, totalBayar, nominalBayar, txId, promoLine) {
+  const divider = '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
+  let msg = `🧾 *STRUK KIOS CERDAS*\n📍 ${LOKASI}\n${divider}\n`;
+  for (const it of items) {
+    msg += formatStrukLine(it.nama, it.qty, it.satuan, it.harga_jual) + '\n';
+  }
+  msg += divider + '\n';
+  if (promoLine) msg += `${pad(promoLine, 23)}${pad('', 12)}\n`;
+  msg += `${pad('Total:', 23)}${pad(rp(totalBayar), 12, true)}\n`;
+  if (nominalBayar && nominalBayar >= totalBayar) {
+    msg += `${pad('Bayar:', 23)}${pad(rp(nominalBayar), 12, true)}\n`;
+    msg += `${pad('Kembalian:', 23)}${pad(rp(nominalBayar - totalBayar), 12, true)}\n`;
+  }
+  msg += `${divider}\n✅ #${txId} | ${wita()} WITA\nTerima kasih! 🙏`;
+  return msg;
 }
 
 function beli({ produk, qty, harga = 0 }) {

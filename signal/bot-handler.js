@@ -68,8 +68,6 @@ function cekKonfirmasi(sender, teksInput) {
   return null; // Masih nunggu konfirmasi valid
 }
 
-// --- JSON-RPC state (signal-cli jsonRpc mode) ---
-
 let rpcProc = null;
 let rpcId = 0;
 const pendingRpc = new Map();
@@ -112,8 +110,6 @@ function rpcOnLine(line) {
   }
 }
 
-// --- Signal send helpers ---
-
 async function kirimPesan(teks, penerima = RECIPIENT) {
   if (!penerima) { log('[PREVIEW] ' + teks.slice(0, 100)); return false; }
   try {
@@ -136,8 +132,6 @@ function alertAdmin(pesan) {
   if (RECIPIENT) kirimPesan(`🚨 *Security Alert*\n${pesan}`, RECIPIENT);
   log(`[SECURITY] ${pesan}`);
 }
-
-// --- Eksekusi aksi yang sudah dikonfirmasi ---
 
 async function eksekusiKonfirmasi(konfirmasi) {
   const { tipe, data } = konfirmasi;
@@ -254,8 +248,6 @@ async function prosesAIResult(aiResult, sender) {
   }
 }
 
-// --- Main perintah router ---
-
 async function prosesPerintah(teks, sender = 'unknown') {
   const parsed = parsePerintah(teks);
   const valid = validasiPerintah(parsed);
@@ -355,9 +347,6 @@ async function prosesPerintah(teks, sender = 'unknown') {
   }
 }
 
-// --- Envelope processor ---
-
-// envelope bisa berupa object (dari jsonRpc) atau string (dari jsonRpc yang belum di-parse)
 async function prosesEnvelope(envelope) {
   if (!envelope || typeof envelope !== 'object') return;
 
@@ -390,7 +379,7 @@ async function prosesEnvelope(envelope) {
   const teks = sanitizeInput(teksRaw);
   if (!teks) return;
 
-  const suspiciousPat = /ignore (previous|all|above)|you are now|disregard|pretend|system:/i;
+  const suspiciousPat = /ignore (previous|all|above)|you are now|disregard|pretend|system:|kamu adalah bot|aturan utama|daftar keyword|hanya dapat memproses|abaikan aturan|prompt injection|jailbreak|role.*assign|override.*instruct|new.*persona|act as.*(?:admin|root|developer|system)|instruksi baru|reset.*perilaku|lupakan.*aturan|ignore.*rules/i;
   if (suspiciousPat.test(teks)) {
     alertAdmin(`Percobaan prompt injection dari ${sender}: ${teks.slice(0, 100)}`);
     if (sender && !grupDiizinkan) kirimPesan('Maaf kak, itu bukan yang aku bisa bantu 😊', sender);
@@ -401,7 +390,6 @@ async function prosesEnvelope(envelope) {
 
   const balas = (msg) => grupDiizinkan && GROUP_ID ? kirimKeGrup(msg) : kirimPesan(msg, sender);
 
-  // Pre-task: cek prevention rules
   const prevRule = SelfDebug.checkPreventionRules({ teks });
   if (prevRule) log(`🧠 Prevention rule: ${prevRule}`);
 
@@ -422,7 +410,6 @@ async function prosesEnvelope(envelope) {
     }
     const result = await prosesPerintah(teks, sender);
     taskType = result?.taskType || 'AI_CHAT';
-    // Status panel hanya jika ada bug fixed atau rule baru
     const panel = (bugFixed || newRule || prevRule)
       ? Formatter.statusPanel({ inventoryAction: taskType, bugStatus: bugFixed ? 'fixed' : 'none', learned: newRule || prevRule || 'none' })
       : '';
@@ -440,8 +427,6 @@ async function prosesEnvelope(envelope) {
     balas('Aduh, ada yang error nih kak 😅 Coba lagi bentar ya!');
   }
 }
-
-// --- signal-cli jsonRpc — proses persistent, tidak loop ---
 
 let restartDelay = 5000;
 
@@ -481,8 +466,6 @@ function mulaiJsonRpc() {
   // Reset delay setelah berhasil terhubung 10 detik
   setTimeout(() => { restartDelay = 5000; }, 10000);
 }
-
-// --- Main ---
 
 async function main() {
   log('Kak Kios v5.0 dimulai — Token Efficient + Self-Learning + Lokasi Rote Barat Laut');

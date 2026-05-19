@@ -2,8 +2,8 @@ import sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from helper import (
-    baca_csv, tulis_csv, cari_produk, tanggal_hari_ini,
-    ok, err, baca_request, STOK_HEADERS,
+    baca_csv, tulis_csv, cari_produk, tanggal_hari_ini, jam_sekarang,
+    ok, err, baca_request, STOK_HEADERS, PRICE_HIST_HEADERS,
 )
 
 
@@ -42,6 +42,26 @@ def aksi_update(params):
     tulis_csv('stok.csv', stok_baru, STOK_HEADERS)
 
     item_updated = next(s for s in stok_baru if s['id'] == item['id'])
+
+    # Log perubahan harga jual ke price-history
+    harga_lama_jual = int(float(item.get('harga_jual', 0)))
+    harga_baru_jual = int(float(harga_jual))
+    if harga_baru_jual != harga_lama_jual:
+        hist = baca_csv('price-history.csv')
+        max_id = max(
+            (int(r['id'].replace('PHG-', '')) for r in hist if r.get('id', '').startswith('PHG-')),
+            default=0,
+        )
+        hist.append({
+            'id': f"PHG-{str(max_id + 1).zfill(4)}",
+            'tanggal': tanggal_hari_ini(), 'jam': jam_sekarang(),
+            'produk_id': item['id'], 'nama_produk': item['nama'],
+            'harga_lama': str(harga_lama_jual), 'harga_baru': str(harga_baru_jual),
+            'selisih': str(harga_baru_jual - harga_lama_jual),
+            'supplier': '', 'kasir': 'signal-bot',
+        })
+        tulis_csv('price-history.csv', hist, PRICE_HIST_HEADERS)
+
     ok({'item': item_updated})
 
 

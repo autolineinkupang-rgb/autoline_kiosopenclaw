@@ -1499,8 +1499,158 @@
         "stok_kritis": [],
         "ai_provider": "groq"
       }
+    },
+    {
+      "id": 151,
+      "ts": "2026-05-19T05:45:13.856Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 152,
+      "ts": "2026-05-19T05:50:13.957Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 153,
+      "ts": "2026-05-19T05:55:14.065Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 154,
+      "ts": "2026-05-19T06:00:14.114Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 155,
+      "ts": "2026-05-19T06:05:14.211Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 156,
+      "ts": "2026-05-19T06:10:14.239Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 157,
+      "ts": "2026-05-19T06:15:14.338Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 158,
+      "ts": "2026-05-19T06:20:14.422Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 159,
+      "ts": "2026-05-19T06:25:14.523Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 160,
+      "ts": "2026-05-19T06:30:14.622Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 161,
+      "ts": "2026-05-19T06:35:14.723Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 162,
+      "ts": "2026-05-19T06:40:14.825Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 163,
+      "ts": "2026-05-19T06:45:14.924Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 164,
+      "ts": "2026-05-19T06:50:15.004Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 165,
+      "ts": "2026-05-19T06:55:15.105Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
     }
   ],
-  "last_id": 150,
+  "last_id": 165,
   "max_keep": 288
 }
