@@ -223,6 +223,14 @@ KAPAN PAKAI FUNGSI:
 - "batalkan transaksi TRX-xxxx" → batalkan_transaksi`;
 }
 
+// Resolusi model: ENV var → config → default
+function _groqModel(cfg) {
+  return process.env.GROQ_MODEL || process.env.AI_MODEL || cfg.ai?.primary?.model || 'llama-3.3-70b-versatile';
+}
+function _geminiModel(cfg) {
+  return process.env.GEMINI_MODEL || cfg.ai?.fallback?.model || 'gemini-2.0-flash';
+}
+
 async function tanyaGroq(teks, stok, memory, config, searchCtx = '') {
   const key = process.env.GROQ_API_KEY;
   if (!key) throw new Error('GROQ_API_KEY tidak diset');
@@ -231,8 +239,8 @@ async function tanyaGroq(teks, stok, memory, config, searchCtx = '') {
   const ai = config.ai?.primary || {};
 
   const resp = await groq.chat.completions.create({
-    model: ai.model || 'meta-llama/llama-4-scout-17b-16e-instruct',
-    max_tokens: Math.min(ai.max_tokens || 512, 512),
+    model: _groqModel(config),
+    max_tokens: parseInt(process.env.AI_MAX_TOKENS) || ai.max_tokens || 1024,
     temperature: ai.temperature ?? 0.3,
     messages: [
       { role: 'system', content: buatSystemPrompt(stok, memory, config, searchCtx) },
@@ -251,7 +259,7 @@ async function tanyaGemini(teks, stok, memory, config, searchCtx = '') {
 
   const genAI = new GoogleGenerativeAI(key);
   const ai = config.ai?.fallback || {};
-  const model = genAI.getGenerativeModel({ model: ai.model || 'gemini-2.0-flash' });
+  const model = genAI.getGenerativeModel({ model: _geminiModel(config) });
 
   const prompt = buatSystemPrompt(stok, memory, config, searchCtx) + '\n\nPertanyaan: ' + teks;
   const hasil = await model.generateContent(prompt);
@@ -296,40 +304,99 @@ function parseToolCall(call) {
   return null;
 }
 
-async function prosesAI({ teks, stok, memory }) {
-  const config = loadConfig();
+// ─── Cache ─────────────────────────────────────────────────────────────────────
+const _cache = new Map();
 
-  // Cari info dari internet jika pertanyaan butuh data real-time
-  let searchCtx = '';
-  if (webSearch.perluSearch(teks)) {
-    // Bangun query yang spesifik ke Rote NTT
-    const lokasi = 'Rote Ndao NTT Indonesia';
-    const query = teks.toLowerCase().includes('rote') || teks.toLowerCase().includes('ntt')
-      ? teks
-      : `${teks} ${lokasi}`;
-    // Baca halaman jika user minta "cek di browser"
-    const bacaUrl = /cek.*browser|buka.*web|browsing|baca.*halaman/i.test(teks);
-    const results = await webSearch.searchDanBaca(query, bacaUrl);
-    searchCtx = webSearch.formatUntukAI(results);
-  }
+function _getCached(hash) {
+  const e = _cache.get(hash);
+  if (!e) return null;
+  if (Date.now() > e.expiresAt) { _cache.delete(hash); return null; }
+  return e.data;
+}
+function _setCache(hash, data) {
+  const ttl = (parseInt(process.env.CACHE_TTL) || 300) * 1000;
+  _cache.set(hash, { data, expiresAt: Date.now() + ttl });
+}
 
-  let msg;
-  try {
-    msg = await tanyaGroq(teks, stok, memory, config, searchCtx);
-  } catch {
-    try {
-      msg = await tanyaGemini(teks, stok, memory, config, searchCtx);
-    } catch {
-      return { tipe: 'AI_RESPONS', teks: 'Maaf kak, AI lagi sibuk nih 😅 Coba perintah manual ya, ketik *bantuan* buat lihat daftarnya.' };
+// ─── Deduplication ────────────────────────────────────────────────────────────
+const _pending = new Map();
+
+async function _deduplicate(hash, fn) {
+  if (_pending.has(hash)) return _pending.get(hash);
+  const p = fn();
+  _pending.set(hash, p);
+  try { return await p; } finally { _pending.delete(hash); }
+}
+
+// ─── Retry with exponential backoff ───────────────────────────────────────────
+async function _retry(fn) {
+  const max = parseInt(process.env.MAX_RETRY) || 3;
+  for (let i = 0; i < max; i++) {
+    try { return await fn(); } catch (err) {
+      const s = err.status || err.statusCode || err.code;
+      if (s === 401 || s === 429) throw err;
+      if (i < max - 1) await new Promise(r => setTimeout(r, (2 ** i) * 1000));
     }
   }
+  throw new Error('Max retry exceeded');
+}
 
-  if (msg.tool_calls && msg.tool_calls.length > 0) {
-    const hasil = parseToolCall(msg.tool_calls[0]);
-    if (hasil) return hasil;
-  }
+// ─── Simple djb2-style hash ────────────────────────────────────────────────────
+function _hash(teks, userId = '') {
+  let h = 5381;
+  const s = teks + '\x00' + userId;
+  for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0;
+  return String(h >>> 0);
+}
 
-  return { tipe: 'AI_RESPONS', teks: (msg.content || '').trim() || 'Maaf kak, tidak bisa memproses permintaan.' };
+// ─── Main AI handler ───────────────────────────────────────────────────────────
+async function prosesAI({ teks, stok, memory, userId = '' }) {
+  const config = loadConfig();
+  const hash = _hash(teks, userId);
+
+  // Layer 1 — cache hit
+  const cached = _getCached(hash);
+  if (cached) return cached;
+
+  // Layer 2 — deduplicate concurrent identical requests
+  return _deduplicate(hash, async () => {
+    let searchCtx = '';
+    if (webSearch.perluSearch(teks)) {
+      const lokasi = 'Rote Ndao NTT Indonesia';
+      const query = teks.toLowerCase().includes('rote') || teks.toLowerCase().includes('ntt') ? teks : `${teks} ${lokasi}`;
+      const bacaUrl = /cek.*browser|buka.*web|browsing|baca.*halaman/i.test(teks);
+      searchCtx = webSearch.formatUntukAI(await webSearch.searchDanBaca(query, bacaUrl));
+    }
+
+    // Layer 3 — retry with Groq → Gemini fallback
+    let msg;
+    try {
+      msg = await _retry(() => tanyaGroq(teks, stok, memory, config, searchCtx));
+    } catch (e1) {
+      const s1 = e1.status || e1.statusCode;
+      if (s1 === 401) return { tipe: 'AI_RESPONS', teks: '⚠️ API key tidak valid. Hubungi admin kak.' };
+      if (s1 === 429) return { tipe: 'AI_RESPONS', teks: '⚠️ Layanan AI sedang sibuk (rate limit). Coba lagi sebentar kak.' };
+      try {
+        msg = await _retry(() => tanyaGemini(teks, stok, memory, config, searchCtx));
+      } catch (e2) {
+        const s2 = e2.status || e2.statusCode;
+        if (s2 === 401) return { tipe: 'AI_RESPONS', teks: '⚠️ API key tidak valid. Hubungi admin kak.' };
+        return { tipe: 'AI_RESPONS', teks: '⚠️ Layanan AI sedang tidak tersedia. Coba lagi beberapa saat lagi.' };
+      }
+    }
+
+    let result;
+    if (msg.tool_calls?.length > 0) {
+      const parsed = parseToolCall(msg.tool_calls[0]);
+      result = parsed || { tipe: 'AI_RESPONS', teks: (msg.content || '').trim() || 'Maaf kak, tidak bisa memproses permintaan.' };
+    } else {
+      result = { tipe: 'AI_RESPONS', teks: (msg.content || '').trim() || 'Maaf kak, tidak bisa memproses permintaan.' };
+    }
+
+    // Cache hanya respons informasi (bukan aksi yang ubah state)
+    if (result.tipe === 'AI_RESPONS') _setCache(hash, result);
+    return result;
+  });
 }
 
 module.exports = { prosesAI };

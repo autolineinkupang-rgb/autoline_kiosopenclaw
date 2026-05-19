@@ -7,6 +7,7 @@ const MarketIntel = require('../skills/market-intel');
 const Learning = require('../skills/learning-engine');
 const SelfDebug = require('../skills/self-debug');
 const Kasir = require('../skills/kasir');
+const ImageRecognizer = require('../skills/image-recognizer');
 
 // ─── Mass operation item parser ───────────────────────────────────────────────
 function parseMassItems(teks) {
@@ -259,4 +260,74 @@ async function prosesIntentBaru(parsed, sender, logActivity) {
   }
 }
 
-module.exports = { prosesIntentBaru };
+// ─── Konfirmasi executor (dipindah dari bot-handler) ──────────────────────────
+
+async function eksekusiKonfirmasi(konfirmasi) {
+  const { tipe, data } = konfirmasi;
+  if (tipe === 'HAPUS_PRODUK') {
+    const r = callSkill('stok', 'hapus', { produk: data.produk });
+    return r.ok ? Formatter.hapusProdukOk(r.data.item.nama) : Formatter.error(r.error);
+  }
+  if (tipe === 'BATALKAN_TX') {
+    const r = callSkill('stok', 'batalkan_tx', { id: data.idTx });
+    return r.ok ? Formatter.batalkanTxOk(r.data.tx) : Formatter.error(r.error);
+  }
+  if (tipe === 'TAMBAH_PRODUK_GAMBAR') {
+    const p = data.produk;
+    if (!p.estimasi_harga) return `⚠️ Harga jual belum ada kak.\nKetik: *tambah produk ${p.nama} harga jual [angka]*`;
+    const r = callSkill('stok', 'tambah_produk', {
+      nama: p.nama, kategori: p.kategori || 'umum', satuan: 'pcs',
+      harga_jual: p.estimasi_harga, harga_beli: 0, stok: 0,
+    });
+    const resp = r.ok ? Formatter.tambahProdukOk(r.data.produk) : Formatter.error(r.error);
+    return resp + (data.aiSearched ? '\n_ℹ️ [AI-SEARCHED] — periksa kembali data produk kak_' : '');
+  }
+  return 'Aksi selesai 👍';
+}
+
+// ─── Image product recognition ────────────────────────────────────────────────
+
+function _formatProdukCard(p, idx, total) {
+  const div = '━━━━━━━━━━━━━━━━━━━━━━━';
+  const header = total > 1 ? `🛍️ *PRODUK ${idx + 1} TERDETEKSI*` : `🛍️ *PRODUK TERDETEKSI*`;
+  let msg = `${div}\n${header}\n${div}\n`;
+  msg += `Nama     : *${p.nama}*\n`;
+  if (p.kategori) msg += `Kategori : ${p.kategori}\n`;
+  if (p.merek) msg += `Merek    : ${p.merek}\n`;
+  if (p.varian) msg += `Varian   : ${p.varian}\n`;
+  if (p.deskripsi) msg += `Deskripsi: ${p.deskripsi}\n`;
+  if (p.estimasi_harga > 0) msg += `Est. Harga: Rp ${Number(p.estimasi_harga).toLocaleString('id-ID')}\n`;
+  return msg;
+}
+
+async function prosesGambar(att, teksCaption, sender, setBuatKonfirmasi) {
+  let hasil;
+  try {
+    hasil = await ImageRecognizer.kenaliProduk(att);
+  } catch (e) {
+    return `⚠️ Gagal analisis gambar: ${e.message}`;
+  }
+
+  if (hasil.tipe === 'TIDAK_JELAS') return '⚠️ Kualitas gambar tidak memadai. Silakan kirim gambar yang lebih jelas kak.';
+  if (hasil.tipe === 'BUKAN_PRODUK') return '⚠️ Gambar tidak mengandung produk yang dapat diproses.';
+  if (!hasil.produk.length) return '⚠️ Tidak ada produk yang terdeteksi di gambar.';
+
+  const { produk, sumber, aiSearched } = hasil;
+
+  if (produk.length > 1) {
+    let msg = produk.map((p, i) => _formatProdukCard(p, i, produk.length)).join('\n');
+    msg += `\n_Sumber: ${sumber}_\nBalas nomor produk yang ingin ditambahkan (1–${produk.length}).`;
+    if (setBuatKonfirmasi) setBuatKonfirmasi(sender, 'PILIH_PRODUK_GAMBAR', { produk, aiSearched }, String(1));
+    return msg;
+  }
+
+  const p = produk[0];
+  let msg = _formatProdukCard(p, 0, 1);
+  msg += `\n_Sumber: ${sumber}${aiSearched ? ' (AI Search)' : ''}_`;
+  if (aiSearched) msg += `\n🤖 Data dari pencarian AI — mungkin tidak 100% akurat.`;
+  msg += `\n\nKetik *YA TAMBAH* untuk menambahkan ke inventaris.`;
+  if (setBuatKonfirmasi) setBuatKonfirmasi(sender, 'TAMBAH_PRODUK_GAMBAR', { produk: p, aiSearched }, 'YA TAMBAH');
+  return msg;
+}
+
+module.exports = { prosesIntentBaru, eksekusiKonfirmasi, prosesGambar };

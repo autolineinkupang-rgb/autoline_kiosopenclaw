@@ -2,19 +2,19 @@
   "ai": {
     "primary": {
       "provider": "groq",
-      "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+      "model": "llama-3.3-70b-versatile",
+      "_model_options": ["llama-3.3-70b-versatile", "llama-3.1-8b-instant", "llama3-70b-8192", "mixtral-8x7b-32768", "gemma2-9b-it", "meta-llama/llama-4-scout-17b-16e-instruct"],
       "max_tokens": 1024,
       "temperature": 0.3,
-      "timeout_ms": 8000,
-      "retry": 2
+      "timeout_ms": 8000
     },
     "fallback": {
       "provider": "gemini",
       "model": "gemini-2.0-flash",
+      "_model_options": ["gemini-2.0-flash", "gemini-2.0-flash-lite", "gemini-1.5-flash", "gemini-1.5-pro"],
       "max_tokens": 1024,
       "temperature": 0.3,
-      "timeout_ms": 10000,
-      "retry": 1
+      "timeout_ms": 10000
     }
   },
   "kios": {

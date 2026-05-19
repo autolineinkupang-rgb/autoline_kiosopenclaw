@@ -16,7 +16,7 @@ const { sanitizeInput, cekRateLimit, isPhoneAllowed } = require('../scripts/secu
 const Kasir = require('../skills/kasir');
 const Learning = require('../skills/learning-engine');
 const SelfDebug = require('../skills/self-debug');
-const { prosesIntentBaru } = require('./intent-handlers');
+const { prosesIntentBaru, eksekusiKonfirmasi, prosesGambar } = require('./intent-handlers');
 const { initCron } = require('../cron/scheduler');
 const CronHandlers = require('../cron/handlers');
 
@@ -131,24 +131,6 @@ async function kirimKeGrup(teks) {
 function alertAdmin(pesan) {
   if (RECIPIENT) kirimPesan(`🚨 *Security Alert*\n${pesan}`, RECIPIENT);
   log(`[SECURITY] ${pesan}`);
-}
-
-async function eksekusiKonfirmasi(konfirmasi) {
-  const { tipe, data } = konfirmasi;
-
-  if (tipe === 'HAPUS_PRODUK') {
-    const r = callSkill('stok', 'hapus', { produk: data.produk });
-    if (!r.ok) return Formatter.error(r.error);
-    return Formatter.hapusProdukOk(r.data.item.nama);
-  }
-
-  if (tipe === 'BATALKAN_TX') {
-    const r = callSkill('stok', 'batalkan_tx', { id: data.idTx });
-    if (!r.ok) return Formatter.error(r.error);
-    return Formatter.batalkanTxOk(r.data.tx);
-  }
-
-  return 'Aksi selesai 👍';
 }
 
 // --- AI result handler ---
@@ -357,7 +339,8 @@ async function prosesEnvelope(envelope) {
   const dm = envelope.dataMessage;
   const sm = envelope.syncMessage?.sentMessage;
   const teksRaw = dm?.message || sm?.message || null;
-  if (!teksRaw) return; // bukan pesan teks (receipt, typing, dll)
+  const imageAtt = (dm?.attachments || sm?.attachments || []).find(a => (a.contentType || '').startsWith('image/'));
+  if (!teksRaw && !imageAtt) return;
 
   const dariGrup = dm?.groupInfo?.groupId || sm?.groupInfo?.groupId || null;
   const grupDiizinkan = GROUP_ID && dariGrup === GROUP_ID;
@@ -366,7 +349,7 @@ async function prosesEnvelope(envelope) {
 
   if (!diWhitelist && !grupDiizinkan) {
     log(`Ditolak dari ${sender || 'unknown'}`);
-    alertAdmin(`Pesan dari nomor tidak dikenal: ${sender || 'unknown'}\nIsi: ${teksRaw.slice(0, 50)}`);
+    alertAdmin(`Pesan dari nomor tidak dikenal: ${sender || 'unknown'}\nIsi: ${(teksRaw || '[gambar]').slice(0, 50)}`);
     return;
   }
 
@@ -376,11 +359,11 @@ async function prosesEnvelope(envelope) {
     return;
   }
 
-  const teks = sanitizeInput(teksRaw);
-  if (!teks) return;
+  const teks = teksRaw ? sanitizeInput(teksRaw) : '';
+  if (!teks && !imageAtt) return;
 
   const suspiciousPat = /ignore (previous|all|above)|you are now|disregard|pretend|system:|kamu adalah bot|aturan utama|daftar keyword|hanya dapat memproses|abaikan aturan|prompt injection|jailbreak|role.*assign|override.*instruct|new.*persona|act as.*(?:admin|root|developer|system)|instruksi baru|reset.*perilaku|lupakan.*aturan|ignore.*rules/i;
-  if (suspiciousPat.test(teks)) {
+  if (teks && suspiciousPat.test(teks)) {
     alertAdmin(`Percobaan prompt injection dari ${sender}: ${teks.slice(0, 100)}`);
     if (sender && !grupDiizinkan) kirimPesan('Maaf kak, itu bukan yang aku bisa bantu 😊', sender);
     return;
@@ -406,6 +389,12 @@ async function prosesEnvelope(envelope) {
       logActivity(sender, taskType, 'OK');
       balas(resp);
       SelfDebug.logExperience({ taskType, happened: 'Konfirmasi dieksekusi', worked: taskType, failed: '', lesson: '' });
+      return;
+    }
+    if (imageAtt) {
+      log(`Gambar dari ${sender}: ${imageAtt.contentType} (${imageAtt.size || '?'} bytes)`);
+      const resp = await prosesGambar(imageAtt, teks, sender, setBuatKonfirmasi);
+      balas(resp);
       return;
     }
     const result = await prosesPerintah(teks, sender);
