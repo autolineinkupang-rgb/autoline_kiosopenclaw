@@ -16,7 +16,7 @@ const PERINTAH = {
   EXP: /^(exp|kadaluarsa|expired?)/i,
   BACKUP: /^(backup|simpan)/i,
   BANTUAN: /^(bantuan|help|tolong|\?)/i,
-  STATUS: /^(status|info|ping)/i,
+  STATUS: /^(status|info|ping)$/i,
 };
 
 function parsePerintah(teks) {
@@ -39,7 +39,10 @@ function parsePerintah(teks) {
 
   if (PERINTAH.HARGA.test(t)) {
     const m = t.match(PERINTAH.HARGA);
-    return { tipe: 'HARGA', produk: m[1].trim() };
+    const produk = m[1].trim();
+    // Jika ada kata lokasi → bukan cek harga kios, arahkan ke AI
+    if (/\bdi\b|\bdari\b|\bpasaran\b|\bpasar\b|\bNTT\b|\bRote\b/i.test(produk)) return { tipe: 'AI_CHAT', teks: t };
+    return { tipe: 'HARGA', produk };
   }
 
   if (PERINTAH.CARI.test(t)) {

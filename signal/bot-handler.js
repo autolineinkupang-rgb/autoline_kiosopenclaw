@@ -15,6 +15,7 @@ const { callSkill } = require('./bridge');
 const { sanitizeInput, cekRateLimit, isPhoneAllowed } = require('../scripts/security');
 const Kasir = require('../skills/kasir');
 const Learning = require('../skills/learning-engine');
+const SelfDebug = require('../skills/self-debug');
 const { prosesIntentBaru } = require('./intent-handlers');
 const { initCron } = require('../cron/scheduler');
 const CronHandlers = require('../cron/handlers');
@@ -168,11 +169,17 @@ async function prosesAIResult(aiResult, sender) {
       return Formatter.konfirmasiJual(item.nama, qty, item.satuan, total, sisa, metode);
     }
     case 'BELI': {
-      const r = callSkill('stok', 'tambah', { produk: aiResult.produk, qty: aiResult.qty, harga: aiResult.harga });
+      const r = callSkill('stok', 'tambah', {
+        produk: aiResult.produk, qty: aiResult.qty, harga: aiResult.harga,
+        supplier: aiResult.supplier || '', auto_create: true,
+      });
       if (!r.ok) return Formatter.error(r.error);
-      const { item, qty, harga_beli, stok_baru } = r.data;
-      logActivity(sender, `BELI:${item.nama} x${qty}`, 'OK');
-      return Formatter.konfirmasiBeli(item.nama, qty, item.satuan, harga_beli, stok_baru);
+      const d = r.data;
+      logActivity(sender, `BELI:${d.item.nama} x${aiResult.qty}${d.auto_created ? ' [AUTO-CREATE]' : ''}`, 'OK');
+      return Formatter.konfirmasiBeli(d.item.nama, aiResult.qty, d.item.satuan, d.harga_beli, d.stok_baru, {
+        priceChanged: d.price_changed, hargaLama: d.harga_lama,
+        supplier: d.supplier, autoCreated: d.auto_created,
+      });
     }
     case 'TAMBAH_PRODUK': {
       const r = callSkill('stok', 'tambah_produk', aiResult);
@@ -271,10 +278,17 @@ async function prosesPerintah(teks, sender = 'unknown') {
       return result.struk;
     }
     case 'BELI': {
-      const r = callSkill('stok', 'tambah', { produk: parsed.produk, qty: parsed.qty, harga: parsed.harga });
+      const r = callSkill('stok', 'tambah', {
+        produk: parsed.produk, qty: parsed.qty, harga: parsed.harga,
+        supplier: parsed.supplier || '', auto_create: true,
+      });
       if (!r.ok) return Formatter.error(r.error);
-      logActivity(sender, `BELI:${parsed.produk} x${parsed.qty}`, 'OK');
-      return Formatter.konfirmasiBeli(r.data.item.nama, r.data.qty, r.data.item.satuan, r.data.harga_beli, r.data.stok_baru);
+      const d = r.data;
+      logActivity(sender, `BELI:${d.item.nama} x${parsed.qty}${d.auto_created ? ' [AUTO-CREATE]' : ''}${d.price_changed ? ' [HARGA BERUBAH]' : ''}`, 'OK');
+      return Formatter.konfirmasiBeli(d.item.nama, parsed.qty, d.item.satuan, d.harga_beli, d.stok_baru, {
+        priceChanged: d.price_changed, hargaLama: d.harga_lama,
+        supplier: d.supplier, autoCreated: d.auto_created,
+      });
     }
     case 'EXP': {
       const r = callSkill('stok', 'exp', {});
@@ -286,12 +300,23 @@ async function prosesPerintah(teks, sender = 'unknown') {
     }
     case 'HARGA': {
       const r = callSkill('harga', 'cek', { produk: parsed.produk });
-      return r.ok ? Formatter.infoHarga(r.data.item) : Formatter.error(r.error);
+      if (r.ok) return Formatter.infoHarga(r.data.item);
+      // Produk tidak ada di kios → tanya AI (mungkin pertanyaan harga pasar)
+      const stokAI = callSkill('stok', 'cek', {});
+      const memAI = (() => { try { return JSON.parse(fs.readFileSync(MEMORY_FILE, 'utf8')); } catch { return {}; } })();
+      const aiR = await prosesAI({ teks, stok: stokAI.ok ? stokAI.data.stok : [], memory: memAI });
+      if (aiR.tipe === 'AI_RESPONS') return aiR.teks;
+      return prosesAIResult(aiR, sender);
     }
     case 'BANTUAN': return Formatter.bantuan();
     case 'STATUS': {
       const memory = (() => { try { return JSON.parse(fs.readFileSync(MEMORY_FILE, 'utf8')); } catch { return {}; } })();
-      return Formatter.status(memory);
+      const perf = SelfDebug.getPerformanceReview();
+      return Formatter.status(memory) + '\n' + Formatter.statusPanel({
+        inventoryAction: `${perf.total_tasks} tugas`,
+        bugStatus: perf.bugs_found > 0 ? `${perf.bugs_found} bug (${perf.bugs_fixed} fixed)` : 'none',
+        learned: `${perf.prevention_rules} rules`,
+      });
     }
     case 'BACKUP': {
       spawn(process.execPath, [path.join(ROOT, 'scripts/backup.js')], { stdio: 'ignore', detached: true }).unref();
@@ -376,18 +401,42 @@ async function prosesEnvelope(envelope) {
 
   const balas = (msg) => grupDiizinkan && GROUP_ID ? kirimKeGrup(msg) : kirimPesan(msg, sender);
 
+  // Pre-task: cek prevention rules
+  const prevRule = SelfDebug.checkPreventionRules({ teks });
+  if (prevRule) log(`🧠 Prevention rule: ${prevRule}`);
+
+  let taskType = 'unknown';
+  let bugFixed = false;
+  let newRule = null;
+
   try {
     const konfirmasi = cekKonfirmasi(sender, teks);
     if (konfirmasi) {
+      taskType = `CONFIRM:${konfirmasi.tipe}`;
       if (konfirmasi.tipe === 'BATAL') { balas('Oke kak, dibatalin ya! 👍'); return; }
       const resp = await eksekusiKonfirmasi(konfirmasi);
-      logActivity(sender, `CONFIRM:${konfirmasi.tipe}`, 'OK');
+      logActivity(sender, taskType, 'OK');
       balas(resp);
+      SelfDebug.logExperience({ taskType, happened: 'Konfirmasi dieksekusi', worked: taskType, failed: '', lesson: '' });
       return;
     }
-    balas(await prosesPerintah(teks, sender));
+    const result = await prosesPerintah(teks, sender);
+    taskType = result?.taskType || 'AI_CHAT';
+    // Status panel hanya jika ada bug fixed atau rule baru
+    const panel = (bugFixed || newRule || prevRule)
+      ? Formatter.statusPanel({ inventoryAction: taskType, bugStatus: bugFixed ? 'fixed' : 'none', learned: newRule || prevRule || 'none' })
+      : '';
+    balas(result + panel);
+    SelfDebug.logExperience({ taskType, happened: `Pesan diproses: ${teks.slice(0, 50)}`, worked: 'response sent', failed: '', lesson: '' });
   } catch (e) {
     log(`Error: ${e.message}`);
+    const bugId = SelfDebug.logBug({
+      errorType: e.constructor.name || 'RuntimeError',
+      location: 'prosesEnvelope',
+      cause: e.message,
+      input: teks.slice(0, 200),
+    });
+    log(`[ERROR DETECTED] ${bugId} — ${e.message}`);
     balas('Aduh, ada yang error nih kak 😅 Coba lagi bentar ya!');
   }
 }

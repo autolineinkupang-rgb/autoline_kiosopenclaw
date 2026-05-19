@@ -45,9 +45,13 @@ const RE = {
   BATAL_TX: /^(?:batal(?:kan)?\s+transaksi|cancel\s+trx)\s+(TRX-\d+)/i,
   BANTUAN: /^(?:bantuan|help|\?|menu|apa\s+bisa)$/i,
   STATUS:  /^(?:status|ping|info\s+sistem)$/i,
+  PERFORMA:/^(?:performa|performance\s+review|laporan\s+sistem|laporan\s+bot|bug\s+report)$/i,
   BACKUP:  /^(?:backup|simpan\s+data)$/i,
   SHORTCUT:/^(?:shortcut|paket|pintasan)\s*(.+)?$/i,
   LAPORAN_BELAJAR: /^(?:laporan\s+belajar|bot\s+belajar\s+apa|yang\s+dipelajari|learning\s+report)/i,
+  BUKA_SHIFT: /^(?:buka\s+shift|mulai\s+shift|shift\s+buka)\s*(\d+)?/i,
+  TUTUP_SHIFT: /^(?:tutup\s+shift|akhir\s+shift|shift\s+tutup|tutup\s+kasir)\s*(\d+)?/i,
+  STATUS_SHIFT: /^(?:status\s+shift|cek\s+shift|shift\s+sekarang)$/i,
   BAYAR:   /^(?:bayar)\s+(\d+)/i,
   CARI:    /^(?:cari|search|detail|cek)\s+(.+)/i,
   HARGA:   /^harga\s+(.+)/i,
@@ -89,6 +93,7 @@ function detect(teks) {
   if (RE.STOK.test(tl)) return { tipe: 'STOK' };
   if (RE.BANTUAN.test(tl)) return { tipe: 'BANTUAN' };
   if (RE.STATUS.test(tl)) return { tipe: 'STATUS' };
+  if (RE.PERFORMA.test(tl)) return { tipe: 'PERFORMA' };
   if (RE.BACKUP.test(tl)) return { tipe: 'BACKUP' };
   if (RE.EXP.test(tl)) return { tipe: 'EXP' };
   if (RE.KRITIS.test(tl)) return { tipe: 'CEK_KRITIS', subTipe: 'stok' };
@@ -118,9 +123,17 @@ function detect(teks) {
   if ((m = tl.match(RE.RIWAYAT))) return { tipe: 'LAPORAN_AI', subTipe: 'riwayat', periode: extractPeriode(tl) };
   if (RE.LAPORAN.test(tl)) return { tipe: 'LAPORAN', periode: extractPeriode(tl) };
   if ((m = tl.match(RE.CARI))) return { tipe: 'CARI', produk: m[1].trim() };
-  if ((m = tl.match(RE.HARGA))) return { tipe: 'HARGA', produk: m[1].trim() };
+  if ((m = tl.match(RE.HARGA))) {
+    const produk = m[1].trim();
+    // Ada kata lokasi → pertanyaan harga pasar, biarkan AI handle
+    if (/\bdi\b|\bdari\b|\bpasar\b|\bntt\b|\brote\b|\bkupang\b/i.test(produk)) return null;
+    return { tipe: 'HARGA', produk };
+  }
   if ((m = tl.match(RE.BAYAR))) return { tipe: 'BAYAR', nominal: Number(m[1]) };
   if ((m = tl.match(RE.SHORTCUT))) return { tipe: 'SHORTCUT', nama: (m[1] || '').trim() };
+  if ((m = tl.match(RE.BUKA_SHIFT))) return { tipe: 'BUKA_SHIFT', saldoAwal: m[1] ? Number(m[1]) : 0 };
+  if ((m = tl.match(RE.TUTUP_SHIFT))) return { tipe: 'TUTUP_SHIFT', saldoAkhir: m[1] ? Number(m[1]) : null };
+  if (RE.STATUS_SHIFT.test(tl)) return { tipe: 'STATUS_SHIFT' };
 
   return null;
 }

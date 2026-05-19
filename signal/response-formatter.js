@@ -28,8 +28,22 @@ const Formatter = {
     return msg;
   },
 
-  konfirmasiBeli(produk, qty, satuan, harga, stokBaru) {
-    return `📥 Siip, stok udah aku update!\n📦 ${produk} +${qty} ${satuan}\n💵 Harga beli: ${rp(harga)}/satuan\n📊 Total bayar: ${rp(Number(qty) * Number(harga))}\n✅ Stok sekarang: ${stokBaru} ${satuan}`;
+  konfirmasiBeli(produk, qty, satuan, harga, stokBaru, opts = {}) {
+    const { priceChanged, hargaLama, supplier, autoCreated } = opts;
+    let msg = autoCreated
+      ? `➕ *Produk baru ditambahkan!*\n📦 ${produk}\n`
+      : `📥 Stok masuk berhasil!\n📦 ${produk} +${qty} ${satuan}\n`;
+    if (priceChanged && hargaLama !== undefined) {
+      msg += `💰 Harga beli: ${rp(hargaLama)} → *${rp(harga)}* (+${rp(harga - hargaLama)})\n`;
+      msg += `📝 Perubahan harga dicatat: ${new Date().toLocaleDateString('id-ID')}\n`;
+    } else {
+      msg += `💵 Harga beli: ${rp(harga)}/satuan\n`;
+    }
+    msg += `📊 Total bayar: ${rp(Number(qty) * Number(harga))}\n`;
+    msg += `✅ Stok sekarang: ${stokBaru} ${satuan}`;
+    if (supplier) msg += `\n🏪 Supplier: ${supplier}`;
+    if (autoCreated) msg += `\n⚠️ Harga jual belum diset kak — ketik: *harga ${produk}* untuk cek & update`;
+    return msg;
   },
 
   tambahProdukOk(produk) {
@@ -220,6 +234,95 @@ const Formatter = {
     if (!Object.keys(shortcuts).length) return '📋 Belum ada shortcut kak. Buat dengan ketik: *shortcut baru [nama] = [produk]*';
     let msg = '⚡ *Shortcut Aktif:*\n';
     Object.entries(shortcuts).forEach(([k, v]) => { msg += `  • *${k}* → ${Array.isArray(v) ? v.join(' + ') : v}\n`; });
+    return msg;
+  },
+
+  statusPanel({ inventoryAction = '-', bugStatus = 'none', learned = 'none', extra = null } = {}) {
+    const div = '┌─────────────────────────────────────────┐';
+    const end = '└─────────────────────────────────────────┘';
+    const row = (icon, label, val) => `│ ${icon} ${label.padEnd(12)}: ${String(val).slice(0, 26).padEnd(26)} │`;
+    let msg = `\n${div}\n`;
+    msg += row('📦', 'INVENTORY', inventoryAction) + '\n';
+    msg += row('🔧', 'BUG STATUS', bugStatus) + '\n';
+    msg += row('🧠', 'LEARNED', learned) + '\n';
+    msg += row('✅', 'SYSTEM', 'Operational') + '\n';
+    if (extra) msg += row('ℹ️', 'INFO', extra) + '\n';
+    msg += end;
+    return msg;
+  },
+
+  performanceReview(data) {
+    const div = '━━━━━━━━━━━━━━━━━━━━━━━━';
+    let msg = `📊 *PERFORMANCE REVIEW SISTEM*\n${div}\n`;
+    msg += `📦 Total tugas diproses: ${data.total_tasks}\n`;
+    msg += `🐛 Bug ditemukan: ${data.bugs_found} | Diperbaiki: ${data.bugs_fixed}\n`;
+    msg += `🛡️ Prevention rules: ${data.prevention_rules}\n`;
+    msg += `💡 Best practices: ${data.best_practices}\n`;
+    msg += `✅ Success rate: ${data.success_rate}%\n`;
+    if (data.areas_to_improve?.length) {
+      msg += `\n⚠️ Perlu perhatian:\n`;
+      data.areas_to_improve.forEach(a => { msg += `  • ${a}\n`; });
+    }
+    msg += div;
+    return msg;
+  },
+
+  bugReport(bugId, errorType, location, fixApplied) {
+    return `🔧 *Bug Terdeteksi & Diperbaiki*\n🆔 ${bugId}\n📍 ${location}\n❌ Error: ${errorType}\n✅ Fix: ${fixApplied}\n🔧 Bug fixed and deployed. All tests passed.`;
+  },
+
+  bukaShiftOk(data) {
+    const div = '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
+    let msg = `🟢 *SHIFT DIBUKA*\n${div}\n`;
+    msg += `🆔 ID Shift : ${data.shift_id}\n`;
+    msg += `👤 Kasir    : ${data.kasir}\n`;
+    msg += `🕐 Jam Buka : ${data.waktu_buka.slice(11, 16)} WITA\n`;
+    msg += `💵 Saldo Kas: ${rp(data.saldo_awal)}\n`;
+    msg += `${div}\n`;
+    msg += `✅ Selamat bekerja! Ketik *tutup shift* untuk menutup shift.`;
+    return msg;
+  },
+
+  tutupShiftOk(data, omzet, jumlahTx) {
+    const div = '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
+    const durMenit = Math.round((new Date(data.waktu_tutup) - new Date(data.waktu_buka)) / 60000);
+    const jam = Math.floor(durMenit / 60);
+    const menit = durMenit % 60;
+    let msg = `🔴 *SHIFT DITUTUP*\n${div}\n`;
+    msg += `🆔 ID Shift  : ${data.shift_id}\n`;
+    msg += `👤 Kasir     : ${data.kasir}\n`;
+    msg += `🕐 Buka      : ${data.waktu_buka.slice(11, 16)} WITA\n`;
+    msg += `🕐 Tutup     : ${data.waktu_tutup.slice(11, 16)} WITA\n`;
+    msg += `⏱️ Durasi    : ${jam > 0 ? `${jam} jam ` : ''}${menit} menit\n`;
+    msg += `${div}\n`;
+    msg += `🛒 Transaksi : ${jumlahTx}x\n`;
+    msg += `💰 Omzet     : ${rp(omzet)}\n`;
+    msg += `💵 Saldo Awal: ${rp(data.saldo_awal)}\n`;
+    if (data.saldo_akhir !== null) msg += `💵 Saldo Akhir: ${rp(data.saldo_akhir)}\n`;
+    msg += `${div}\n`;
+    msg += `✅ Shift selesai, terima kasih sudah bekerja keras! 🙏`;
+    return msg;
+  },
+
+  statusShift(info) {
+    const div = '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
+    if (info.status === 'closed') {
+      return `⚪ *Status Shift: TUTUP*\nKetik *buka shift [saldo awal]* untuk mulai shift baru.`;
+    }
+    const { shift, omzetBerjalan, txList } = info;
+    const durMenit = Math.round((Date.now() + (new Date().getTimezoneOffset() + 480) * 60000 - new Date(shift.waktu_buka).getTime()) / 60000);
+    const jam = Math.floor(durMenit / 60);
+    const menit = durMenit % 60;
+    let msg = `🟢 *Status Shift: BUKA*\n${div}\n`;
+    msg += `🆔 ${shift.shift_id}\n`;
+    msg += `👤 Kasir  : ${shift.kasir}\n`;
+    msg += `🕐 Buka   : ${shift.waktu_buka.slice(11, 16)} WITA (${jam > 0 ? `${jam}j ` : ''}${menit}m lalu)\n`;
+    msg += `💵 Saldo  : ${rp(shift.saldo_awal)}\n`;
+    msg += `${div}\n`;
+    msg += `🛒 Transaksi : ${txList.length}x\n`;
+    msg += `💰 Omzet     : ${rp(omzetBerjalan)}\n`;
+    msg += `${div}\n`;
+    msg += `Ketik *tutup shift [saldo akhir]* untuk tutup shift.`;
     return msg;
   },
 

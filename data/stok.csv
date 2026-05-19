@@ -14,3 +14,6 @@ id,nama,kategori,satuan,stok,harga_beli,harga_jual,stok_minimum,stok_kritis,supp
 013,Sabun Mandi,kebutuhan,buah,20,3500,5000,8,2,Distributor UD Maju,2026-05-17,0,
 014,Deterjen 500gr,kebutuhan,bungkus,15,9000,12000,5,2,Distributor UD Maju,2026-05-17,0,
 015,153,rokok,bungkus,10,13500,15000,5,2,nata,2026-05-18,0,
+016,Minyak Goreng Test,,,0,0,15000,5,2,,2026-05-19,0,
+017,Susu Kaleng Omela Kental Manis,umum,kaleng,48,0,14000,5,2,,2026-05-19,0,
+018,es batu,umum,pcs,19,1000,1150,5,2,,2026-05-19,0,

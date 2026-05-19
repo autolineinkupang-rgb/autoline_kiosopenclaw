@@ -1,1 +1,2 @@
 id,session_id,tanggal,jam,produk_id,nama_produk,qty,harga_beli,subtotal,supplier,kasir,catatan
+PEM-0001,,2026-05-19,11:55:26,018,es batu,20,1000,20000,,signal-bot,auto-create

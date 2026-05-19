@@ -39,13 +39,14 @@ const TOOLS_GROQ = [
     type: 'function',
     function: {
       name: 'catat_pembelian',
-      description: 'Catat restock/pembelian dari supplier, TAMBAH stok produk yang sudah ada.',
+      description: 'Catat restock/pembelian dari supplier. Jika produk belum ada, otomatis dibuat baru. Selalu update harga beli jika berubah.',
       parameters: {
         type: 'object',
         properties: {
           nama_produk: { type: 'string', description: 'Nama produk yang direstok' },
           jumlah: { type: 'string', description: 'Jumlah unit yang masuk' },
           harga_beli: { type: 'string', description: 'Harga beli per unit. Isi "0" jika tidak tahu.' },
+          supplier: { type: 'string', description: 'Nama supplier/toko yang menjual. Kosong jika tidak disebutkan.' },
         },
         required: ['nama_produk', 'jumlah'],
       },
@@ -202,10 +203,16 @@ ATURAN PENTING:
 - Jika tidak ada data internet: akui bahwa kamu tidak bisa cek stok toko lain secara real-time.
 - Jawaban singkat (3-4 baris) kecuali laporan yang butuh detail.
 
+ATURAN RESTOCK (WAJIB):
+1. Jika produk tidak ditemukan saat restock → sistem akan auto-create, JANGAN tolak permintaan.
+2. Jika harga beli BERUBAH dari sebelumnya → sistem otomatis catat perubahan, konfirmasi ke user.
+3. Selalu tangkap nama supplier jika disebutkan dalam pesan.
+4. JANGAN pernah bilang "sibuk" atau "tidak bisa" — proses setiap permintaan sesuai fungsi.
+
 KAPAN PAKAI FUNGSI:
 - "jual/beli [produk] [qty]" → catat_penjualan atau catat_pembelian
-- "tambah [produk baru] harga..." → tambah_produk_baru (hanya jika produk BELUM ADA)
-- "tambah stok/restock [produk] [qty]" → catat_pembelian
+- "restock/tambah stok [produk] [qty] [harga] dari [supplier]" → catat_pembelian (dengan supplier)
+- "tambah produk baru [nama] harga..." → tambah_produk_baru (untuk produk benar-benar baru dengan data lengkap)
 - "update/ubah harga [produk]" → update_harga_produk
 - "set/reset stok [produk] jadi [n]" → set_stok_produk
 - "hapus produk [x]" → hapus_produk
@@ -260,7 +267,7 @@ function parseToolCall(call) {
     return { tipe: 'JUAL', produk: String(args.nama_produk || ''), qty: Math.max(1, Math.floor(Number(args.jumlah) || 1)), metode: ['tunai', 'qris', 'transfer'].includes(args.metode_bayar) ? args.metode_bayar : 'tunai' };
   }
   if (fn === 'catat_pembelian') {
-    return { tipe: 'BELI', produk: String(args.nama_produk || ''), qty: Math.max(1, Math.floor(Number(args.jumlah) || 1)), harga: Math.max(0, Math.floor(Number(args.harga_beli) || 0)) };
+    return { tipe: 'BELI', produk: String(args.nama_produk || ''), qty: Math.max(1, Math.floor(Number(args.jumlah) || 1)), harga: Math.max(0, Math.floor(Number(args.harga_beli) || 0)), supplier: String(args.supplier || '') };
   }
   if (fn === 'tambah_produk_baru') {
     return { tipe: 'TAMBAH_PRODUK', ...args };

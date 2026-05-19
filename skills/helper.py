@@ -16,6 +16,10 @@ PEM_HEADERS = [
     'id','session_id','tanggal','jam','produk_id','nama_produk',
     'qty','harga_beli','subtotal','supplier','kasir','catatan',
 ]
+PRICE_HIST_HEADERS = [
+    'id','tanggal','jam','produk_id','nama_produk',
+    'harga_lama','harga_baru','selisih','supplier','kasir',
+]
 
 
 def baca_csv(nama_file, headers=None):

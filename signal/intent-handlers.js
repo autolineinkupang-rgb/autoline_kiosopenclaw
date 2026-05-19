@@ -5,6 +5,8 @@ const Formatter = require('./response-formatter');
 const Cuaca = require('../skills/cuaca');
 const MarketIntel = require('../skills/market-intel');
 const Learning = require('../skills/learning-engine');
+const SelfDebug = require('../skills/self-debug');
+const Kasir = require('../skills/kasir');
 
 async function prosesIntentBaru(parsed, sender, logActivity) {
   switch (parsed.tipe) {
@@ -69,6 +71,26 @@ async function prosesIntentBaru(parsed, sender, logActivity) {
       }
       const all = await Learning.getAllShortcuts().catch(() => ({}));
       return Formatter.shortcutList(all);
+    }
+    case 'PERFORMA': {
+      const perf = SelfDebug.getPerformanceReview();
+      return Formatter.performanceReview(perf);
+    }
+    case 'BUKA_SHIFT': {
+      const r = Kasir.bukaShift(sender, parsed.saldoAwal);
+      if (!r.ok) return Formatter.error(r.error);
+      if (logActivity) logActivity(sender, 'BUKA_SHIFT', r.data.shift_id);
+      return Formatter.bukaShiftOk(r.data);
+    }
+    case 'TUTUP_SHIFT': {
+      const r = Kasir.tutupShift(parsed.saldoAkhir);
+      if (!r.ok) return Formatter.error(r.error);
+      if (logActivity) logActivity(sender, 'TUTUP_SHIFT', r.data.shift_id);
+      return Formatter.tutupShiftOk(r.data, r.omzet, r.jumlahTx);
+    }
+    case 'STATUS_SHIFT': {
+      const info = Kasir.getShiftStatus();
+      return Formatter.statusShift(info);
     }
     default: return null;
   }

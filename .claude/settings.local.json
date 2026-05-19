@@ -31,7 +31,10 @@
       "Bash(python3 -c \"import json,sys; p=json.load\\(sys.stdin\\); print\\('Package:', p['name'], p['version']\\)\")",
       "Bash(npm ls *)",
       "Bash(SIGNAL_NUMBER= node signal/bot-handler.js)",
-      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\('Riwayat OK, total tx:', len\\(d['data']['transaksi']\\)\\)\")"
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\('Riwayat OK, total tx:', len\\(d['data']['transaksi']\\)\\)\")",
+      "Bash(python3 -c \"import ast; ast.parse\\(open\\('/home/kevinman/kios-openclaw/skills/stok.py'\\).read\\(\\)\\); print\\('stok.py OK'\\)\")",
+      "Bash(python3 -c \"import ast; ast.parse\\(open\\('/home/kevinman/kios-openclaw/skills/helper.py'\\).read\\(\\)\\); print\\('helper.py OK'\\)\")",
+      "Bash(python3 *)"
     ]
   },
   "enableAllProjectMcpServers": true,
