@@ -1769,8 +1769,72 @@
         "stok_kritis": [],
         "ai_provider": "groq"
       }
+    },
+    {
+      "id": 178,
+      "ts": "2026-05-19T08:40:16.856Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 179,
+      "ts": "2026-05-19T08:45:16.949Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 180,
+      "ts": "2026-05-19T08:50:17.052Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 181,
+      "ts": "2026-05-19T08:55:17.070Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 182,
+      "ts": "2026-05-19T08:55:34.033Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 183,
+      "ts": "2026-05-19T09:00:17.184Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
     }
   ],
-  "last_id": 177,
+  "last_id": 183,
   "max_keep": 288
 }

@@ -1,6 +1,6 @@
 {
   "versi": "1.0",
-  "last_checkpoint": "2026-05-19T08:35:16.748Z",
+  "last_checkpoint": "2026-05-19T09:00:17.184Z",
   "kios": {
     "nama": "Kios Desa Maju",
     "pemilik": "Ruflo",
@@ -11,10 +11,12 @@
     }
   },
   "harian": {
-    "tanggal": "2026-05-18",
-    "total_transaksi": 0,
-    "omzet": 0,
-    "stok_kritis": []
+    "tanggal": "2026-05-19",
+    "total_transaksi": 4,
+    "omzet": 169150,
+    "stok_kritis": [
+      "Minyak Goreng Test (sisa: 0)"
+    ]
   },
   "bulanan": {
     "bulan": null,
@@ -23,7 +25,15 @@
     "rata_harian": 0
   },
   "alert": {
-    "pending": [],
+    "pending": [
+      {
+        "tipe": "stok_kritis",
+        "data": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "waktu": "2026-05-19 15:55:33"
+      }
+    ],
     "terkirim": [],
     "last_sent": null
   },
@@ -40,7 +50,7 @@
     "last_message": null
   },
   "system": {
-    "startup_time": "2026-05-18T03:29:53.580Z",
+    "startup_time": "2026-05-19T08:55:33.739Z",
     "version": "1.0.0",
     "environment": "production"
   }
