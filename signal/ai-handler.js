@@ -8,8 +8,12 @@ const webSearch = require('../skills/web-search');
 
 const CONFIG_FILE = path.join(__dirname, '..', 'config', 'openclaw.json');
 
+let _config = null;
 function loadConfig() {
-  try { return JSON.parse(fs.readFileSync(CONFIG_FILE, 'utf8')); } catch { return {}; }
+  if (!_config) {
+    try { _config = JSON.parse(fs.readFileSync(CONFIG_FILE, 'utf8')); } catch { _config = {}; }
+  }
+  return _config;
 }
 
 function ringkasStok(stok) {

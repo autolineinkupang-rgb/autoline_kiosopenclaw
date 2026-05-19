@@ -45,6 +45,10 @@ function logActivity(sender, aksi, hasil) {
   try { fs.appendFileSync(ACTIVITY_LOG, `[${ts}] ${sender} | ${aksi} | ${hasil}\n`); } catch {}
 }
 
+function readMemory() {
+  try { return JSON.parse(fs.readFileSync(MEMORY_FILE, 'utf8')); } catch { return {}; }
+}
+
 // --- Confirmation state (in-memory, TTL 90 detik) ---
 
 const pendingConfirmations = new Map();
@@ -212,7 +216,8 @@ async function prosesAIResult(aiResult, sender) {
       return Formatter.setStokOk(r.data.item.nama, r.data.stok_lama, r.data.stok_baru, r.data.item.satuan);
     }
     case 'LAPORAN_AI': {
-      const r = callSkill('laporan', aiResult.subTipe === 'riwayat' ? 'riwayat' : aiResult.subTipe === 'laba' ? 'laba' : aiResult.subTipe === 'mingguan' ? 'mingguan' : aiResult.subTipe === 'bulanan' ? 'bulanan' : 'ringkas', { periode: aiResult.periode });
+      const skillNama = ['riwayat', 'laba', 'mingguan', 'bulanan'].includes(aiResult.subTipe) ? aiResult.subTipe : 'ringkas';
+      const r = callSkill('laporan', skillNama, { periode: aiResult.periode });
       if (!r.ok) return Formatter.error(r.error);
       if (aiResult.subTipe === 'riwayat') return Formatter.riwayatTransaksi(r.data.transaksi, r.data.periode);
       if (aiResult.subTipe === 'laba') return Formatter.labaRugi(r.data);
@@ -295,14 +300,13 @@ async function prosesPerintah(teks, sender = 'unknown') {
       if (r.ok) return Formatter.infoHarga(r.data.item);
       // Produk tidak ada di kios → tanya AI (mungkin pertanyaan harga pasar)
       const stokAI = callSkill('stok', 'cek', {});
-      const memAI = (() => { try { return JSON.parse(fs.readFileSync(MEMORY_FILE, 'utf8')); } catch { return {}; } })();
-      const aiR = await prosesAI({ teks, stok: stokAI.ok ? stokAI.data.stok : [], memory: memAI });
+      const aiR = await prosesAI({ teks, stok: stokAI.ok ? stokAI.data.stok : [], memory: readMemory() });
       if (aiR.tipe === 'AI_RESPONS') return aiR.teks;
       return prosesAIResult(aiR, sender);
     }
     case 'BANTUAN': return Formatter.bantuan();
     case 'STATUS': {
-      const memory = (() => { try { return JSON.parse(fs.readFileSync(MEMORY_FILE, 'utf8')); } catch { return {}; } })();
+      const memory = readMemory();
       const perf = SelfDebug.getPerformanceReview();
       return Formatter.status(memory) + '\n' + Formatter.statusPanel({
         inventoryAction: `${perf.total_tasks} tugas`,
@@ -319,7 +323,7 @@ async function prosesPerintah(teks, sender = 'unknown') {
       const intentFast = detect(parsed.teks) || (await detectAsync(parsed.teks, Learning).catch(() => null));
       if (intentFast && intentFast.tipe && intentFast.tipe !== 'AI_CHAT') {
         // Intent terdeteksi tanpa AI
-        const baru = await prosesIntentBaru(intentFast, sender);
+        const baru = await prosesIntentBaru(intentFast, sender, logActivity);
         if (baru) {
           Learning.saveLearnedToday([{ cmd: parsed.teks, intent: intentFast.tipe }]).catch(() => {});
           return baru;
@@ -332,8 +336,7 @@ async function prosesPerintah(teks, sender = 'unknown') {
       Learning.saveUnknown(parsed.teks).catch(() => {});
       const stokR = callSkill('stok', 'cek', {});
       const stokAI = stokR.ok ? stokR.data.stok : [];
-      const memoryAI = (() => { try { return JSON.parse(fs.readFileSync(MEMORY_FILE, 'utf8')); } catch { return {}; } })();
-      const aiResult = await prosesAI({ teks: parsed.teks, stok: stokAI, memory: memoryAI });
+      const aiResult = await prosesAI({ teks: parsed.teks, stok: stokAI, memory: readMemory() });
       // Belajar dari hasil AI untuk next time
       if (aiResult.tipe !== 'AI_RESPONS' && aiResult.produk) {
         Learning.savePattern(parsed.teks, aiResult.tipe, aiResult.produk).catch(() => {});

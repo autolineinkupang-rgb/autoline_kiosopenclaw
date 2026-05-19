@@ -1833,8 +1833,572 @@
         ],
         "ai_provider": "groq"
       }
+    },
+    {
+      "id": 184,
+      "ts": "2026-05-19T09:00:34.113Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 185,
+      "ts": "2026-05-19T09:05:17.272Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 186,
+      "ts": "2026-05-19T09:05:34.211Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 187,
+      "ts": "2026-05-19T09:10:17.370Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 188,
+      "ts": "2026-05-19T09:10:34.312Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 189,
+      "ts": "2026-05-19T09:15:17.470Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 190,
+      "ts": "2026-05-19T09:15:34.413Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 191,
+      "ts": "2026-05-19T09:20:17.573Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 192,
+      "ts": "2026-05-19T09:20:34.514Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 193,
+      "ts": "2026-05-19T09:25:17.676Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 194,
+      "ts": "2026-05-19T09:25:34.518Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 195,
+      "ts": "2026-05-19T09:30:17.700Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 196,
+      "ts": "2026-05-19T09:30:34.617Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 197,
+      "ts": "2026-05-19T09:35:17.803Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 198,
+      "ts": "2026-05-19T09:35:34.718Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 199,
+      "ts": "2026-05-19T09:40:17.917Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 200,
+      "ts": "2026-05-19T09:40:34.825Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 201,
+      "ts": "2026-05-19T09:45:18.002Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 202,
+      "ts": "2026-05-19T09:45:34.919Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 203,
+      "ts": "2026-05-19T09:50:18.029Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 204,
+      "ts": "2026-05-19T09:50:35.020Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 205,
+      "ts": "2026-05-19T09:55:18.121Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 206,
+      "ts": "2026-05-19T09:55:35.069Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 207,
+      "ts": "2026-05-19T10:00:18.174Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 208,
+      "ts": "2026-05-19T10:00:35.168Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 209,
+      "ts": "2026-05-19T10:05:18.228Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 210,
+      "ts": "2026-05-19T10:05:35.193Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 211,
+      "ts": "2026-05-19T10:10:18.232Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 212,
+      "ts": "2026-05-19T10:10:35.229Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 213,
+      "ts": "2026-05-19T10:15:18.249Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 214,
+      "ts": "2026-05-19T10:15:35.329Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 215,
+      "ts": "2026-05-19T10:20:18.352Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 216,
+      "ts": "2026-05-19T10:20:35.431Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 217,
+      "ts": "2026-05-19T10:25:18.452Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 218,
+      "ts": "2026-05-19T10:25:35.461Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 219,
+      "ts": "2026-05-19T10:30:18.553Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 220,
+      "ts": "2026-05-19T10:30:35.566Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 221,
+      "ts": "2026-05-19T10:35:18.660Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 222,
+      "ts": "2026-05-19T10:35:35.663Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 223,
+      "ts": "2026-05-19T10:40:18.748Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 224,
+      "ts": "2026-05-19T10:40:35.687Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 225,
+      "ts": "2026-05-19T10:45:18.773Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 226,
+      "ts": "2026-05-19T10:45:35.704Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 227,
+      "ts": "2026-05-19T10:50:18.880Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 228,
+      "ts": "2026-05-19T10:50:35.809Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 229,
+      "ts": "2026-05-19T10:55:18.979Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 230,
+      "ts": "2026-05-19T10:55:35.891Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
     }
   ],
-  "last_id": 183,
+  "last_id": 230,
   "max_keep": 288
 }
