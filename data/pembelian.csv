@@ -1,1 +1,4 @@
 id,session_id,tanggal,jam,produk_id,nama_produk,qty,harga_beli,subtotal,supplier,kasir,catatan
+PEM-0001,,2026-05-19,11:55:26,018,es batu,20,1000,20000,,signal-bot,auto-create
+PEM-0002,,2026-05-19,15:35:16,001,Beras Premium 5kg,1,0,0,Suryadi,signal-bot,
+PEM-0003,,2026-05-19,15:36:00,001,Beras Premium 5kg,1,0,0,Yanto,signal-bot,

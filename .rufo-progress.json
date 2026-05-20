@@ -30,16 +30,16 @@
   "startup": {
     "status": "completed",
     "detail": "",
-    "ts": "2026-05-18T03:29:53.761Z"
+    "ts": "2026-05-19T08:55:33.987Z"
   },
   "cek-stok": {
     "status": "completed",
-    "detail": "exit 0",
-    "ts": "2026-05-18T03:29:53.667Z"
+    "detail": "exit 2",
+    "ts": "2026-05-19T08:55:33.808Z"
   },
   "laporan-harian": {
     "status": "completed",
     "detail": "exit 0",
-    "ts": "2026-05-18T03:29:53.759Z"
+    "ts": "2026-05-19T08:55:33.984Z"
   }
 }

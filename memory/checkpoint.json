@@ -869,8 +869,1536 @@
         "stok_kritis": [],
         "ai_provider": "groq"
       }
+    },
+    {
+      "id": 88,
+      "ts": "2026-05-18T17:58:58.724Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 89,
+      "ts": "2026-05-18T18:03:58.817Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 90,
+      "ts": "2026-05-18T18:08:58.927Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 91,
+      "ts": "2026-05-18T18:13:58.963Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 92,
+      "ts": "2026-05-19T00:50:09.152Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 93,
+      "ts": "2026-05-19T00:55:09.253Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 94,
+      "ts": "2026-05-19T01:00:09.355Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 95,
+      "ts": "2026-05-19T01:05:09.462Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 96,
+      "ts": "2026-05-19T01:10:09.558Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 97,
+      "ts": "2026-05-19T01:15:09.656Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 98,
+      "ts": "2026-05-19T01:20:09.722Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 99,
+      "ts": "2026-05-19T01:25:09.761Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 100,
+      "ts": "2026-05-19T01:30:09.863Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 101,
+      "ts": "2026-05-19T01:35:09.969Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 102,
+      "ts": "2026-05-19T01:40:10.054Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 103,
+      "ts": "2026-05-19T01:45:10.112Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 104,
+      "ts": "2026-05-19T01:50:10.115Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 105,
+      "ts": "2026-05-19T01:55:10.216Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 106,
+      "ts": "2026-05-19T02:00:10.317Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 107,
+      "ts": "2026-05-19T02:05:10.323Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 108,
+      "ts": "2026-05-19T02:10:10.423Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 109,
+      "ts": "2026-05-19T02:15:10.429Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 110,
+      "ts": "2026-05-19T02:20:10.527Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 111,
+      "ts": "2026-05-19T02:25:10.630Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 112,
+      "ts": "2026-05-19T02:30:10.717Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 113,
+      "ts": "2026-05-19T02:35:10.748Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 114,
+      "ts": "2026-05-19T02:40:10.755Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 115,
+      "ts": "2026-05-19T02:45:10.757Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 116,
+      "ts": "2026-05-19T02:50:10.862Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 117,
+      "ts": "2026-05-19T02:55:10.968Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 118,
+      "ts": "2026-05-19T03:00:11.060Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 119,
+      "ts": "2026-05-19T03:05:11.172Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 120,
+      "ts": "2026-05-19T03:10:11.264Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 121,
+      "ts": "2026-05-19T03:15:11.318Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 122,
+      "ts": "2026-05-19T03:20:11.414Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 123,
+      "ts": "2026-05-19T03:25:11.485Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 124,
+      "ts": "2026-05-19T03:30:11.587Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 125,
+      "ts": "2026-05-19T03:35:11.637Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 126,
+      "ts": "2026-05-19T03:40:11.742Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 127,
+      "ts": "2026-05-19T03:45:11.837Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 128,
+      "ts": "2026-05-19T03:50:11.932Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 129,
+      "ts": "2026-05-19T03:55:12.035Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 130,
+      "ts": "2026-05-19T04:00:12.144Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 131,
+      "ts": "2026-05-19T04:05:12.175Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 132,
+      "ts": "2026-05-19T04:10:12.268Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 133,
+      "ts": "2026-05-19T04:15:12.308Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 134,
+      "ts": "2026-05-19T04:20:12.410Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 135,
+      "ts": "2026-05-19T04:25:12.512Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 136,
+      "ts": "2026-05-19T04:30:12.608Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 137,
+      "ts": "2026-05-19T04:35:12.713Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 138,
+      "ts": "2026-05-19T04:40:12.813Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 139,
+      "ts": "2026-05-19T04:45:12.918Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 140,
+      "ts": "2026-05-19T04:50:12.927Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 141,
+      "ts": "2026-05-19T04:55:13.025Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 142,
+      "ts": "2026-05-19T05:00:13.127Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 143,
+      "ts": "2026-05-19T05:05:13.221Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 144,
+      "ts": "2026-05-19T05:10:13.316Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 145,
+      "ts": "2026-05-19T05:15:13.396Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 146,
+      "ts": "2026-05-19T05:20:13.447Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 147,
+      "ts": "2026-05-19T05:25:13.454Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 148,
+      "ts": "2026-05-19T05:30:13.555Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 149,
+      "ts": "2026-05-19T05:35:13.659Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 150,
+      "ts": "2026-05-19T05:40:13.762Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 151,
+      "ts": "2026-05-19T05:45:13.856Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 152,
+      "ts": "2026-05-19T05:50:13.957Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 153,
+      "ts": "2026-05-19T05:55:14.065Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 154,
+      "ts": "2026-05-19T06:00:14.114Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 155,
+      "ts": "2026-05-19T06:05:14.211Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 156,
+      "ts": "2026-05-19T06:10:14.239Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 157,
+      "ts": "2026-05-19T06:15:14.338Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 158,
+      "ts": "2026-05-19T06:20:14.422Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 159,
+      "ts": "2026-05-19T06:25:14.523Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 160,
+      "ts": "2026-05-19T06:30:14.622Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 161,
+      "ts": "2026-05-19T06:35:14.723Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 162,
+      "ts": "2026-05-19T06:40:14.825Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 163,
+      "ts": "2026-05-19T06:45:14.924Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 164,
+      "ts": "2026-05-19T06:50:15.004Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 165,
+      "ts": "2026-05-19T06:55:15.105Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 166,
+      "ts": "2026-05-19T07:40:15.696Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 167,
+      "ts": "2026-05-19T07:45:15.795Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 168,
+      "ts": "2026-05-19T07:50:15.895Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 169,
+      "ts": "2026-05-19T07:55:15.997Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 170,
+      "ts": "2026-05-19T08:00:16.051Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 171,
+      "ts": "2026-05-19T08:05:16.149Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 172,
+      "ts": "2026-05-19T08:10:16.251Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 173,
+      "ts": "2026-05-19T08:15:16.592Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 174,
+      "ts": "2026-05-19T08:20:16.456Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 175,
+      "ts": "2026-05-19T08:25:16.550Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 176,
+      "ts": "2026-05-19T08:30:16.649Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 177,
+      "ts": "2026-05-19T08:35:16.748Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 178,
+      "ts": "2026-05-19T08:40:16.856Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 179,
+      "ts": "2026-05-19T08:45:16.949Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 180,
+      "ts": "2026-05-19T08:50:17.052Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 181,
+      "ts": "2026-05-19T08:55:17.070Z",
+      "snapshot": {
+        "omzet_harian": 0,
+        "total_tx": 0,
+        "stok_kritis": [],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 182,
+      "ts": "2026-05-19T08:55:34.033Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 183,
+      "ts": "2026-05-19T09:00:17.184Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 184,
+      "ts": "2026-05-19T09:00:34.113Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 185,
+      "ts": "2026-05-19T09:05:17.272Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 186,
+      "ts": "2026-05-19T09:05:34.211Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 187,
+      "ts": "2026-05-19T09:10:17.370Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 188,
+      "ts": "2026-05-19T09:10:34.312Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 189,
+      "ts": "2026-05-19T09:15:17.470Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 190,
+      "ts": "2026-05-19T09:15:34.413Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 191,
+      "ts": "2026-05-19T09:20:17.573Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 192,
+      "ts": "2026-05-19T09:20:34.514Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 193,
+      "ts": "2026-05-19T09:25:17.676Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 194,
+      "ts": "2026-05-19T09:25:34.518Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 195,
+      "ts": "2026-05-19T09:30:17.700Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 196,
+      "ts": "2026-05-19T09:30:34.617Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 197,
+      "ts": "2026-05-19T09:35:17.803Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 198,
+      "ts": "2026-05-19T09:35:34.718Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 199,
+      "ts": "2026-05-19T09:40:17.917Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 200,
+      "ts": "2026-05-19T09:40:34.825Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 201,
+      "ts": "2026-05-19T09:45:18.002Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 202,
+      "ts": "2026-05-19T09:45:34.919Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 203,
+      "ts": "2026-05-19T09:50:18.029Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 204,
+      "ts": "2026-05-19T09:50:35.020Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 205,
+      "ts": "2026-05-19T09:55:18.121Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 206,
+      "ts": "2026-05-19T09:55:35.069Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 207,
+      "ts": "2026-05-19T10:00:18.174Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 208,
+      "ts": "2026-05-19T10:00:35.168Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 209,
+      "ts": "2026-05-19T10:05:18.228Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 210,
+      "ts": "2026-05-19T10:05:35.193Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 211,
+      "ts": "2026-05-19T10:10:18.232Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 212,
+      "ts": "2026-05-19T10:10:35.229Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 213,
+      "ts": "2026-05-19T10:15:18.249Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 214,
+      "ts": "2026-05-19T10:15:35.329Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 215,
+      "ts": "2026-05-19T10:20:18.352Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 216,
+      "ts": "2026-05-19T10:20:35.431Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 217,
+      "ts": "2026-05-19T10:25:18.452Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 218,
+      "ts": "2026-05-19T10:25:35.461Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 219,
+      "ts": "2026-05-19T10:30:18.553Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 220,
+      "ts": "2026-05-19T10:30:35.566Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 221,
+      "ts": "2026-05-19T10:35:18.660Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 222,
+      "ts": "2026-05-19T10:35:35.663Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 223,
+      "ts": "2026-05-19T10:40:18.748Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 224,
+      "ts": "2026-05-19T10:40:35.687Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 225,
+      "ts": "2026-05-19T10:45:18.773Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 226,
+      "ts": "2026-05-19T10:45:35.704Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 227,
+      "ts": "2026-05-19T10:50:18.880Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 228,
+      "ts": "2026-05-19T10:50:35.809Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 229,
+      "ts": "2026-05-19T10:55:18.979Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
+    },
+    {
+      "id": 230,
+      "ts": "2026-05-19T10:55:35.891Z",
+      "snapshot": {
+        "omzet_harian": 169150,
+        "total_tx": 4,
+        "stok_kritis": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "ai_provider": "groq"
+      }
     }
   ],
-  "last_id": 87,
+  "last_id": 230,
   "max_keep": 288
 }

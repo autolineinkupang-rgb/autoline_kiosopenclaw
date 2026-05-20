@@ -1,7 +1,7 @@
 id,nama,kategori,satuan,stok,harga_beli,harga_jual,stok_minimum,stok_kritis,supplier,last_update,has_exp,exp_date
-001,Beras Premium 5kg,sembako,karung,24,62000,70000,10,3,Pak Haji Soleh,2026-05-17,0,
-002,Beras Medium 5kg,sembako,karung,29,55000,62000,10,3,Pak Haji Soleh,2026-05-17,0,
-003,Gula Pasir 1kg,sembako,bungkus,18,13500,15000,8,2,Distributor UD Maju,2026-05-18,0,
+001,Beras Premium 5kg,sembako,karung,24,62000,70000,10,3,Yanto,2026-05-19,0,
+002,Beras Medium 5kg,sembako,karung,28,55000,62000,10,3,Pak Haji Soleh,2026-05-19,0,
+003,Gula Pasir 1kg,sembako,bungkus,14,13500,15000,8,2,Distributor UD Maju,2026-05-19,0,
 004,Minyak Goreng 1L,sembako,botol,18,17000,19000,8,2,Distributor UD Maju,2026-05-17,0,
 005,Tepung Terigu 1kg,sembako,bungkus,13,12000,14000,5,2,Distributor UD Maju,2026-05-18,0,
 006,Garam 250gr,sembako,bungkus,29,2000,2500,10,3,Distributor UD Maju,2026-05-18,0,
@@ -13,3 +13,9 @@ id,nama,kategori,satuan,stok,harga_beli,harga_jual,stok_minimum,stok_kritis,supp
 012,Snack Ringan Mix,snack,bal,6,25000,32000,3,1,Indomaret Grosir,2026-05-17,0,
 013,Sabun Mandi,kebutuhan,buah,20,3500,5000,8,2,Distributor UD Maju,2026-05-17,0,
 014,Deterjen 500gr,kebutuhan,bungkus,15,9000,12000,5,2,Distributor UD Maju,2026-05-17,0,
+015,153,rokok,bungkus,10,13500,15000,5,2,nata,2026-05-18,0,
+016,Minyak Goreng Test,,,0,0,15000,5,2,,2026-05-19,0,
+017,Susu Kaleng Omela Kental Manis,umum,kaleng,48,0,14000,5,2,,2026-05-19,0,
+018,es batu,umum,pcs,19,1000,1150,5,2,,2026-05-19,0,
+019,Tepung Merek Kompas,sembako,pcs,10,0,14000,5,3,-,2026-05-19,1,2027-05-02
+020,Beras Merah 5kg,sembako,karung,10,10000,15000,5,2,Supplier Beras,2026-05-19,0,

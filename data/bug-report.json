@@ -1,0 +1,13 @@
+[
+  {
+    "bug_id": "BUG-0001",
+    "date": "2026-05-19 05:15",
+    "error_type": "Error",
+    "location": "prosesEnvelope",
+    "root_cause": "[stok/tambah_produk] ValueError: could not convert string to float: '' — parameter harga_beli kosong string bukan angka",
+    "input": "Tambahkan produk baru susu kaleng omela kental manis seharga 14000 dengan jumlah 50",
+    "fix_applied": "Refaktor aksi_tambah_produk menggunakan fungsi _n() untuk konversi aman ke int — handle None, '', dan string kosong",
+    "test_result": "FIXED — stok.py baris 224: 'harga_beli': str(_n(params.get('harga_beli'), 0))",
+    "prevention_rule": "Semua konversi numerik dari params harus pakai _n() bukan int(float())"
+  }
+]
