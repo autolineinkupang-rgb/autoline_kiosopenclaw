@@ -11,6 +11,7 @@ const BASE_FILE    = path.join(__dirname, '..', 'data', 'base-patterns.json');
 const SOURCES_FILE = path.join(__dirname, '..', 'data', 'sources-regional.json');
 const bus          = require('../scripts/event-bus');
 const webSearch    = require('./web-search');
+const urlSafety    = require('../scripts/url-safety');
 
 function loadBase() {
   try { return JSON.parse(fs.readFileSync(BASE_FILE, 'utf8')); } catch { return {}; }
@@ -277,8 +278,147 @@ function formatPerbandinganFb(produk, fb, hargaKita, hargaRef) {
   return msg;
 }
 
+// ── Riset harga dengan keamanan URL (owner-personal pipeline) ─────────────────
+async function risetHargaIndonesia(produk) {
+  const queries = [
+    `harga ${produk} Indonesia terbaru site:.id`,
+    `harga ${produk} NTT Rote Ndao`,
+    `harga ${produk} pasar Indonesia ${new Date().getFullYear()}`,
+  ];
+
+  // Kumpulkan semua URL dari hasil pencarian
+  const semuaHasil = [];
+  for (const q of queries.slice(0, 2)) {
+    const hasil = await webSearch.search(q);
+    semuaHasil.push(...hasil.filter(h => h.url));
+    if (semuaHasil.length >= 8) break;
+  }
+
+  // Periksa keamanan semua URL secara paralel
+  const urls = semuaHasil.map(h => h.url).filter(Boolean);
+  const cekAman = await urlSafety.periksaBanyakUrl(urls);
+  const amanMap = Object.fromEntries(cekAman.map(c => [c.url, c]));
+
+  // Ambil konten hanya dari URL aman
+  const hasilAman = [];
+  for (const h of semuaHasil) {
+    const cek = amanMap[h.url];
+    if (!cek?.aman) continue;
+
+    let konten = h.snippet || '';
+    if (cek.skor >= 70 && h.url) {
+      const baca = await webSearch.bacaHalaman(cek.finalUrl).catch(() => null);
+      if (baca) konten = baca.slice(0, 1200);
+    }
+
+    const hargaDitemukan = _extractHarga(konten);
+    hasilAman.push({
+      url    : cek.finalUrl,
+      judul  : h.title || '',
+      skor   : cek.skor,
+      harga  : hargaDitemukan,
+      potongan: konten.slice(0, 200),
+    });
+  }
+
+  // Kumpulkan semua angka harga
+  const semuaHarga = hasilAman.flatMap(h => h.harga);
+  semuaHarga.sort((a, b) => a - b);
+
+  const diblokir = cekAman.filter(c => !c.aman).length;
+  return {
+    produk,
+    hasilAman,
+    diblokir,
+    total_url   : urls.length,
+    harga_min   : semuaHarga[0] || null,
+    harga_max   : semuaHarga[semuaHarga.length - 1] || null,
+    harga_rata  : semuaHarga.length ? Math.round(semuaHarga.reduce((s, x) => s + x, 0) / semuaHarga.length) : null,
+    jumlah_harga: semuaHarga.length,
+  };
+}
+
+// ── Simpan hasil riset ke sumber + referensi harga (self-learning) ────────────
+function simpanHasilRiset(riset) {
+  const { produk, hasilAman, harga_min, harga_max, harga_rata } = riset;
+
+  // Simpan URL aman baru ke sources-regional.json
+  const sources  = loadSources();
+  sources.sumber_tambahan = sources.sumber_tambahan || [];
+  let urlBaru = 0;
+  for (const h of hasilAman) {
+    const sudah = sources.sumber_tambahan.some(s => s.url === h.url);
+    if (!sudah && h.skor >= 65) {
+      sources.sumber_tambahan.push({
+        nama        : h.judul || h.url,
+        url         : h.url,
+        skor_aman   : h.skor,
+        ditambahkan : new Date().toISOString().slice(0, 10),
+        produk_terkait: produk,
+      });
+      urlBaru++;
+    }
+  }
+  if (urlBaru > 0) {
+    const tmp = SOURCES_FILE + '.tmp';
+    fs.writeFileSync(tmp, JSON.stringify(sources, null, 2));
+    fs.renameSync(tmp, SOURCES_FILE);
+  }
+
+  // Update harga referensi di base-patterns.json
+  let hargaDisimpan = false;
+  if (harga_min && harga_max) {
+    const base = loadBase();
+    const refs = base.harga_referensi || {};
+    const key  = produk.toLowerCase();
+    const ada  = refs[key] || { min: harga_min, max: harga_max };
+    refs[key]  = { min: Math.min(ada.min, harga_min), max: Math.max(ada.max, harga_max), updated: new Date().toISOString().slice(0, 10) };
+    base.harga_referensi = refs;
+    fs.writeFileSync(BASE_FILE, JSON.stringify(base, null, 2));
+    hargaDisimpan = true;
+    if (harga_rata > (ada.max || 0) * 1.05) {
+      bus.kirim('harga:naik', { produk, lama: ada.max, baru: harga_rata });
+    }
+  }
+
+  return { urlBaru, hargaDisimpan };
+}
+
+// ── Format hasil riset owner-personal ────────────────────────────────────────
+function formatHasilRisetIndonesia(riset, simpan) {
+  const div = '━━━━━━━━━━━━━━━━━━━━━━━';
+  let msg = `🔍 *Riset Harga: ${riset.produk}*\n${div}\n`;
+  msg += `📡 URL ditemukan: ${riset.total_url} | `;
+  msg += `✅ Aman: ${riset.hasilAman.length} | `;
+  msg += `🛡️ Diblokir: ${riset.diblokir}\n\n`;
+
+  if (riset.harga_min) {
+    msg += `💰 *Harga ditemukan (Indonesia):*\n`;
+    msg += `  Min:  ${rp(riset.harga_min)}\n`;
+    msg += `  Max:  ${rp(riset.harga_max)}\n`;
+    msg += `  Rata: ${rp(riset.harga_rata)}\n`;
+    msg += `  Dari ${riset.jumlah_harga} data harga\n\n`;
+  } else {
+    msg += `Tidak ditemukan harga spesifik.\n\n`;
+  }
+
+  if (riset.hasilAman.length) {
+    msg += `📋 *Sumber aman (${riset.hasilAman.length}):*\n`;
+    riset.hasilAman.slice(0, 3).forEach(h => {
+      msg += `• [${h.skor}%] ${h.judul.slice(0, 45)}\n`;
+    });
+  }
+
+  msg += `\n${div}\n`;
+  msg += `🧠 *Dipelajari:*\n`;
+  msg += `  📌 ${simpan.urlBaru} sumber baru disimpan\n`;
+  msg += `  📊 Harga referensi ${simpan.hargaDisimpan ? 'diperbarui' : 'belum cukup data'}`;
+  return msg;
+}
+
 module.exports = {
   risetHargaTop, updateHargaMarket, analyzeHarga, loadBase,
   formatMarketIntel, formatHargaSatuProduk, formatSumberMonitoring,
   risetHargaFacebook, tambahSumberUrl, formatPerbandinganFb,
+  risetHargaIndonesia, simpanHasilRiset, formatHasilRisetIndonesia,
 };

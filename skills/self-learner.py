@@ -318,6 +318,7 @@ def aksi_status(_p):
     ai_pending  = bool(_load(AI_BATCH, {}).get('items'))
 
     ok({
+        'nama'            : 'PicaMan',
         'last_session'    : state.get('last_session', 'belum pernah'),
         'total_sesi'      : state.get('sesi_count', kb.get('session_count', 0)),
         'antrian_skrg'    : len(queue),
@@ -327,6 +328,8 @@ def aksi_status(_p):
         'bisa_belajar_skrg': _boleh_belajar(False),
         'ai_batch_pending': ai_pending,
         'token_hemat_total': token_hemat,
+        'total_updates'   : kb.get('total_updates', 0),
+        'last_self_update': kb.get('last_self_update', '-'),
     })
 
 # ── aksi_ringkas ──────────────────────────────────────────────────────────────
@@ -347,6 +350,133 @@ def aksi_ringkas(_p):
     baru = list(merged.values())
     _save(QUEUE_FILE, baru)
     ok({'sebelum': sebelum, 'sesudah': len(baru), 'hemat': sebelum - len(baru)})
+
+
+# ── aksi_konsultasi ───────────────────────────────────────────────────────────
+def aksi_konsultasi(p):
+    """
+    Konsultasi 0-token: cek apakah openclaw bisa kenali pesan sebelum bot panggil AI.
+    Return {dikenali, hint_intent, hint_produk, confidence, sumber}
+    """
+    pesan = p.get('pesan', '').strip().lower()
+    if not pesan:
+        return ok({'dikenali': False})
+
+    base = _load(BASE_FILE, {'shortcuts': {}, 'aliases': {}, 'intent_hints': []})
+
+    # 1. Cek shortcuts langsung
+    if pesan in base.get('shortcuts', {}):
+        return ok({
+            'dikenali'    : True,
+            'hint_produk' : base['shortcuts'][pesan],
+            'hint_intent' : 'CARI',
+            'confidence'  : 1.0,
+            'sumber'      : 'shortcut',
+        })
+
+    # 2. Cek aliases
+    for produk_nama, variants in base.get('aliases', {}).items():
+        for v in variants:
+            if v.lower() == pesan or v.lower() in pesan:
+                return ok({
+                    'dikenali'    : True,
+                    'hint_produk' : produk_nama,
+                    'hint_intent' : 'CARI',
+                    'confidence'  : 0.85,
+                    'sumber'      : 'alias',
+                })
+
+    # 3. Cek intent_hints dinamis
+    import re as _re
+    for h in base.get('intent_hints', []):
+        try:
+            if _re.search(h['re'], pesan, _re.I):
+                return ok({
+                    'dikenali'    : True,
+                    'hint_intent' : h['tipe'],
+                    'hint_produk' : '',
+                    'confidence'  : 0.75,
+                    'sumber'      : 'intent_hint',
+                })
+        except Exception:
+            pass
+
+    # 4. Cek similarity Levenshtein ke shortcuts yang ada
+    best_skor, best_target = 0, None
+    for kata in list(base.get('shortcuts', {}).keys())[:50]:
+        sim = 1 - _lev(pesan, kata) / max(len(pesan), len(kata), 1)
+        if sim > best_skor:
+            best_skor, best_target = sim, kata
+
+    if best_skor >= 0.80 and best_target:
+        return ok({
+            'dikenali'    : True,
+            'hint_produk' : base['shortcuts'][best_target],
+            'hint_intent' : 'CARI',
+            'confidence'  : round(best_skor, 2),
+            'sumber'      : 'levenshtein',
+        })
+
+    ok({'dikenali': False, 'confidence': 0.0})
+
+
+# ── aksi_laporan_resolusi ──────────────────────────────────────────────────────
+def aksi_laporan_resolusi(p):
+    """
+    Bot lapor ke openclaw: AI baru saja menyelesaikan UNKNOWN dengan intent+produk tertentu.
+    Openclaw menyimpan pemetaan baru ke base-patterns agar next time dikenali lokal (0 token).
+    """
+    pesan   = p.get('pesan', '').strip()
+    intent  = p.get('intent', '').strip().upper()
+    produk  = p.get('produk', '').strip()
+
+    if not pesan or not intent:
+        return err('pesan dan intent wajib diisi')
+
+    base = _load(BASE_FILE, {'shortcuts': {}, 'aliases': {}, 'intent_hints': []})
+    dipelajari = []
+
+    # Simpan shortcut jika pesan pendek dan ada produk
+    kata_kunci = pesan.lower()
+    if produk and len(kata_kunci) <= 30 and kata_kunci not in base.get('shortcuts', {}):
+        base.setdefault('shortcuts', {})[kata_kunci] = produk.lower()
+        dipelajari.append(f'shortcut: "{kata_kunci}" → "{produk}"')
+
+    # Simpan intent_hint jika tidak ada produk tapi pola cukup spesifik
+    if not produk and intent not in ('AI_RESPONS', 'UNKNOWN') and len(kata_kunci) > 4:
+        hint_baru = {'re': _re_escape(kata_kunci), 'tipe': intent}
+        hints = base.setdefault('intent_hints', [])
+        sudah = any(h.get('re') == hint_baru['re'] for h in hints)
+        if not sudah:
+            hints.append(hint_baru)
+            dipelajari.append(f'intent_hint: "{kata_kunci}" → {intent}')
+
+    if dipelajari:
+        _save(BASE_FILE, base)
+        # Emit event agar Node.js flush cache intent-detector
+        bus_emit('bot:update', {'sumber': 'laporan_resolusi', 'dipelajari': dipelajari})
+
+        # Log ke knowledge-base
+        kb = _load(KB_FILE, {})
+        kb.setdefault('ai_resolusi_log', [])
+        kb['ai_resolusi_log'].append({'ts': _wita_str(), 'pesan': pesan, 'intent': intent, 'produk': produk})
+        if len(kb['ai_resolusi_log']) > 100:
+            kb['ai_resolusi_log'] = kb['ai_resolusi_log'][-100:]
+        _save(KB_FILE, kb)
+
+    # Antri ke queue belajar juga
+    queue = _load(QUEUE_FILE, [])
+    queue.append({'ts': _wita_str(), 'pesan': pesan, 'intent': intent, 'berhasil': True, 'resp_len': len(produk), 'count': 1})
+    if len(queue) > MAX_QUEUE:
+        queue = queue[-MAX_QUEUE:]
+    _save(QUEUE_FILE, queue)
+
+    ok({'dipelajari': dipelajari, 'total': len(dipelajari)})
+
+
+def _re_escape(s):
+    import re
+    return re.escape(s)
 
 
 # ── aksi_terapkan ─────────────────────────────────────────────────────────────
@@ -399,11 +529,13 @@ def aksi_terapkan(p):
 
 # ── Entrypoint ────────────────────────────────────────────────────────────────
 AKSI = {
-    'antri'   : aksi_antri,
-    'belajar' : aksi_belajar,
-    'status'  : aksi_status,
-    'ringkas' : aksi_ringkas,
-    'terapkan': aksi_terapkan,
+    'antri'             : aksi_antri,
+    'belajar'           : aksi_belajar,
+    'status'            : aksi_status,
+    'ringkas'           : aksi_ringkas,
+    'terapkan'          : aksi_terapkan,
+    'konsultasi'        : aksi_konsultasi,
+    'laporan_resolusi'  : aksi_laporan_resolusi,
 }
 
 if __name__ == '__main__':

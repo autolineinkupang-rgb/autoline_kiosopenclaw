@@ -55,13 +55,19 @@ function parseMassItems(teks) {
   return items.filter(i => i.produk && (i.qty > 0 || i.harga > 0));
 }
 
-async function prosesIntentBaru(parsed, sender, logActivity) {
+async function prosesIntentBaru(parsed, sender, logActivity, ctx = {}) {
   switch (parsed.tipe) {
     case 'CUACA': {
       const data = await Cuaca.getCuacaLengkap().catch(() => null);
       return data ? Cuaca.formatCuacaRingkas(data) : 'Koneksi BMKG gagal kak, coba lagi sebentar 🙏';
     }
     case 'HARGA_PASAR': {
+      // Owner via personal → pipeline lengkap: cari + verifikasi URL + pelajari + simpan
+      if (ctx.isOwnerPersonal && parsed.produk) {
+        const riset = await MarketIntel.risetHargaIndonesia(parsed.produk);
+        const simpan = MarketIntel.simpanHasilRiset(riset);
+        return MarketIntel.formatHasilRisetIndonesia(riset, simpan);
+      }
       if (parsed.produk) {
         const base = MarketIntel.loadBase();
         const stokR = callSkill('stok', 'cari', { produk: parsed.produk });
@@ -189,15 +195,16 @@ async function prosesIntentBaru(parsed, sender, logActivity) {
       const div = '━━━━━━━━━━━━━━━━━━━━━━━';
       const centang = d.bisa_belajar_skrg ? '🟢 Bisa belajar sekarang' : '⏳ Di luar jam belajar';
       const ai = d.ai_batch_pending ? '⚠️ Ada batch AI pending' : '✅ Tidak ada';
-      return `🧠 *Status Belajar Bot*\n${div}\n` +
+      return `🧠 *${d.nama || 'PicaMan'} — Status Belajar*\n${div}\n` +
         `📅 Sesi terakhir: ${d.last_session}\n` +
         `🔢 Total sesi: ${d.total_sesi}\n` +
         `📬 Antrian skrg: ${d.antrian_skrg} pesan\n` +
         `✅ Rata-rata sukses: ${d.avg_sukses_7sesi}\n` +
-        `📋 Rules aktif: ${d.prevention_rules}\n` +
+        `📋 Rules aktif: ${d.rules_aktif}\n` +
         `⏰ Jam belajar: ${d.jam_belajar}\n` +
         `${centang}\n` +
         `💡 Token hemat total: ${d.token_hemat_total}\n` +
+        `🔄 Update diterapkan: ${d.total_updates || 0}\n` +
         `🤖 Batch AI: ${ai}`;
     }
     case 'LAPORAN_BELAJAR': {
@@ -232,6 +239,57 @@ async function prosesIntentBaru(parsed, sender, logActivity) {
       const r = MarketIntel.tambahSumberUrl(nama, url);
       if (!r.ok) return Formatter.error(r.error);
       return `✅ Sumber baru disimpan\n*${r.nama}*\n${r.url}\n\nAkan digunakan saat pencarian harga berikutnya kak.`;
+    }
+    case 'DAFTAR_SKILL': {
+      const r = callSkill('harga', 'daftar_skill', {});
+      if (!r.ok) return Formatter.error(r.error);
+      const div = '━━━━━━━━━━━━━━━━━━━━━━━';
+      let msg = `🧰 *Skill Perkiraan Harga Pasar*\n${div}\n`;
+      for (const s of r.data.skills_harga) {
+        msg += `\n📦 *${s.skill}* (${s.tipe})\n`;
+        msg += `   Aksi: ${s.aksi.join(', ')}\n`;
+      }
+      msg += `\n${div}\n📡 *Perintah Signal:*\n`;
+      for (const [intent, desk] of Object.entries(r.data.intent_signal)) {
+        msg += `• _${intent}_: ${desk}\n`;
+      }
+      return msg;
+    }
+    case 'ESTIMASI_HARGA': {
+      const r = callSkill('harga', 'estimasi', { produk: parsed.produk });
+      if (!r.ok) return Formatter.error(r.error);
+      const d = r.data;
+      const div = '━━━━━━━━━━━━━━━━━━━━━━━';
+      const rp = (n) => `Rp${Number(n).toLocaleString('id-ID')}`;
+      let msg = `📊 *Estimasi Harga: ${d.produk}*\n${div}\n`;
+      msg += `Harga beli:   ${rp(d.harga_beli)}\n`;
+      msg += `Harga kini:   ${rp(d.harga_jual_kini)}\n\n`;
+      msg += `*Opsi margin:*\n`;
+      msg += `  10%: ${rp(d.estimasi.margin_10pct)}\n`;
+      msg += `  15%: ${rp(d.estimasi.margin_15pct)}\n`;
+      msg += `  20%: ${rp(d.estimasi.margin_20pct)}\n`;
+      msg += `  25%: ${rp(d.estimasi.margin_25pct)}\n\n`;
+      msg += `✅ *Saran: ${rp(d.saran_harga)}*\n`;
+      msg += `_${d.saran_alasan}_`;
+      if (d.referensi_pasar) {
+        msg += `\n\n📌 Referensi pasar: ${rp(d.referensi_pasar.min)}–${rp(d.referensi_pasar.max)}`;
+      }
+      return msg;
+    }
+    case 'PREDIKSI_HARGA': {
+      const r = callSkill('harga', 'prediksi', { produk: parsed.produk });
+      if (!r.ok) return Formatter.error(r.error);
+      const d = r.data;
+      const rp = (n) => `Rp${Number(n).toLocaleString('id-ID')}`;
+      const ikonTren = d.tren === 'naik' ? '📈' : d.tren === 'turun' ? '📉' : '➡️';
+      if (d.tren === 'tidak_cukup_data') return `⚠️ ${d.pesan}`;
+      let msg = `${ikonTren} *Prediksi Harga: ${d.produk}*\n━━━━━━━━━━━━━━━━━━━━━━━\n`;
+      msg += `Tren:          ${d.tren.toUpperCase()}\n`;
+      msg += `Rata perubahan: ${d.avg_perubahan_pct > 0 ? '+' : ''}${d.avg_perubahan_pct}% per periode\n`;
+      msg += `Harga beli kini: ${rp(d.harga_kini)}\n`;
+      msg += `Proyeksi 7 hari: ${rp(d.proyeksi_7hari)}\n`;
+      msg += `_Dari ${d.jumlah_riwayat} data riwayat_`;
+      return msg;
     }
     case 'SHORTCUT': {
       if (parsed.nama) {

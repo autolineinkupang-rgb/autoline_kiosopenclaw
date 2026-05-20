@@ -26,6 +26,12 @@
     "jam_tutup": "21:00",
     "timezone": "Asia/Makassar"
   },
+  "identitas": {
+    "nama_bot": "Irma",
+    "nama_openclaw": "PicaMan",
+    "versi": "5.1",
+    "catatan": "Nama panggilan — bukan nama permanen"
+  },
   "jadwal": {
     "laporan_pagi": "0 6 * * *",
     "laporan_siang": "0 12 * * *",

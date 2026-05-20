@@ -213,8 +213,27 @@ async function cekPendingOnStartup() {
   } catch {}
 }
 
+// 03:00 WITA — bersihkan memori percakapan grup (>1 hari) tanpa ganggu file lain
+function bersihkanMemoriGrup() {
+  try { callSkill('memory-chat', 'bersihkan', {}); } catch {}
+}
+
+// 06:30 + 12:00 WITA — PicaMan buat saran dan Irma kirim ke grup
+async function kirimSaranPicaMan() {
+  try {
+    const r = callSkill('saran', 'buat', {});
+    if (!r.ok || !r.data?.saran?.length) return;
+
+    for (const s of r.data.saran) {
+      await _kirimKeGrup(s.pesan);
+      try { callSkill('saran', 'tandai_terkirim', { id: s.id }); } catch {}
+    }
+  } catch {}
+}
+
 module.exports = {
   init, laporanHarian, alertGudangCuaca, risetHargaTop10,
   risetHargaMingguan, laporanBelajar, cekGelombangPeriodik,
   selfLearn, ringkasQueue, applyAiBatch, cekPendingOnStartup,
+  bersihkanMemoriGrup, kirimSaranPicaMan,
 };

@@ -1,0 +1,154 @@
+{
+  "_meta": {
+    "versi": "1.0",
+    "dibuat": "2026-05-20",
+    "deskripsi": "Registry skill openclaw — mendokumentasikan semua skill, aksi, dan parameter"
+  },
+  "kategori": {
+    "perkiraan_harga": {
+      "label": "Perkiraan & Riset Harga Pasar",
+      "deskripsi": "Skill untuk estimasi, riset, perbandingan, dan pemantauan harga produk di pasar Indonesia",
+      "skills": [
+        {
+          "nama": "harga",
+          "tipe": "python",
+          "file": "skills/harga.py",
+          "panggil_via": "callSkill('harga', aksi, params)",
+          "aksi": [
+            {
+              "nama": "cek",
+              "deskripsi": "Ambil info harga jual/beli produk dari stok kios",
+              "params": [{"nama": "produk", "wajib": true}],
+              "contoh": {"action": "cek", "params": {"produk": "beras"}}
+            },
+            {
+              "nama": "update",
+              "deskripsi": "Update harga jual dan/atau harga beli produk, otomatis catat ke price-history",
+              "params": [
+                {"nama": "produk", "wajib": true},
+                {"nama": "harga_jual", "wajib": true},
+                {"nama": "harga_beli", "wajib": false}
+              ],
+              "contoh": {"action": "update", "params": {"produk": "beras", "harga_jual": 14000}}
+            },
+            {
+              "nama": "estimasi",
+              "deskripsi": "Estimasi harga jual ideal berdasarkan harga beli, margin, dan referensi pasar",
+              "params": [
+                {"nama": "produk", "wajib": true},
+                {"nama": "harga_beli_baru", "wajib": false, "keterangan": "opsional: harga beli terbaru dari supplier"}
+              ],
+              "contoh": {"action": "estimasi", "params": {"produk": "beras"}}
+            },
+            {
+              "nama": "prediksi",
+              "deskripsi": "Prediksi tren harga beberapa hari ke depan berdasarkan riwayat perubahan",
+              "params": [{"nama": "produk", "wajib": true}],
+              "contoh": {"action": "prediksi", "params": {"produk": "minyak goreng"}}
+            }
+          ]
+        },
+        {
+          "nama": "market-intel",
+          "tipe": "javascript",
+          "file": "skills/market-intel.js",
+          "panggil_via": "require('./skills/market-intel')",
+          "fungsi": [
+            {
+              "nama": "risetHargaTop",
+              "deskripsi": "Bandingkan harga kios vs referensi pasar, return top N produk bermasalah",
+              "params": [{"nama": "n", "default": 10}],
+              "async": true
+            },
+            {
+              "nama": "risetHargaFacebook",
+              "deskripsi": "Cari harga produk di Facebook/sosmed, ekstrak angka harga dari snippet",
+              "params": [{"nama": "produk", "wajib": true}],
+              "async": true
+            },
+            {
+              "nama": "risetHargaIndonesia",
+              "deskripsi": "Riset harga area Indonesia, verifikasi keamanan URL sebelum baca konten, simpan ke registry sumber",
+              "params": [{"nama": "produk", "wajib": true}],
+              "async": true,
+              "catatan": "Owner-only. Otomatis simpan URL aman ke sources-regional.json dan update harga_referensi"
+            },
+            {
+              "nama": "analyzeHarga",
+              "deskripsi": "Analisis kompetitif: harga kios vs min/max referensi pasar",
+              "params": [{"nama": "item"}, {"nama": "refs"}],
+              "async": false
+            },
+            {
+              "nama": "updateHargaMarket",
+              "deskripsi": "Simpan harga pasar baru ke base-patterns, emit event harga:naik jika naik >5%",
+              "params": [{"nama": "produk"}, {"nama": "hargaMarket"}],
+              "async": true
+            },
+            {
+              "nama": "tambahSumberUrl",
+              "deskripsi": "Simpan URL sumber harga baru ke sources-regional.json",
+              "params": [{"nama": "nama"}, {"nama": "url"}],
+              "async": false
+            }
+          ]
+        },
+        {
+          "nama": "laporan",
+          "tipe": "python",
+          "file": "skills/laporan.py",
+          "panggil_via": "callSkill('laporan', aksi, params)",
+          "aksi": [
+            {
+              "nama": "riwayat_harga",
+              "deskripsi": "Riwayat perubahan harga beli dari supplier, diurutkan terbaru",
+              "params": [{"nama": "produk", "wajib": false, "keterangan": "kosong = semua produk"}],
+              "contoh": {"action": "riwayat_harga", "params": {"produk": "beras"}}
+            },
+            {
+              "nama": "laba",
+              "deskripsi": "Laporan laba kotor per produk, period hari ini / minggu / bulan",
+              "params": [{"nama": "periode", "wajib": false, "default": "hari_ini"}]
+            }
+          ]
+        },
+        {
+          "nama": "notif",
+          "tipe": "python",
+          "file": "skills/notif.py",
+          "panggil_via": "callSkill('notif', aksi, params)",
+          "aksi": [
+            {
+              "nama": "stok_kritis",
+              "deskripsi": "Deteksi produk dengan stok di bawah ambang kritis — relevan untuk keputusan beli/restock harga terbaik",
+              "params": [],
+              "emit_event": "stok:kritis"
+            },
+            {
+              "nama": "exp_alert",
+              "deskripsi": "Deteksi produk mendekati/lewat kadaluarsa — relevan untuk keputusan diskon harga",
+              "params": [],
+              "emit_event": "stok:habis"
+            }
+          ]
+        }
+      ]
+    },
+    "pemantauan_sumber": {
+      "label": "Sumber Data Harga",
+      "deskripsi": "Referensi URL dan sumber data harga yang digunakan openclaw",
+      "file_sumber": "data/sources-regional.json",
+      "file_referensi": "data/base-patterns.json → harga_referensi",
+      "file_riwayat": "data/price-history.csv"
+    }
+  },
+  "intent_signal": {
+    "HARGA_PASAR": "Cek/riset harga pasar — personal owner: pipeline lengkap dengan verifikasi URL",
+    "HARGA_FB": "Cari harga di Facebook, bandingkan dengan referensi",
+    "UPDATE_HARGA_PASAR": "Update manual referensi harga pasar",
+    "RIWAYAT_HARGA": "Lihat riwayat perubahan harga beli produk",
+    "SUMBER_HARGA": "Daftar URL sumber pemantauan harga",
+    "TAMBAH_SUMBER": "Tambah URL sumber harga baru",
+    "DAFTAR_SKILL": "Tampilkan daftar skill terdaftar dan aksinya"
+  }
+}

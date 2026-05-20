@@ -28,11 +28,11 @@ function applyShortcuts(teks) {
 // ─── Pattern definitions ─────────────────────────────────────────────────────
 
 const RE = {
-  // SELL — jual / sold / checkout / kasir
-  JUAL: /^(?:jual|terjual|laku|sold|checkout|kasir\s+jual)\s+(.+?)\s+(\d+(?:[.,]\d+)?)\s*(?:tunai|qris|transfer)?(?:\s+bayar\s+(\d+))?$/i,
+  // SELL — jual / sold / checkout / variasi informal (jualin, keluarin, dll)
+  JUAL: /^(?:jual|jualin|terjual|laku|sold|checkout|kasir\s+jual|keluarin|keluar(?:kan)?)\s+(.+?)\s+(\d+(?:[.,]\d+)?)\s*(?:tunai|qris|transfer)?(?:\s+bayar\s+(\d+))?$/i,
 
-  // RESTOCK — beli / terima barang / stok masuk
-  BELI: /^(?:beli|tambah\s+stok|restock|terima\s+barang|barang\s+masuk|stok\s+masuk|masukkan\s+stok|replenish)\s+(.+?)\s+(\d+(?:[.,]\d+)?)(?:\s+(?:harga|@)\s*(\d+))?/i,
+  // RESTOCK — beli / variasi informal (tambahin, masukin, restok, dll)
+  BELI: /^(?:beli|tambahin|masukin|masuk(?:in|kan)?\s+stok|tambah\s+stok|restock|restok|terima\s+barang|barang\s+masuk|stok\s+masuk|masukkan\s+stok|replenish)\s+(.+?)\s+(\d+(?:[.,]\d+)?)(?:\s+(?:harga|@)\s*(\d+))?/i,
 
   // STOCK VIEW — cek stok / inventory / daftar semua
   STOK: /^(?:stok|cek\s+stok|gudang|stock|stok\s+semua|lihat\s+stok|inventory|semua\s+barang|daftar\s+stok|list\s+stok|tampil\s+stok|katalog|semua\s+produk|daftar\s+produk)$/i,
@@ -59,6 +59,9 @@ const RE = {
   SUMBER_HARGA: /^(?:sumber\s+harga|monitor\s+harga|pantau\s+harga|cek\s+harga\s+naik|sumber\s+monitor|link\s+harga|url\s+harga|referensi\s+harga\s+pasar|harga\s+naik\s+rote|monitor\s+(?:kenaikan\s+)?harga)/i,
   HARGA_FB: /^(?:harga\s+(?:di\s+)?(?:facebook|fb|sosmed|medsos)|cek\s+(?:facebook|fb|sosmed)\s+harga|(?:facebook|fb)\s+(?:harga|jual|marketplace))\s+(.+)/i,
   TAMBAH_SUMBER: /^(?:tambah\s+sumber|simpan\s+(?:url|link|sumber)|daftarkan\s+(?:url|link)|sumber\s+baru|url\s+baru|link\s+baru)\s+(https?:\/\/\S+)(?:\s+(.+))?$/i,
+  DAFTAR_SKILL: /^(?:daftar\s+skill|skill\s+(?:terdaftar|tersedia|ada|apa)|list\s+skill|skill\s+openclaw|kemampuan\s+(?:bot|openclaw)|fitur\s+(?:bot|openclaw)|apa\s+saja\s+(?:skill|fitur))/i,
+  ESTIMASI_HARGA: /^(?:estimasi|perkiraan|kira[- ]kira)\s+harga\s+(.+)/i,
+  PREDIKSI_HARGA: /^(?:prediksi|tren|proyeksi)\s+harga\s+(.+)/i,
 
   // STOCK OPNAME — hitung fisik / audit stok
   OPNAME: /^(?:opname|sinkron\s+stok|stok\s+fisik|hitung\s+stok|audit\s+stok|count\s+stock)\s+(.+?)\s+(\d+)/i,
@@ -181,6 +184,9 @@ function detect(teks) {
   if (RE.STATUS_BELAJAR.test(tl)) return { tipe: 'STATUS_BELAJAR' };
   if ((m = tl.match(RE.HARGA_FB))) return { tipe: 'HARGA_FB', produk: m[1].trim() };
   if ((m = t.match(RE.TAMBAH_SUMBER))) return { tipe: 'TAMBAH_SUMBER', url: m[1].trim(), nama: (m[2] || '').trim() };
+  if (RE.DAFTAR_SKILL.test(tl)) return { tipe: 'DAFTAR_SKILL' };
+  if ((m = tl.match(RE.ESTIMASI_HARGA))) return { tipe: 'ESTIMASI_HARGA', produk: m[1].trim() };
+  if ((m = tl.match(RE.PREDIKSI_HARGA))) return { tipe: 'PREDIKSI_HARGA', produk: m[1].trim() };
   if (RE.LAPORAN_BELAJAR.test(tl)) return { tipe: 'LAPORAN_BELAJAR' };
 
   if (RE.PRODUK_BARU.test(tl)) {

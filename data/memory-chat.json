@@ -1,0 +1,146 @@
+[
+  {
+    "ts": "2026-05-20 19:36",
+    "sender": "+6285165061698",
+    "pesan": "Hi",
+    "respons": "Hai! Selamat datang di Kios Desa Maju! Ada yang bisa saya bantu hari ini?",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-20 19:37",
+    "sender": "+6285165061698",
+    "pesan": "Simpan chat kemudian cek pesan yang sudah lebih dari sehari. Hapus pesan yang lebih dari sehari",
+    "respons": "Oke kak, backup dimulai! 💾",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-20 20:00",
+    "sender": "+6285165061698",
+    "pesan": "Status",
+    "respons": "ℹ️ *Status Sistem*\n🕐 20/05/2026 19:00\n🤖 AI: groq\n📶 Signal: aktif\n💾 Checkpoint: 17:55\n\n┌─────────────────────────────────────────┐\n│ 📦 INVENTORY   : 132 tugas                  │\n│ 🔧 BUG STATUS  : 1 bug (0 fixed)            │\n│ 🧠 LEARNED     : 0 rules                    │\n│ ✅ SYSTEM      : Operational                │\n└─────────────────────────────────────────┘\n\n🤖 *Token AI Hari Ini:*\n• Total: 30.372 token (10x panggilan)\n• Groq: 10x | Gemini: 0x",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-20 20:09",
+    "sender": "+6285165061698",
+    "pesan": "Bersihkan pesan di chat group yang lebih dari sehari",
+    "respons": "Untuk membersihkan pesan di chat group yang lebih dari sehari, saya tidak memiliki fungsi khusus yang dapat digunakan untuk tujuan tersebut. Namun, saya dapat memberikan informasi umum tentang cara membersihkan chat group.\n\nBiasanya, membersihkan chat group dapat dilakukan dengan menggunakan fitur yang disediakan oleh aplikasi chat itu sendiri. Berikut beberapa langkah umum yang dapat Anda lakukan:\n\n1. Buka aplikasi chat dan masuk ke grup yang ingin dibersihkan.\n2. Cari opsi \"Pengaturan\" atau \"S",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-20 20:10",
+    "sender": "+6285165061698",
+    "pesan": "Status",
+    "respons": "ℹ️ *Status Sistem*\n🕐 20/05/2026 19:10\n🤖 AI: groq\n📶 Signal: aktif\n💾 Checkpoint: 17:55\n\n┌─────────────────────────────────────────┐\n│ 📦 INVENTORY   : 134 tugas                  │\n│ 🔧 BUG STATUS  : 1 bug (0 fixed)            │\n│ 🧠 LEARNED     : 0 rules                    │\n│ ✅ SYSTEM      : Operational                │\n└─────────────────────────────────────────┘\n\n🤖 *Token AI Hari Ini:*\n• Total: 33.519 token (11x panggilan)\n• Groq: 11x | Gemini: 0x",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-20 20:18",
+    "sender": "+6285165061698",
+    "pesan": "Status",
+    "respons": "ℹ️ *Status Sistem*\n🕐 20/05/2026 19:18\n🤖 AI: groq\n📶 Signal: aktif\n💾 Checkpoint: 17:55\n\n┌─────────────────────────────────────────┐\n│ 📦 INVENTORY   : 135 tugas                  │\n│ 🔧 BUG STATUS  : 1 bug (0 fixed)            │\n│ 🧠 LEARNED     : 0 rules                    │\n│ ✅ SYSTEM      : Operational                │\n└─────────────────────────────────────────┘\n\n🤖 *Token AI Hari Ini:*\n• Terpakai: 33.519 token (11x panggilan)\n• Hemat PicaMan: 0 token\n• Efisiensi: 0% token dihemat\n• Groq: 11",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-20 20:19",
+    "sender": "+6285165061698",
+    "pesan": "Tanya picaman dan Gunakan gemini untuk mencarinharga stabil tembakau shag merek anggur kupu",
+    "respons": "Untuk mencari harga stabil tembakau Shag merek Anggur Kupu, saya sarankan Anda memeriksa beberapa sumber, seperti:\n\n1. **E-commerce**: Cek harga di toko online seperti Tokopedia, Shopee, atau Lazada.\n2. **Pasar tradisional**: Kunjungi pasar tradisional atau toko-toko yang menjual produk tembakau.\n3. **Situs resmi**: Cek situs resmi produsen tembakau Shag atau merek Anggur Kupu.\n\nDengan Gemini, saya tidak dapat mengakses informasi real-time atau spesifik tentang harga produk tertentu. Namun, Anda",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-20 20:21",
+    "sender": "+6285165061698",
+    "pesan": "Menggunakan gemini untuk mencari informasi tembakau shag merek anggur kupu",
+    "respons": "Tembakau Shag Merek Anggur Kupu adalah salah satu jenis tembakau yang populer di Indonesia. Berikut beberapa informasi yang mungkin berguna:\n\n1. **Asal**: Tembakau Shag Merek Anggur Kupu diproduksi oleh PT. Djarum, sebuah perusahaan tembakau terkemuka di Indonesia.\n\n2. **Karakteristik**: Tembakau Shag Merek Anggur Kupu dikenal memiliki rasa yang khas dan aroma yang kuat. Produk ini sering kali dikaitkan dengan kualitas yang baik dan harga yang terjangkau.\n\n3. **Ketersediaan**: Tembakau Shag Mere",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-20 20:22",
+    "sender": "+6285165061698",
+    "pesan": "Status",
+    "respons": "ℹ️ *Status Sistem*\n🕐 20/05/2026 19:22\n🤖 AI: groq\n📶 Signal: aktif\n💾 Checkpoint: 17:55\n\n┌─────────────────────────────────────────┐\n│ 📦 INVENTORY   : 138 tugas                  │\n│ 🔧 BUG STATUS  : 1 bug (0 fixed)            │\n│ 🧠 LEARNED     : 0 rules                    │\n│ ✅ SYSTEM      : Operational                │\n└─────────────────────────────────────────┘\n\n🤖 *Token AI Hari Ini:*\n• Terpakai: 38.644 token (13x panggilan)\n• Hemat PicaMan: 0 token\n• Efisiensi: 0% token dihemat\n• Groq: 13",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-20 20:23",
+    "sender": "+6285165061698",
+    "pesan": "Status",
+    "respons": "ℹ️ *Status Sistem*\n🕐 20/05/2026 19:23\n🤖 AI: groq\n📶 Signal: aktif\n💾 Checkpoint: 17:55\n\n┌─────────────────────────────────────────┐\n│ 📦 INVENTORY   : 139 tugas                  │\n│ 🔧 BUG STATUS  : 1 bug (0 fixed)            │\n│ 🧠 LEARNED     : 0 rules                    │\n│ ✅ SYSTEM      : Operational                │\n└─────────────────────────────────────────┘\n\n🤖 *Token AI Hari Ini:*\n• Terpakai: 38.644 token (13x panggilan)\n• Hemat PicaMan: 0 token\n• Efisiensi: 0% token dihemat\n• Groq: 13",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-20 20:24",
+    "sender": "+6285165061698",
+    "pesan": "Status",
+    "respons": "ℹ️ *Status Sistem*\n🕐 20/05/2026 19:24\n🤖 AI: groq\n📶 Signal: aktif\n💾 Checkpoint: 17:55\n\n┌─────────────────────────────────────────┐\n│ 📦 INVENTORY   : 140 tugas                  │\n│ 🔧 BUG STATUS  : 1 bug (0 fixed)            │\n│ 🧠 LEARNED     : 0 rules                    │\n│ ✅ SYSTEM      : Operational                │\n└─────────────────────────────────────────┘\n\n🤖 *Token AI Hari Ini:*\n• Terpakai: 38.644 token (13x panggilan)\n• Hemat PicaMan: 0 token\n• Efisiensi: 0% token dihemat\n• Groq: 13",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-20 20:29",
+    "sender": "+6285165061698",
+    "pesan": "Hi",
+    "respons": "Hai! Selamat datang di Kios Desa Maju. Ada yang bisa saya bantu?",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-20 20:30",
+    "sender": "+6285165061698",
+    "pesan": "Status",
+    "respons": "ℹ️ *Status Sistem*\n🕐 20/05/2026 19:30\n🤖 AI: groq\n📶 Signal: aktif\n💾 Checkpoint: 17:55\n\n┌─────────────────────────────────────────┐\n│ 📦 INVENTORY   : 142 tugas                  │\n│ 🔧 BUG STATUS  : 1 bug (0 fixed)            │\n│ 🧠 LEARNED     : 0 rules                    │\n│ ✅ SYSTEM      : Operational                │\n└─────────────────────────────────────────┘\n\n🤖 *Token AI Hari Ini:*\n• Terpakai: 40.981 token (14x panggilan)\n• Hemat PicaMan: 0 token\n• Efisiensi: 0% token dihemat\n• Groq: 14",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-20 20:31",
+    "sender": "+6285165061698",
+    "pesan": "Saya ingin menambah produk",
+    "respons": "Untuk menambah produk baru, saya memerlukan beberapa informasi. Silakan berikan:\n\n1. Nama produk\n2. Harga jual\n3. Stok awal\n4. Kategori (sembako, snack, minuman, rokok, obat, umum)\n5. Satuan (pcs, bungkus, botol, karung, dll.)\n6. Harga beli (opsional)\n7. Tanggal kadaluarsa (opsional)\n8. Supplier (opsional)\n\nContoh: \n- Nama produk: \n- Harga jual: \n- Stok awal: \n\nMohon isi informasi tersebut untuk melanjutkan proses penambahan produk baru.",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-20 20:31",
+    "sender": "+6285165061698",
+    "pesan": "Status",
+    "respons": "ℹ️ *Status Sistem*\n🕐 20/05/2026 19:31\n🤖 AI: groq\n📶 Signal: aktif\n💾 Checkpoint: 17:55\n\n┌─────────────────────────────────────────┐\n│ 📦 INVENTORY   : 144 tugas                  │\n│ 🔧 BUG STATUS  : 1 bug (0 fixed)            │\n│ 🧠 LEARNED     : 0 rules                    │\n│ ✅ SYSTEM      : Operational                │\n└─────────────────────────────────────────┘\n\n🤖 *Token AI Hari Ini:*\n• Terpakai: 43.433 token (15x panggilan)\n• Hemat PicaMan: 0 token\n• Efisiensi: 0% token dihemat\n• Groq: 15",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-20 20:45",
+    "sender": "+6285165061698",
+    "pesan": "Lihat produk di kios",
+    "respons": "Berikut adalah daftar produk yang tersedia di kios \"Kios Desa Maju\":\n\n1. Minyak Goreng Test() - 0 unit, Rp15.000\n2. Beras Medium 5kg - 28 unit, Rp62.000\n3. Gula Pasir 1kg - 14 unit, Rp15.000\n4. Minyak Goreng 1L - 18 unit, Rp19.000\n5. Tepung Terigu 1kg - 13 unit, Rp14.000\n6. Garam 250gr - 29 unit, Rp2.500\n7. Kecap Manis 275ml - 12 unit, Rp10.000\n8. Mie Instan Goreng - 50 unit, Rp3.500\n9. Mie Instan Kuah - 44 unit, Rp3.500\n10. Kopi Sachetan - 8 unit, Rp45.000\n11. Teh Celup 25pcs - 10 unit, Rp10.00",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-20 20:46",
+    "sender": "+6285165061698",
+    "pesan": "Cari produk tepung di kios",
+    "respons": "Aduh, ada yang error nih kak 😅\n_Produk tidak ditemukan_\nCoba lagi bentar ya!",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-20 20:46",
+    "sender": "+6285165061698",
+    "pesan": "Status",
+    "respons": "ℹ️ *Status Sistem*\n🕐 20/05/2026 19:46\n🤖 AI: groq\n📶 Signal: aktif\n💾 Checkpoint: 17:55\n\n┌─────────────────────────────────────────┐\n│ 📦 INVENTORY   : 147 tugas                  │\n│ 🔧 BUG STATUS  : 1 bug (0 fixed)            │\n│ 🧠 LEARNED     : 0 rules                    │\n│ ✅ SYSTEM      : Operational                │\n└─────────────────────────────────────────┘\n\n🤖 *Token AI Hari Ini:*\n• Terpakai: 46.045 token (16x panggilan)\n• Hemat PicaMan: 0 token\n• Efisiensi: 0% token dihemat\n• Groq: 16",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  }
+]

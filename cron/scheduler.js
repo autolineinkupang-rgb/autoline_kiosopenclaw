@@ -87,6 +87,24 @@ function initCron(handlers) {
     cron.schedule('30 2 * * *', wrap('applyAiBatch', handlers.applyAiBatch), { timezone: WITA_TZ });
     log('Cron aktif: applyAiBatch @ 02:30 WITA');
   }
+
+  // 03:00 WITA — bersihkan memori percakapan grup (>1 hari)
+  if (handlers.bersihkanMemoriGrup) {
+    cron.schedule('0 3 * * *', wrap('bersihkanMemoriGrup', handlers.bersihkanMemoriGrup), { timezone: WITA_TZ });
+    log('Cron aktif: bersihkanMemoriGrup @ 03:00 WITA');
+  }
+
+  // 06:30 WITA — saran PicaMan pagi
+  if (handlers.kirimSaranPicaMan) {
+    cron.schedule('30 6 * * *', wrap('kirimSaranPicaMan', handlers.kirimSaranPicaMan), { timezone: WITA_TZ });
+    log('Cron aktif: kirimSaranPicaMan @ 06:30 WITA');
+  }
+
+  // 12:00 WITA — saran PicaMan siang
+  if (handlers.kirimSaranPicaMan) {
+    cron.schedule('0 12 * * *', wrap('kirimSaranPicaMan', handlers.kirimSaranPicaMan), { timezone: WITA_TZ });
+    log('Cron aktif: kirimSaranPicaMan @ 12:00 WITA');
+  }
 }
 
 module.exports = { initCron };

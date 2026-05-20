@@ -142,5 +142,133 @@
     "berhasil": true,
     "resp_len": 44,
     "count": 1
+  },
+  {
+    "ts": "2026-05-20 18:53",
+    "pesan": "Harga pasar minyak tanah",
+    "intent": "HARGA_PASAR",
+    "berhasil": true,
+    "resp_len": 1104,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 18:54",
+    "pesan": "Harga pasar Indonesia minyak goreng",
+    "intent": "HARGA_PASAR",
+    "berhasil": true,
+    "resp_len": 1104,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 19:36",
+    "pesan": "Hi",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 19:36",
+    "pesan": "Hi",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 73,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 20:09",
+    "pesan": "Bersihkan pesan di chat group yang lebih dari sehari",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 20:09",
+    "pesan": "Bersihkan pesan di chat group yang lebih dari sehari",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 1230,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 20:19",
+    "pesan": "Tanya picaman dan Gunakan gemini untuk mencarinharga stabil tembakau shag merek anggur kupu",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 20:19",
+    "pesan": "Tanya picaman dan Gunakan gemini untuk mencarinharga stabil tembakau shag merek anggur kupu",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 823,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 20:21",
+    "pesan": "Menggunakan gemini untuk mencari informasi tembakau shag merek anggur kupu",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 20:21",
+    "pesan": "Menggunakan gemini untuk mencari informasi tembakau shag merek anggur kupu",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 1141,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 20:29",
+    "pesan": "Hi",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 20:29",
+    "pesan": "Hi",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 64,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 20:31",
+    "pesan": "Saya ingin menambah produk",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 20:31",
+    "pesan": "Saya ingin menambah produk",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 441,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 20:45",
+    "pesan": "Lihat produk di kios",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 20:45",
+    "pesan": "Lihat produk di kios",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 691,
+    "count": 1
   }
 ]
