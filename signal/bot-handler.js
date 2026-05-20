@@ -19,7 +19,9 @@ const SelfDebug = require('../skills/self-debug');
 const { prosesIntentBaru } = require('./intent-handlers');
 const { initCron } = require('../cron/scheduler');
 const CronHandlers = require('../cron/handlers');
-const RBAC = require('../scripts/rbac');
+const RBAC       = require('../scripts/rbac');
+const bus        = require('../scripts/event-bus');
+const MarketIntel = require('../skills/market-intel');
 
 const ROOT = path.join(__dirname, '..');
 
@@ -294,7 +296,24 @@ async function prosesPerintah(teks, sender = 'unknown') {
     }
     case 'LAPORAN': {
       const r = callSkill('laporan', 'ringkas', {});
-      return r.ok ? Formatter.laporanRingkas(r.data) : Formatter.error(r.error);
+      if (!r.ok) return Formatter.error(r.error);
+      let msg = Formatter.laporanRingkas(r.data);
+      // Pelengkap: warning harga tidak kompetitif dari market intel
+      try {
+        const analisis = await MarketIntel.risetHargaTop(5);
+        const bermasalah = analisis.filter(a => a.status.includes('⚠️') || a.status.includes('🔥'));
+        if (bermasalah.length) {
+          msg += `\n\n⚠️ *${bermasalah.length} produk harga tidak kompetitif:* ${bermasalah.map(a => a.item).join(', ')}\nKetik *harga pasar* untuk detail.`;
+        }
+      } catch {}
+      // Pelengkap: promo aktif
+      try {
+        const pr = callSkill('promo', 'daftar', { aktif_only: true });
+        if (pr.ok && pr.data.promos.length) {
+          msg += `\n🏷️ Promo aktif: ${pr.data.promos.length} promo berjalan`;
+        }
+      } catch {}
+      return msg;
     }
     case 'JUAL': {
       const result = Kasir.jual({ produk: parsed.produk, qty: parsed.qty, metode: parsed.metode, bayar: parsed.bayar || null });
@@ -311,10 +330,20 @@ async function prosesPerintah(teks, sender = 'unknown') {
       if (!r.ok) return Formatter.error(r.error);
       const d = r.data;
       logActivity(sender, `BELI:${d.item.nama} x${parsed.qty}${d.auto_created ? ' [AUTO-CREATE]' : ''}${d.price_changed ? ' [HARGA BERUBAH]' : ''}`, 'OK');
-      return Formatter.konfirmasiBeli(d.item.nama, parsed.qty, d.item.satuan, d.harga_beli, d.stok_baru, {
+      let msg = Formatter.konfirmasiBeli(d.item.nama, parsed.qty, d.item.satuan, d.harga_beli, d.stok_baru, {
         priceChanged: d.price_changed, hargaLama: d.harga_lama,
         supplier: d.supplier, autoCreated: d.auto_created,
       });
+      // Pelengkap: suggest supplier yang cocok jika belum disebutkan
+      if (!parsed.supplier) {
+        try {
+          const sp = callSkill('supplier', 'cari', { nama: d.item.nama });
+          if (sp.ok && sp.data.supplier) {
+            msg += `\n💡 Supplier tersedia: *${sp.data.supplier.nama}*${sp.data.supplier.kontak ? ' — ' + sp.data.supplier.kontak : ''}`;
+          }
+        } catch {}
+      }
+      return msg;
     }
     case 'EXP': {
       const r = callSkill('stok', 'exp', {});
@@ -322,7 +351,22 @@ async function prosesPerintah(teks, sender = 'unknown') {
     }
     case 'CARI': {
       const r = callSkill('stok', 'cari', { produk: parsed.produk });
-      return r.ok ? Formatter.detailProduk(r.data.item) : Formatter.error(r.error);
+      if (!r.ok) return Formatter.error(r.error);
+      let msg = Formatter.detailProduk(r.data.item);
+      // Pelengkap: cek promo aktif untuk produk ini
+      try {
+        const pr = callSkill('promo', 'cek', { produk: r.data.item.nama, qty: 1, harga_jual: r.data.item.harga_jual });
+        if (pr.ok && pr.data.promo) {
+          const p = pr.data.promo;
+          msg += `\n🏷️ Promo aktif: diskon ${p.tipe === 'persen' ? p.nilai + '%' : 'Rp' + Number(p.nilai).toLocaleString('id-ID')} (min ${p.min_qty || 1} pcs)`;
+        }
+      } catch {}
+      // Pelengkap: cek supplier yang biasa suplai produk ini
+      try {
+        const sp = callSkill('supplier', 'cari', { nama: r.data.item.supplier || r.data.item.nama });
+        if (sp.ok && sp.data.supplier) msg += `\n🚚 Supplier: ${sp.data.supplier.nama}`;
+      } catch {}
+      return msg;
     }
     case 'HARGA': {
       const r = callSkill('harga', 'cek', { produk: parsed.produk });
@@ -467,6 +511,7 @@ async function prosesEnvelope(envelope) {
       : '';
     balas(result + panel);
     SelfDebug.logExperience({ taskType, happened: `Pesan diproses: ${teks.slice(0, 50)}`, worked: 'response sent', failed: '', lesson: '' });
+    bus.kirim('bot:pesan', { sender, teks: teks.slice(0, 80), intent: taskType, role: RBAC.getRole(sender, WHITELIST_SET) });
   } catch (e) {
     log(`Error: ${e.message}`);
     const bugId = SelfDebug.logBug({
@@ -481,6 +526,7 @@ async function prosesEnvelope(envelope) {
       ? `❌ *Error* [${bugId}]\n${e.message}`
       : 'Aduh, ada yang error nih kak 😅 Coba lagi bentar ya!';
     balas(errMsg);
+    bus.kirim('bot:error', { bugId, pesan: e.message, sender });
   }
 }
 
@@ -542,6 +588,49 @@ async function main() {
 
   CronHandlers.init(kirimKeGrup, kirimPesan);
   initCron(CronHandlers);
+
+  // ── Koordinasi openclaw ↔ bot via event bus ─────────────────────────────
+  bus.start();
+
+  bus.on('stok:kritis', ({ produk, stok, kritis }) => {
+    const msg = `⚠️ *Stok Kritis*\n${produk} tinggal ${stok} (batas kritis: ${kritis})`;
+    kirimPesan(msg);
+  });
+
+  bus.on('stok:habis', ({ produk }) => {
+    kirimPesan(`🚨 *Stok Habis* — ${produk} sudah kosong!`);
+  });
+
+  bus.on('harga:naik', ({ produk, lama, baru }) => {
+    const selisih = Math.round(((baru - lama) / lama) * 100);
+    kirimPesan(`📈 *Harga Naik*\n${produk}: Rp${lama.toLocaleString('id-ID')} → Rp${baru.toLocaleString('id-ID')} (+${selisih}%)`);
+  });
+
+  bus.on('token:threshold', ({ total, harian, batas }) => {
+    kirimPesan(`🔔 *Token AI* hampir mencapai batas harian\nHari ini: ${harian.toLocaleString('id-ID')} / ${batas.toLocaleString('id-ID')} token`);
+  });
+
+  bus.on('belajar:selesai', ({ rate, pelajaran, token_hemat }) => {
+    const pl = Array.isArray(pelajaran) && pelajaran.length ? '\n• ' + pelajaran.join('\n• ') : '';
+    kirimPesan(`🧠 *Sesi Belajar Selesai*\nSukses: ${rate}% | Hemat: ${token_hemat} token${pl}`);
+  });
+
+  bus.on('user:ditambah', ({ phone, nama, role }) => {
+    kirimPesan(`👤 *User Baru* — ${nama} (${role})\nNomor: ${phone}`);
+  });
+
+  bus.on('bot:update', ({ shortcuts, aliases, hints }) => {
+    log(`[auto-update] shortcuts:${shortcuts} aliases:${aliases} hints:${hints}`);
+  });
+
+  // Wildcard: log semua event openclaw ke console
+  bus.on('*', (nama) => {
+    log(`[event-bus] ${nama}`);
+  });
+
+  // Cek jika ada pending AI batch yang tidak sempat diproses tadi malam
+  CronHandlers.cekPendingOnStartup();
+
   log(`Whitelist: ${WHITELIST || '(kosong)'} | Grup: ${GROUP_ID || '(belum diset)'}`);
   mulaiJsonRpc();
 }

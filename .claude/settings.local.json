@@ -35,7 +35,8 @@
       "Bash(python3 -c \"import ast; ast.parse\\(open\\('/home/kevinman/kios-openclaw/skills/stok.py'\\).read\\(\\)\\); print\\('stok.py OK'\\)\")",
       "Bash(python3 -c \"import ast; ast.parse\\(open\\('/home/kevinman/kios-openclaw/skills/helper.py'\\).read\\(\\)\\); print\\('helper.py OK'\\)\")",
       "Bash(python3 *)",
-      "Bash(grep -n \"^\\\\s*[a-zA-Z].*[,\\(]\\\\s*$\\\\|^  [a-zA-Z].*\\(\\\\|module\\\\.exports\" /home/kevinman/kios-openclaw/signal/response-formatter.js)"
+      "Bash(grep -n \"^\\\\s*[a-zA-Z].*[,\\(]\\\\s*$\\\\|^  [a-zA-Z].*\\(\\\\|module\\\\.exports\" /home/kevinman/kios-openclaw/signal/response-formatter.js)",
+      "Bash(grep -oE \"[A-Z_]{3,}\")"
     ]
   },
   "enableAllProjectMcpServers": true,

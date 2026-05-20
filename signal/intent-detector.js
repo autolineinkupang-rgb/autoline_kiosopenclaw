@@ -289,7 +289,19 @@ function detect(teks) {
   if ((m = tl.match(RE.BAYAR))) return { tipe: 'BAYAR', nominal: Number(m[1]) };
   if ((m = tl.match(RE.SHORTCUT))) return { tipe: 'SHORTCUT', nama: (m[1] || '').trim() };
 
+  // Dynamic intent hints — dipelajari dari sesi belajar AI
+  const hints = getBase().intent_hints || [];
+  for (const h of hints) {
+    try {
+      if (new RegExp(h.re, 'i').test(tl)) return { tipe: h.tipe, _fromHint: true };
+    } catch {}
+  }
+
   return null;
+}
+
+function resetBasePatterns() {
+  basePatterns = null;
 }
 
 // Async version: also checks Redis-learned patterns
@@ -307,4 +319,4 @@ async function detectAsync(teks, learnEngine) {
   return null;
 }
 
-module.exports = { detect, detectAsync, applyShortcuts };
+module.exports = { detect, detectAsync, applyShortcuts, resetBasePatterns };

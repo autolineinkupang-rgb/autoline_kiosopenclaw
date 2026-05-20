@@ -1,5 +1,6 @@
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from event_emit import emit as bus_emit
 
 
 def _n(val, default=0):
@@ -71,7 +72,13 @@ def aksi_jual(params):
     }
     tx_data.append(tx)
     tulis_csv('transaksi.csv', tx_data, TX_HEADERS)
-    ok({'item': item, 'qty': qty, 'total': total, 'sisa': sisa - qty, 'metode': metode})
+    sisa_akhir = sisa - qty
+    kritis_val = _n(item.get('stok_kritis', 2))
+    if sisa_akhir <= 0:
+        bus_emit('stok:habis', {'produk': item['nama']})
+    elif sisa_akhir <= kritis_val:
+        bus_emit('stok:kritis', {'produk': item['nama'], 'stok': sisa_akhir, 'kritis': kritis_val})
+    ok({'item': item, 'qty': qty, 'total': total, 'sisa': sisa_akhir, 'metode': metode})
 
 
 def _catat_perubahan_harga(item, harga_lama, harga_baru, supplier):

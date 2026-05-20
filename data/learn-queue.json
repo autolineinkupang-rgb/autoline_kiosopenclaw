@@ -1,1 +1,122 @@
-[]
+[
+  {
+    "ts": "2026-05-20 17:27",
+    "pesan": "Daftar akses user",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 17:27",
+    "pesan": "Daftar akses user",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 253,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 17:28",
+    "pesan": "Tambahkan produk",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 17:28",
+    "pesan": "Tambahkan produk",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 792,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 17:28",
+    "pesan": "Tambah produk massal",
+    "intent": "TAMBAH_PRODUK_MASSAL",
+    "berhasil": true,
+    "resp_len": 218,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 17:29",
+    "pesan": "Ubah harga beras",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 17:29",
+    "pesan": "Edit harga beras",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 18:00",
+    "pesan": "Hi",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 18:00",
+    "pesan": "Hi",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 73,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 18:00",
+    "pesan": "Kamu sama openclaw ngapain",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 18:00",
+    "pesan": "Kamu sama openclaw ngapain",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 604,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 18:02",
+    "pesan": "Harga minyak goreng di rote ndao",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 18:03",
+    "pesan": "Harga minyak goreng di rote ndao",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 787,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 18:05",
+    "pesan": "Berdasarkan harga pasar di seluruh ntt, berapa harga minyak goreng di rote ndao",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 18:05",
+    "pesan": "Berdasarkan harga pasar di seluruh ntt, berapa harga minyak goreng di rote ndao",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 184,
+    "count": 1
+  }
+]

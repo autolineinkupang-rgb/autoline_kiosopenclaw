@@ -8,6 +8,7 @@ const webSearch = require('../skills/web-search');
 
 const CONFIG_FILE  = path.join(__dirname, '..', 'config', 'openclaw.json');
 const TOKEN_FILE   = path.join(__dirname, '..', 'data', 'token-usage.json');
+const bus          = require('../scripts/event-bus');
 
 let _config = null;
 function loadConfig() {
@@ -65,6 +66,14 @@ function simpanToken(provider, prompt, completion) {
     const tmp = TOKEN_FILE + '.tmp';
     fs.writeFileSync(tmp, JSON.stringify(d, null, 2));
     fs.renameSync(tmp, TOKEN_FILE);
+
+    // Notifikasi jika harian mendekati 80% batas konfigurasi
+    const cfg   = loadConfig();
+    const batas = cfg.ai?.token_limit_harian || 50000;
+    const harian = d.daily[Object.keys(d.daily).pop()]?.total || 0;
+    if (harian >= batas * 0.8 && harian - total < batas * 0.8) {
+      bus.kirim('token:threshold', { total: d.total_tokens, harian, batas });
+    }
   } catch {}
 }
 

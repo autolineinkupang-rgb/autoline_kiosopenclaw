@@ -7,8 +7,9 @@ const redis = require('../scripts/redis');
 const learning = require('./learning-engine');
 const { callSkill } = require('../signal/bridge');
 
-const BASE_FILE = path.join(__dirname, '..', 'data', 'base-patterns.json');
+const BASE_FILE    = path.join(__dirname, '..', 'data', 'base-patterns.json');
 const SOURCES_FILE = path.join(__dirname, '..', 'data', 'sources-regional.json');
+const bus          = require('../scripts/event-bus');
 
 function loadBase() {
   try { return JSON.parse(fs.readFileSync(BASE_FILE, 'utf8')); } catch { return {}; }
@@ -63,12 +64,14 @@ async function updateHargaMarket(produk, hargaMarket) {
   const key = produk.toLowerCase();
   const existing = refs[key] || { min: hargaMarket, max: hargaMarket, satuan: 'pcs' };
   // Keep range: if new price outside range, extend it
+  const naik = hargaMarket > existing.max * 1.05;
   existing.min = Math.min(existing.min, hargaMarket);
   existing.max = Math.max(existing.max, hargaMarket);
   refs[key] = existing;
   base.harga_referensi = refs;
   fs.writeFileSync(BASE_FILE, JSON.stringify(base, null, 2));
   await learning.savePriceHistory(produk, null, hargaMarket);
+  if (naik) bus.kirim('harga:naik', { produk, lama: existing.max, baru: hargaMarket });
   return { ok: true, produk, hargaMarket };
 }
 

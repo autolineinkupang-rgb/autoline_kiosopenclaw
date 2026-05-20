@@ -13,6 +13,7 @@ from collections import Counter
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from helper import ok, err, baca_request, DATA_DIR, ROOT
+from event_emit import emit as bus_emit
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 QUEUE_FILE  = os.path.join(DATA_DIR, 'learn-queue.json')
@@ -293,6 +294,13 @@ def aksi_belajar(p):
     _save(STATE_FILE, {'last_session': _wita_str(), 'sesi_count': kb['session_count']})
     _save(QUEUE_FILE, [])
 
+    # Koordinasi ke bot via event bus
+    bus_emit('belajar:selesai', {
+        'rate'       : hasil['berhasil_rate'],
+        'pelajaran'  : hasil['pelajaran'],
+        'token_hemat': hasil['token_hemat'],
+    })
+
     ok(hasil)
 
 # ── aksi_status ───────────────────────────────────────────────────────────────
@@ -340,12 +348,62 @@ def aksi_ringkas(_p):
     _save(QUEUE_FILE, baru)
     ok({'sebelum': sebelum, 'sesudah': len(baru), 'hemat': sebelum - len(baru)})
 
+
+# ── aksi_terapkan ─────────────────────────────────────────────────────────────
+def aksi_terapkan(p):
+    """Catat hasil apply AI batch ke knowledge-base, bersihkan pending batch."""
+    shortcuts_baru = p.get('shortcuts', {})
+    aliases_baru   = p.get('aliases', {})
+    hints_baru     = p.get('intent_hints', [])
+    total_terapkan = len(shortcuts_baru) + len(aliases_baru) + len(hints_baru)
+
+    kb = _load(KB_FILE, {})
+    kb.setdefault('update_log', [])
+    kb['update_log'].append({
+        'ts'         : _wita_str(),
+        'shortcuts'  : len(shortcuts_baru),
+        'aliases'    : len(aliases_baru),
+        'intent_hints': len(hints_baru),
+        'total'      : total_terapkan,
+    })
+    # Simpan hanya 50 entri terakhir
+    if len(kb['update_log']) > 50:
+        kb['update_log'] = kb['update_log'][-50:]
+    kb['last_self_update'] = _wita_str()
+    kb['total_updates']    = kb.get('total_updates', 0) + total_terapkan
+    _save(KB_FILE, kb)
+
+    # Bersihkan pending AI batch
+    _save(AI_BATCH, {})
+
+    # Update state
+    state = _load(STATE_FILE, {})
+    state['last_terapkan']   = _wita_str()
+    state['total_terapkan']  = state.get('total_terapkan', 0) + total_terapkan
+    _save(STATE_FILE, state)
+
+    bus_emit('bot:update', {
+        'shortcuts' : len(shortcuts_baru),
+        'aliases'   : len(aliases_baru),
+        'hints'     : len(hints_baru),
+        'ts'        : _wita_str(),
+    })
+
+    ok({
+        'status'        : 'terapkan',
+        'total_terapkan': total_terapkan,
+        'last_update'   : _wita_str(),
+        'total_kumulatif': kb['total_updates'],
+    })
+
+
 # ── Entrypoint ────────────────────────────────────────────────────────────────
 AKSI = {
-    'antri'  : aksi_antri,
-    'belajar': aksi_belajar,
-    'status' : aksi_status,
-    'ringkas': aksi_ringkas,
+    'antri'   : aksi_antri,
+    'belajar' : aksi_belajar,
+    'status'  : aksi_status,
+    'ringkas' : aksi_ringkas,
+    'terapkan': aksi_terapkan,
 }
 
 if __name__ == '__main__':

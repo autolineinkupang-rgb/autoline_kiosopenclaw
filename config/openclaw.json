@@ -15,7 +15,8 @@
       "temperature": 0.3,
       "timeout_ms": 10000,
       "retry": 1
-    }
+    },
+    "token_limit_harian": 50000
   },
   "kios": {
     "nama": "Kios Desa Maju",

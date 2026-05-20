@@ -81,6 +81,12 @@ function initCron(handlers) {
     cron.schedule('30 1 * * *', wrap('ringkasQueue', handlers.ringkasQueue), { timezone: WITA_TZ });
     log('Cron aktif: ringkasQueue @ 01:30 WITA');
   }
+
+  // 02:30 WITA — apply AI batch ke base-patterns, self-update bot
+  if (handlers.applyAiBatch) {
+    cron.schedule('30 2 * * *', wrap('applyAiBatch', handlers.applyAiBatch), { timezone: WITA_TZ });
+    log('Cron aktif: applyAiBatch @ 02:30 WITA');
+  }
 }
 
 module.exports = { initCron };
