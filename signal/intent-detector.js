@@ -57,6 +57,8 @@ const RE = {
   HARGA_PASAR: /^(?:harga\s+pasar|riset\s+harga|market|harga\s+di\s+pasar|bandingkan\s+harga|harga\s+(?:bersaing|kompetitif)|harga.*kios\s+lain|kios\s+lain.*harga)\s*(.+)?$/i,
   UPDATE_HARGA_PASAR: /^(?:update\s+harga\s+pasar|set\s+harga\s+pasar)\s+(.+?)\s+(\d+)/i,
   SUMBER_HARGA: /^(?:sumber\s+harga|monitor\s+harga|pantau\s+harga|cek\s+harga\s+naik|sumber\s+monitor|link\s+harga|url\s+harga|referensi\s+harga\s+pasar|harga\s+naik\s+rote|monitor\s+(?:kenaikan\s+)?harga)/i,
+  HARGA_FB: /^(?:harga\s+(?:di\s+)?(?:facebook|fb|sosmed|medsos)|cek\s+(?:facebook|fb|sosmed)\s+harga|(?:facebook|fb)\s+(?:harga|jual|marketplace))\s+(.+)/i,
+  TAMBAH_SUMBER: /^(?:tambah\s+sumber|simpan\s+(?:url|link|sumber)|daftarkan\s+(?:url|link)|sumber\s+baru|url\s+baru|link\s+baru)\s+(https?:\/\/\S+)(?:\s+(.+))?$/i,
 
   // STOCK OPNAME — hitung fisik / audit stok
   OPNAME: /^(?:opname|sinkron\s+stok|stok\s+fisik|hitung\s+stok|audit\s+stok|count\s+stock)\s+(.+?)\s+(\d+)/i,
@@ -177,6 +179,8 @@ function detect(teks) {
   if (RE.TOKEN_USAGE.test(tl)) return { tipe: 'TOKEN_USAGE' };
   if (RE.KELOLA_USER.test(tl)) return { tipe: 'KELOLA_USER', rawTeks: t };
   if (RE.STATUS_BELAJAR.test(tl)) return { tipe: 'STATUS_BELAJAR' };
+  if ((m = tl.match(RE.HARGA_FB))) return { tipe: 'HARGA_FB', produk: m[1].trim() };
+  if ((m = t.match(RE.TAMBAH_SUMBER))) return { tipe: 'TAMBAH_SUMBER', url: m[1].trim(), nama: (m[2] || '').trim() };
   if (RE.LAPORAN_BELAJAR.test(tl)) return { tipe: 'LAPORAN_BELAJAR' };
 
   if (RE.PRODUK_BARU.test(tl)) {

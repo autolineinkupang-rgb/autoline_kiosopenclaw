@@ -210,6 +210,29 @@ async function prosesIntentBaru(parsed, sender, logActivity) {
       const lapData = laporanR.ok ? laporanR.data : {};
       return Formatter.laporanBelajar({ learned, unknowns, shortcuts, ...lapData, top: lapData.top3?.[0] });
     }
+    case 'HARGA_FB': {
+      const produk = parsed.produk;
+      if (!produk) return Formatter.error('Nama produk belum disebutkan kak');
+      const [fbHasil, stokR] = await Promise.all([
+        MarketIntel.risetHargaFacebook(produk),
+        Promise.resolve(callSkill('stok', 'cari', { produk })),
+      ]);
+      const item = stokR.ok ? stokR.data.item : null;
+      const base = MarketIntel.loadBase();
+      const refs = base.harga_referensi || {};
+      const ref = refs[produk.toLowerCase()] || null;
+      return MarketIntel.formatPerbandinganFb(
+        produk, fbHasil,
+        item ? Number(item.harga_jual) : null,
+        ref
+      );
+    }
+    case 'TAMBAH_SUMBER': {
+      const { url, nama } = parsed;
+      const r = MarketIntel.tambahSumberUrl(nama, url);
+      if (!r.ok) return Formatter.error(r.error);
+      return `✅ Sumber baru disimpan\n*${r.nama}*\n${r.url}\n\nAkan digunakan saat pencarian harga berikutnya kak.`;
+    }
     case 'SHORTCUT': {
       if (parsed.nama) {
         const sc = await Learning.getShortcut(parsed.nama).catch(() => null);

@@ -118,5 +118,29 @@
     "berhasil": true,
     "resp_len": 184,
     "count": 1
+  },
+  {
+    "ts": "2026-05-20 18:24",
+    "pesan": "Bandingkan harga minyak di kios dengan harga dari group Facebook publik rote ndao",
+    "intent": "HARGA_PASAR",
+    "berhasil": true,
+    "resp_len": 1104,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 18:24",
+    "pesan": "Buka Facebook",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 18:24",
+    "pesan": "Buka Facebook",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 44,
+    "count": 1
   }
 ]

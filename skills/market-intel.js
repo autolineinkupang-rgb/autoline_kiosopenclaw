@@ -10,6 +10,7 @@ const { callSkill } = require('../signal/bridge');
 const BASE_FILE    = path.join(__dirname, '..', 'data', 'base-patterns.json');
 const SOURCES_FILE = path.join(__dirname, '..', 'data', 'sources-regional.json');
 const bus          = require('../scripts/event-bus');
+const webSearch    = require('./web-search');
 
 function loadBase() {
   try { return JSON.parse(fs.readFileSync(BASE_FILE, 'utf8')); } catch { return {}; }
@@ -173,4 +174,111 @@ function formatHargaSatuProduk(a) {
   return msg;
 }
 
-module.exports = { risetHargaTop, updateHargaMarket, analyzeHarga, loadBase, formatMarketIntel, formatHargaSatuProduk, formatSumberMonitoring };
+// ── Ekstrak angka harga dari teks (Rp X atau angka ribuan) ────────────────────
+function _extractHarga(teks) {
+  const harga = [];
+  const re = /(?:rp\.?\s*|harga\s*)?([\d]{3,}(?:[.,]\d{3})*(?:[.,]\d{1,2})?)/gi;
+  let m;
+  while ((m = re.exec(teks)) !== null) {
+    const angka = parseInt(m[1].replace(/[.,]/g, ''), 10);
+    if (angka >= 500 && angka <= 5_000_000) harga.push(angka);
+  }
+  return harga;
+}
+
+// ── Cari harga di Facebook via web search ────────────────────────────────────
+async function risetHargaFacebook(produk) {
+  const queries = [
+    `harga "${produk}" site:facebook.com NTT OR "Rote Ndao"`,
+    `jual ${produk} Rote Ndao facebook`,
+    `harga ${produk} NTT facebook marketplace`,
+  ];
+
+  const semuaHasil = [];
+  for (const q of queries) {
+    const hasil = await webSearch.search(q);
+    for (const h of hasil) {
+      if (/facebook\.com/i.test(h.url || '') || /facebook/i.test(h.title || '')) {
+        semuaHasil.push(h);
+      }
+    }
+    if (semuaHasil.length >= 3) break;
+  }
+
+  // Fallback: ambil semua hasil query pertama jika tidak ada yang facebook
+  if (!semuaHasil.length) {
+    const fallback = await webSearch.search(`harga ${produk} Rote Ndao NTT terbaru`);
+    semuaHasil.push(...fallback.slice(0, 3));
+  }
+
+  const allHarga = [];
+  const potongan = [];
+  for (const h of semuaHasil) {
+    const teks = `${h.title} ${h.snippet} ${h.isiHalaman || ''}`;
+    const ditemukan = _extractHarga(teks);
+    allHarga.push(...ditemukan);
+    if (h.snippet) potongan.push({ sumber: h.title || h.url || 'Facebook', teks: h.snippet.slice(0, 150) });
+  }
+
+  if (!allHarga.length) return { ok: false, produk, potongan };
+
+  allHarga.sort((a, b) => a - b);
+  const min = allHarga[0];
+  const max = allHarga[allHarga.length - 1];
+  const rata = Math.round(allHarga.reduce((s, x) => s + x, 0) / allHarga.length);
+  return { ok: true, produk, min, max, rata, jumlah: allHarga.length, potongan };
+}
+
+// ── Tambah sumber URL baru (dipelajari dari user) ─────────────────────────────
+function tambahSumberUrl(nama, url) {
+  if (!url.startsWith('http')) return { ok: false, error: 'URL tidak valid' };
+  const sources = loadSources();
+  sources.sumber_tambahan = sources.sumber_tambahan || [];
+  const sudahAda = sources.sumber_tambahan.some(s => s.url === url);
+  if (sudahAda) return { ok: false, error: 'URL sudah terdaftar' };
+  sources.sumber_tambahan.push({ nama: nama || url, url, ditambahkan: new Date().toISOString().slice(0, 10) });
+  const tmp = SOURCES_FILE + '.tmp';
+  fs.writeFileSync(tmp, JSON.stringify(sources, null, 2));
+  fs.renameSync(tmp, SOURCES_FILE);
+  return { ok: true, nama: nama || url, url };
+}
+
+// ── Format perbandingan harga Facebook vs referensi ───────────────────────────
+function formatPerbandinganFb(produk, fb, hargaKita, hargaRef) {
+  const div = '━━━━━━━━━━━━━━━━━━━━━━━';
+  let msg = `📱 *Harga ${produk} di Facebook*\n${div}\n`;
+
+  if (fb.ok) {
+    msg += `Temuan FB: ${rp(fb.min)}–${rp(fb.max)} (rata: ${rp(fb.rata)})\n`;
+    msg += `Dari ${fb.jumlah} harga ditemukan\n`;
+  } else {
+    msg += `Tidak ditemukan harga spesifik di Facebook\n`;
+    if (fb.potongan?.length) {
+      msg += `Hasil pencarian:\n`;
+      fb.potongan.slice(0, 2).forEach(p => { msg += `• _${p.sumber}_: ${p.teks}\n`; });
+    }
+  }
+
+  if (hargaRef) {
+    msg += `\n*Harga referensi resmi:*\n`;
+    msg += `${rp(hargaRef.min)}–${rp(hargaRef.max)}\n`;
+  }
+  if (hargaKita) {
+    msg += `\n*Harga kita:* ${rp(hargaKita)}\n`;
+    if (fb.ok) {
+      const vs = hargaKita > fb.max * 1.05 ? '⚠️ Di atas harga FB' :
+                 hargaKita < fb.min * 0.95 ? '🔥 Di bawah harga FB' : '✅ Sesuai harga FB';
+      msg += `Status: ${vs}\n`;
+    }
+  }
+  if (fb.potongan?.length && fb.ok) {
+    msg += `\n_Sumber: ${fb.potongan.slice(0, 2).map(p => p.sumber).join(', ')}_`;
+  }
+  return msg;
+}
+
+module.exports = {
+  risetHargaTop, updateHargaMarket, analyzeHarga, loadBase,
+  formatMarketIntel, formatHargaSatuProduk, formatSumberMonitoring,
+  risetHargaFacebook, tambahSumberUrl, formatPerbandinganFb,
+};
