@@ -56,6 +56,7 @@ const RE = {
 
   HARGA_PASAR: /^(?:harga\s+pasar|riset\s+harga|market|harga\s+di\s+pasar|bandingkan\s+harga|harga\s+(?:bersaing|kompetitif)|harga.*kios\s+lain|kios\s+lain.*harga)\s*(.+)?$/i,
   UPDATE_HARGA_PASAR: /^(?:update\s+harga\s+pasar|set\s+harga\s+pasar)\s+(.+?)\s+(\d+)/i,
+  SUMBER_HARGA: /^(?:sumber\s+harga|monitor\s+harga|pantau\s+harga|cek\s+harga\s+naik|sumber\s+monitor|link\s+harga|url\s+harga|referensi\s+harga\s+pasar|harga\s+naik\s+rote|monitor\s+(?:kenaikan\s+)?harga)/i,
 
   // STOCK OPNAME — hitung fisik / audit stok
   OPNAME: /^(?:opname|sinkron\s+stok|stok\s+fisik|hitung\s+stok|audit\s+stok|count\s+stock)\s+(.+?)\s+(\d+)/i,
@@ -77,6 +78,9 @@ const RE = {
   BACKUP:  /^(?:backup|simpan\s+data)$/i,
   SHORTCUT:/^(?:shortcut|paket|pintasan)\s*(.+)?$/i,
   LAPORAN_BELAJAR: /^(?:laporan\s+belajar|bot\s+belajar\s+apa|yang\s+dipelajari|learning\s+report)/i,
+  STATUS_BELAJAR: /^(?:status\s+belajar|cek\s+belajar|info\s+belajar|jadwal\s+belajar|bot\s+belajar\s+kapan|kapan\s+(?:bot\s+)?belajar|kualitas\s+bot|sesi\s+belajar)/i,
+  TOKEN_USAGE: /^(?:token|cek\s+token|berapa\s+token|pemakaian\s+(?:token|ai)|penggunaan\s+(?:token|ai|model)|token\s+(?:habis|sisa|pakai|usage|monitor|stats?)|monitor\s+(?:token|ai|model)|statistik\s+(?:token|ai))/i,
+  KELOLA_USER: /^(?:tambah\s+(?:kasir|staff|viewer)|daftar\s+(?:kasir|user|staff)|hapus\s+(?:kasir|user|staff)|lihat\s+(?:kasir|user|staff)|kelola\s+(?:kasir|user|akses)|akses\s+(?:kasir|user|staff)|siapa\s+(?:kasir|yang\s+bisa\s+akses))/i,
 
   // SHIFT MANAGEMENT
   BUKA_SHIFT: /^(?:buka\s+shift|mulai\s+shift|shift\s+buka|start\s+shift|open\s+shift)\s*(\d+)?/i,
@@ -169,6 +173,10 @@ function detect(teks) {
   if (RE.EXP.test(tl)) return { tipe: 'EXP' };
   if (RE.KRITIS.test(tl)) return { tipe: 'CEK_KRITIS', subTipe: 'stok' };
   if (RE.CUACA.test(tl)) return { tipe: 'CUACA' };
+  if (RE.SUMBER_HARGA.test(tl)) return { tipe: 'SUMBER_HARGA' };
+  if (RE.TOKEN_USAGE.test(tl)) return { tipe: 'TOKEN_USAGE' };
+  if (RE.KELOLA_USER.test(tl)) return { tipe: 'KELOLA_USER', rawTeks: t };
+  if (RE.STATUS_BELAJAR.test(tl)) return { tipe: 'STATUS_BELAJAR' };
   if (RE.LAPORAN_BELAJAR.test(tl)) return { tipe: 'LAPORAN_BELAJAR' };
 
   if (RE.PRODUK_BARU.test(tl)) {

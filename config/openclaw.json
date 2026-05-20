@@ -31,7 +31,9 @@
     "laporan_malam": "0 20 * * *",
     "cek_stok": "0 */3 * * *",
     "backup": "0 22 * * *",
-    "checkpoint": "*/5 * * * *"
+    "checkpoint": "*/5 * * * *",
+    "jam_belajar": "0 2 * * *",
+    "durasi_belajar_jam": 2
   },
   "alert": {
     "stok_minimum": 5,

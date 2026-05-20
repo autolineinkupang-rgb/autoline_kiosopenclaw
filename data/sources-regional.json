@@ -1,0 +1,100 @@
+{
+  "monitoring_harga_naik": [
+    {
+      "id": "panel_badan_pangan",
+      "nama": "Panel Harga Badan Pangan Nasional",
+      "url": "https://panelharga.badanpangan.go.id",
+      "fungsi": "Harga naik hari ini",
+      "filter": "Filter ke Provinsi NTT → Kabupaten Rote Ndao",
+      "update": "harian"
+    },
+    {
+      "id": "pihps_bi",
+      "nama": "PIHPS Bank Indonesia",
+      "url": "https://www.bi.go.id/hargapangan",
+      "fungsi": "Perbandingan harga minggu ini",
+      "filter": "Bisa filter per kab/kota, bandingkan hari ini vs kemarin vs minggu lalu",
+      "update": "harian"
+    },
+    {
+      "id": "sp2kp_kemendag",
+      "nama": "SP2KP Kementerian Perdagangan",
+      "url": "https://ews.kemendag.go.id",
+      "fungsi": "Monitoring pasar & kebutuhan pokok real-time",
+      "filter": "Sistem monitoring pasar real-time Kemendag",
+      "update": "harian"
+    },
+    {
+      "id": "bps_ntt",
+      "nama": "BPS NTT — Rilis Inflasi Bulanan",
+      "url": "https://ntt.bps.go.id",
+      "fungsi": "Komoditas paling naik bulan ini",
+      "filter": "NTT inflasi Mar 2026: 2,40% yoy, pangan naik 2,11%",
+      "update": "bulanan"
+    },
+    {
+      "id": "biro_ekonomi_ntt",
+      "nama": "Biro Perekonomian Setda NTT",
+      "url": "https://setda.nttprov.go.id",
+      "fungsi": "Perkembangan inflasi NTT bulanan",
+      "filter": "Analisis inflasi tingkat provinsi mencakup wilayah Rote Ndao",
+      "update": "bulanan"
+    },
+    {
+      "id": "dinas_pertanian_ntt",
+      "nama": "Dinas Pertanian & Ketahanan Pangan NTT",
+      "url": "https://nttprov.go.id",
+      "fungsi": "Harga komoditas pangan NTT",
+      "filter": "Info harga pasar komoditas tanaman pangan diperbarui rutin",
+      "update": "berkala"
+    },
+    {
+      "id": "antara_kupang",
+      "nama": "ANTARA News Kupang/NTT",
+      "url": "https://kupang.antaranews.com",
+      "fungsi": "Berita kenaikan harga & operasi pasar",
+      "filter": "Aktif meliput operasi pasar dan pengendalian harga komoditas NTT",
+      "update": "harian"
+    },
+    {
+      "id": "koran_timor",
+      "nama": "Koran Timor",
+      "url": "https://korantimor.com",
+      "fungsi": "Berita inflasi NTT",
+      "filter": "Rutin meliput perkembangan inflasi NTT termasuk komoditas pemicunya",
+      "update": "harian"
+    },
+    {
+      "id": "onlinentt",
+      "nama": "OnlineNTT — Berita Rote Ndao",
+      "url": "https://onlinentt.com",
+      "fungsi": "Isu ketahanan pangan & stabilitas harga Rote Ndao",
+      "filter": "Meliput koordinasi Bulog & pemda Rote Ndao soal harga",
+      "update": "harian"
+    },
+    {
+      "id": "rotendaokab",
+      "nama": "Berita Resmi Pemkab Rote Ndao",
+      "url": "https://rotendaokab.go.id",
+      "fungsi": "Operasi pasar murah & kebijakan harga pemda",
+      "filter": "Info bazar murah, operasi pasar, dan kebijakan harga pemerintah daerah",
+      "update": "berkala"
+    },
+    {
+      "id": "portal_data_bpn",
+      "nama": "Portal Data Badan Pangan Nasional",
+      "url": "https://panelharga.badanpangan.go.id",
+      "fungsi": "Dataset harga konsumen bulanan lengkap",
+      "filter": "Dataset harga pangan tingkat konsumen, lengkap dengan indikator naik/turun",
+      "update": "bulanan"
+    }
+  ],
+  "ringkasan_sumber": {
+    "harga_naik_hari_ini": "panelharga.badanpangan.go.id",
+    "perbandingan_minggu_ini": "bi.go.id/hargapangan",
+    "komoditas_paling_naik_bulan_ini": "ntt.bps.go.id (press release)",
+    "berita_penyebab_kenaikan": "kupang.antaranews.com",
+    "operasi_pasar_bazar_murah": "rotendaokab.go.id",
+    "harga_rote_ndao_realtime": "panelharga.badanpangan.go.id → filter NTT → Rote Ndao"
+  }
+}

@@ -6,6 +6,8 @@ const Cuaca = require('../skills/cuaca');
 const MarketIntel = require('../skills/market-intel');
 const Learning = require('../skills/learning-engine');
 const SelfDebug = require('../skills/self-debug');
+const { loadTokenData } = require('./ai-handler');
+const RBAC = require('../scripts/rbac');
 const Kasir = require('../skills/kasir');
 
 // ─── Mass operation item parser ───────────────────────────────────────────────
@@ -73,6 +75,9 @@ async function prosesIntentBaru(parsed, sender, logActivity) {
       const a = await MarketIntel.risetHargaTop(10);
       return MarketIntel.formatMarketIntel(a, 'harian');
     }
+    case 'SUMBER_HARGA': {
+      return MarketIntel.formatSumberMonitoring();
+    }
     case 'UPDATE_HARGA_PASAR': {
       const r = await MarketIntel.updateHargaMarket(parsed.produk, parsed.harga);
       return r.ok ? Formatter.updateHargaPasarOk(parsed.produk, parsed.harga) : Formatter.error('Gagal update');
@@ -98,6 +103,102 @@ async function prosesIntentBaru(parsed, sender, logActivity) {
       const nama = parsed.produk.toLowerCase();
       const txList = r.data.transaksi.filter(t => t.nama_produk.toLowerCase().includes(nama));
       return Formatter.mutasiProduk(parsed.produk, txList);
+    }
+    case 'KELOLA_USER': {
+      const raw = (parsed.rawTeks || '').toLowerCase().trim();
+      const div = '━━━━━━━━━━━━━━━━━━━━━━━';
+
+      // daftar / lihat user
+      if (/^(?:daftar|lihat|siapa)/.test(raw)) {
+        const users = RBAC.daftarUser();
+        if (!users.length) return `👥 *Daftar User*\n${div}\nBelum ada kasir/staff terdaftar.\n\nTambahkan dengan:\n*tambah kasir [nama] [nomor]*`;
+        const baris = users.map(u => `• ${u.nama} (${u.role}) — ${u.phone}`).join('\n');
+        return `👥 *Daftar User Aktif*\n${div}\n${baris}`;
+      }
+
+      // hapus user
+      const hapusMatch = raw.match(/^hapus\s+(?:kasir|user|staff)\s+(\S+)/);
+      if (hapusMatch) {
+        const r = RBAC.hapusUser(hapusMatch[1]);
+        return r.ok ? `✅ Akses *${r.nama}* sudah dinonaktifkan.` : Formatter.error(r.error);
+      }
+
+      // tambah user: tambah kasir [nama] [nomor] atau tambah kasir [nomor]
+      const tambahMatch = raw.match(/^tambah\s+(kasir|staff|viewer)\s+(.+)/);
+      if (tambahMatch) {
+        const roleInput = tambahMatch[1] === 'staff' ? 'kasir' : tambahMatch[1];
+        const sisa = tambahMatch[2].trim();
+        // Pisahkan nama dan nomor — nomor diawali +, 08, atau 62
+        const nomorMatch = sisa.match(/(\+?\d[\d\s\-]{6,})/);
+        const nomor = nomorMatch ? nomorMatch[1].trim() : null;
+        const nama  = nomor ? sisa.replace(nomorMatch[0], '').trim() || nomor : sisa;
+        if (!nomor) return `Format: *tambah kasir [nama] [nomor HP]*\nContoh: tambah kasir Budi +628123456789`;
+        const r = RBAC.tambahUser(nomor, nama, roleInput);
+        if (!r.ok) return Formatter.error(r.error);
+        return `✅ *${r.user.nama}* ditambahkan sebagai *${r.user.role}*.\nNomor: ${r.user.phone}\n\nIzin ${r.user.role}:\n` +
+          (roleInput === 'kasir'
+            ? '• Jual barang\n• Lihat stok & laporan\n• Buka/tutup shift'
+            : '• Lihat stok & laporan saja');
+      }
+
+      return `👥 *Kelola Akses*\n${div}\n` +
+        `*tambah kasir [nama] [nomor]* — beri akses kasir\n` +
+        `*tambah viewer [nama] [nomor]* — akses baca saja\n` +
+        `*daftar kasir* — lihat semua user aktif\n` +
+        `*hapus kasir [nomor]* — cabut akses\n\n` +
+        `Izin per role:\n` +
+        `• *owner* (kamu) — semua operasi\n` +
+        `• *kasir* — jual, stok, laporan, shift\n` +
+        `• *viewer* — stok & laporan saja`;
+    }
+    case 'TOKEN_USAGE': {
+      const d    = loadTokenData();
+      const div  = '━━━━━━━━━━━━━━━━━━━━━━━';
+      const now  = new Date(Date.now() + 8 * 3600000);
+      const hari = now.toISOString().slice(0, 10);
+      const bln  = now.toISOString().slice(0, 7);
+      const hd   = (d.daily  || {})[hari]  || { prompt: 0, completion: 0, total: 0, calls: 0 };
+      const bd   = (d.monthly || {})[bln]  || { prompt: 0, completion: 0, total: 0, calls: 0 };
+      const avgPerCall = d.calls ? Math.round(d.total_tokens / d.calls) : 0;
+      const provInfo = [
+        d.groq_calls   ? `Groq: ${d.groq_calls}x`   : '',
+        d.gemini_calls ? `Gemini: ${d.gemini_calls}x` : '',
+      ].filter(Boolean).join(' | ') || '-';
+
+      return `🤖 *Monitor Token AI*\n${div}\n` +
+        `📅 Hari ini (${hari}):\n` +
+        `  Prompt:     ${hd.prompt.toLocaleString('id-ID')}\n` +
+        `  Completion: ${hd.completion.toLocaleString('id-ID')}\n` +
+        `  Total:      ${hd.total.toLocaleString('id-ID')} token\n` +
+        `  Panggilan:  ${hd.calls}x\n` +
+        `${div}\n` +
+        `📆 Bulan ini (${bln}):\n` +
+        `  Total: ${bd.total.toLocaleString('id-ID')} token | ${bd.calls}x panggilan\n` +
+        `${div}\n` +
+        `📊 Semua waktu:\n` +
+        `  Total:    ${(d.total_tokens || 0).toLocaleString('id-ID')} token\n` +
+        `  Panggilan: ${d.calls || 0}x\n` +
+        `  Rata-rata: ${avgPerCall} token/panggilan\n` +
+        `  Provider: ${provInfo}\n` +
+        `  Terakhir: ${d.last_call || '-'} (${d.last_provider || '-'})`;
+    }
+    case 'STATUS_BELAJAR': {
+      const r = callSkill('self-learner', 'status', {});
+      if (!r.ok) return Formatter.error(r.error);
+      const d = r.data;
+      const div = '━━━━━━━━━━━━━━━━━━━━━━━';
+      const centang = d.bisa_belajar_skrg ? '🟢 Bisa belajar sekarang' : '⏳ Di luar jam belajar';
+      const ai = d.ai_batch_pending ? '⚠️ Ada batch AI pending' : '✅ Tidak ada';
+      return `🧠 *Status Belajar Bot*\n${div}\n` +
+        `📅 Sesi terakhir: ${d.last_session}\n` +
+        `🔢 Total sesi: ${d.total_sesi}\n` +
+        `📬 Antrian skrg: ${d.antrian_skrg} pesan\n` +
+        `✅ Rata-rata sukses: ${d.avg_sukses_7sesi}\n` +
+        `📋 Rules aktif: ${d.prevention_rules}\n` +
+        `⏰ Jam belajar: ${d.jam_belajar}\n` +
+        `${centang}\n` +
+        `💡 Token hemat total: ${d.token_hemat_total}\n` +
+        `🤖 Batch AI: ${ai}`;
     }
     case 'LAPORAN_BELAJAR': {
       const [learned, unknowns, shortcuts, laporanR] = await Promise.all([

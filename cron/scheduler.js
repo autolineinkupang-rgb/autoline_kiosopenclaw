@@ -69,6 +69,18 @@ function initCron(handlers) {
     cron.schedule('*/30 * * * *', wrap('cekGelombangPeriodik', handlers.cekGelombangPeriodik), { timezone: WITA_TZ });
     log('Cron aktif: cekGelombangPeriodik @ setiap 30 menit');
   }
+
+  // 02:00 WITA — sesi belajar mandiri bot (jam belajar, hemat token)
+  if (handlers.selfLearn) {
+    cron.schedule('0 2 * * *', wrap('selfLearn', handlers.selfLearn), { timezone: WITA_TZ });
+    log('Cron aktif: selfLearn @ 02:00 WITA');
+  }
+
+  // 01:30 WITA — kompres queue sebelum sesi belajar
+  if (handlers.ringkasQueue) {
+    cron.schedule('30 1 * * *', wrap('ringkasQueue', handlers.ringkasQueue), { timezone: WITA_TZ });
+    log('Cron aktif: ringkasQueue @ 01:30 WITA');
+  }
 }
 
 module.exports = { initCron };

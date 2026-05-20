@@ -12,15 +12,23 @@ const { detect, detectAsync } = require('./intent-detector');
 const Formatter = require('./response-formatter');
 const { prosesAI } = require('./ai-handler');
 const { callSkill } = require('./bridge');
-const { sanitizeInput, cekRateLimit, isPhoneAllowed } = require('../scripts/security');
+const { sanitizeInput, cekRateLimit } = require('../scripts/security');
 const Kasir = require('../skills/kasir');
 const Learning = require('../skills/learning-engine');
 const SelfDebug = require('../skills/self-debug');
 const { prosesIntentBaru } = require('./intent-handlers');
 const { initCron } = require('../cron/scheduler');
 const CronHandlers = require('../cron/handlers');
+const RBAC = require('../scripts/rbac');
 
 const ROOT = path.join(__dirname, '..');
+
+// Fire-and-forget: catat interaksi ke learning queue (0 dampak ke response time)
+function antriLearning(pesan, intent, berhasil, respons = '') {
+  try {
+    callSkill('self-learner', 'antri', { pesan, intent, berhasil, respons });
+  } catch {}
+}
 const MEMORY_FILE = path.join(ROOT, 'memory', 'kios-memory.json');
 const LOG_FILE = path.join(ROOT, 'logs', 'signal.log');
 const ACTIVITY_LOG = path.join(ROOT, 'logs', 'bot-activity.log');
@@ -30,6 +38,17 @@ const RECIPIENT = process.env.SIGNAL_RECIPIENT;
 const GROUP_ID = process.env.SIGNAL_GROUP_ID;
 const WHITELIST = process.env.SIGNAL_WHITELIST || RECIPIENT || '';
 const SIGNAL_CLI = process.env.SIGNAL_CLI_PATH || 'signal-cli';
+
+// Set berisi semua nomor/uuid whitelist (normalized, sudah di-parse sekali)
+const _normalizePhone = (p) => String(p).replace(/[\s\-()]/g, '');
+const WHITELIST_SET = new Set(
+  WHITELIST.split(',').map(s => _normalizePhone(s.trim())).filter(Boolean)
+);
+
+function isWhitelisted(sender) {
+  if (!sender) return false;
+  return WHITELIST_SET.has(_normalizePhone(sender));
+}
 
 // --- Logging ---
 
@@ -133,8 +152,11 @@ async function kirimKeGrup(teks) {
 }
 
 function alertAdmin(pesan) {
-  if (RECIPIENT) kirimPesan(`🚨 *Security Alert*\n${pesan}`, RECIPIENT);
   log(`[SECURITY] ${pesan}`);
+  // Kirim ke semua nomor di whitelist agar seluruh pemilik tahu
+  for (const nomor of WHITELIST_SET) {
+    kirimPesan(`🚨 *Security Alert*\n${pesan}`, nomor);
+  }
 }
 
 async function eksekusiKonfirmasi(konfirmasi) {
@@ -258,6 +280,13 @@ async function prosesPerintah(teks, sender = 'unknown') {
   const valid = validasiPerintah(parsed);
   if (!valid.valid) return Formatter.error(valid.error);
 
+  // Cek izin RBAC sebelum eksekusi
+  const role = RBAC.getRole(sender, WHITELIST_SET);
+  if (!role) return '⛔ Akses ditolak. Hubungi pemilik kios untuk mendapatkan akses.';
+  if (!RBAC.boleh(role, parsed.tipe)) {
+    return `⛔ *Akses ditolak* — role *${role}* tidak boleh menjalankan *${parsed.tipe}*.\nHubungi pemilik kios untuk izin tambahan.`;
+  }
+
   switch (parsed.tipe) {
     case 'STOK': {
       const r = callSkill('stok', 'cek', {});
@@ -322,10 +351,15 @@ async function prosesPerintah(teks, sender = 'unknown') {
       // v5.0: coba rule-based intent detection dulu (hemat token)
       const intentFast = detect(parsed.teks) || (await detectAsync(parsed.teks, Learning).catch(() => null));
       if (intentFast && intentFast.tipe && intentFast.tipe !== 'AI_CHAT') {
+        // Cek RBAC untuk intent yang terdeteksi
+        if (!RBAC.boleh(role, intentFast.tipe)) {
+          return `⛔ *Akses ditolak* — role *${role}* tidak boleh menjalankan *${intentFast.tipe}*.`;
+        }
         // Intent terdeteksi tanpa AI
         const baru = await prosesIntentBaru(intentFast, sender, logActivity);
         if (baru) {
           Learning.saveLearnedToday([{ cmd: parsed.teks, intent: intentFast.tipe }]).catch(() => {});
+          antriLearning(parsed.teks, intentFast.tipe, true, baru);
           return baru;
         }
         // Cek apakah bisa dihandle di prosesAIResult (tipe JUAL, BELI, dll)
@@ -334,6 +368,7 @@ async function prosesPerintah(teks, sender = 'unknown') {
       }
       // Simpan sebagai unknown, panggil AI
       Learning.saveUnknown(parsed.teks).catch(() => {});
+      antriLearning(parsed.teks, 'UNKNOWN', false);
       const stokR = callSkill('stok', 'cek', {});
       const stokAI = stokR.ok ? stokR.data.stok : [];
       const aiResult = await prosesAI({ teks: parsed.teks, stok: stokAI, memory: readMemory() });
@@ -341,7 +376,10 @@ async function prosesPerintah(teks, sender = 'unknown') {
       if (aiResult.tipe !== 'AI_RESPONS' && aiResult.produk) {
         Learning.savePattern(parsed.teks, aiResult.tipe, aiResult.produk).catch(() => {});
       }
-      if (aiResult.tipe === 'AI_RESPONS') return aiResult.teks;
+      if (aiResult.tipe === 'AI_RESPONS') {
+        antriLearning(parsed.teks, 'AI_RESPONS', true, aiResult.teks);
+        return aiResult.teks;
+      }
       const vld = validasiPerintah(aiResult);
       if (!vld.valid) return Formatter.error(vld.error);
       return prosesAIResult(aiResult, sender);
@@ -364,8 +402,7 @@ async function prosesEnvelope(envelope) {
 
   const dariGrup = dm?.groupInfo?.groupId || sm?.groupInfo?.groupId || null;
   const grupDiizinkan = GROUP_ID && dariGrup === GROUP_ID;
-  const diWhitelist = isPhoneAllowed(senderPhone, WHITELIST) ||
-    (senderUuid && WHITELIST.split(',').map(s => s.trim()).includes(senderUuid));
+  const diWhitelist = isWhitelisted(senderPhone) || isWhitelisted(senderUuid);
 
   if (!diWhitelist && !grupDiizinkan) {
     log(`Ditolak dari ${sender || 'unknown'}`);
@@ -375,17 +412,29 @@ async function prosesEnvelope(envelope) {
 
   if (!cekRateLimit(sender || 'group')) {
     log(`Rate limit: ${sender}`);
-    if (sender && !grupDiizinkan) kirimPesan('Sabar dulu ya kak 😅 Coba lagi 1 menit ya!', sender);
+    // Whitelist selalu dapat info jujur tentang rate limit
+    const msg = isWhitelisted(sender)
+      ? `⏳ Rate limit tercapai (maks 20 pesan/menit). Coba lagi dalam 1 menit.`
+      : 'Sabar dulu ya kak 😅 Coba lagi 1 menit ya!';
+    if (sender) kirimPesan(msg, sender);
     return;
   }
 
   const teks = sanitizeInput(teksRaw);
-  if (!teks) return;
+  if (!teks) {
+    // Jangan silent drop untuk whitelist — beritahu pesan kosong/tidak terbaca
+    if (isWhitelisted(sender)) kirimPesan('⚠️ Pesan tidak terbaca atau kosong setelah sanitasi.', sender);
+    return;
+  }
 
   const suspiciousPat = /ignore (previous|all|above)|you are now|disregard|pretend|system:|kamu adalah bot|aturan utama|daftar keyword|hanya dapat memproses|abaikan aturan|prompt injection|jailbreak|role.*assign|override.*instruct|new.*persona|act as.*(?:admin|root|developer|system)|instruksi baru|reset.*perilaku|lupakan.*aturan|ignore.*rules/i;
   if (suspiciousPat.test(teks)) {
     alertAdmin(`Percobaan prompt injection dari ${sender}: ${teks.slice(0, 100)}`);
-    if (sender && !grupDiizinkan) kirimPesan('Maaf kak, itu bukan yang aku bisa bantu 😊', sender);
+    // Whitelist dapat penjelasan jujur, bukan pesan samar
+    const msg = isWhitelisted(sender)
+      ? `🛡️ Pesan diblokir karena cocok dengan pola prompt injection.\nJika ini bukan serangan, coba kata lain.`
+      : 'Maaf kak, itu bukan yang aku bisa bantu 😊';
+    if (sender && !grupDiizinkan) kirimPesan(msg, sender);
     return;
   }
 
@@ -427,7 +476,11 @@ async function prosesEnvelope(envelope) {
       input: teks.slice(0, 200),
     });
     log(`[ERROR DETECTED] ${bugId} — ${e.message}`);
-    balas('Aduh, ada yang error nih kak 😅 Coba lagi bentar ya!');
+    // Whitelist dapat detail error asli, bukan pesan generik
+    const errMsg = isWhitelisted(sender)
+      ? `❌ *Error* [${bugId}]\n${e.message}`
+      : 'Aduh, ada yang error nih kak 😅 Coba lagi bentar ya!';
+    balas(errMsg);
   }
 }
 

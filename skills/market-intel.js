@@ -8,9 +8,38 @@ const learning = require('./learning-engine');
 const { callSkill } = require('../signal/bridge');
 
 const BASE_FILE = path.join(__dirname, '..', 'data', 'base-patterns.json');
+const SOURCES_FILE = path.join(__dirname, '..', 'data', 'sources-regional.json');
 
 function loadBase() {
   try { return JSON.parse(fs.readFileSync(BASE_FILE, 'utf8')); } catch { return {}; }
+}
+
+function loadSources() {
+  try { return JSON.parse(fs.readFileSync(SOURCES_FILE, 'utf8')); } catch { return {}; }
+}
+
+function formatSumberMonitoring() {
+  const sources = loadSources();
+  const ringkasan = sources.ringkasan_sumber || {};
+  const div = '━━━━━━━━━━━━━━━━━━━━━━━';
+  let msg = `📡 *SUMBER MONITOR HARGA NAIK*\n`;
+  msg += `📍 Rote Ndao & NTT\n`;
+  msg += div + '\n\n';
+
+  msg += `⚡ *Real-Time (Update Harian)*\n`;
+  msg += `• Panel Badan Pangan → ${ringkasan.harga_naik_hari_ini}\n`;
+  msg += `• PIHPS Bank Indonesia → ${ringkasan.perbandingan_minggu_ini}\n`;
+  msg += `• ANTARA Kupang → ${ringkasan.berita_penyebab_kenaikan}\n\n`;
+
+  msg += `📊 *Bulanan*\n`;
+  msg += `• BPS NTT → ${ringkasan.komoditas_paling_naik_bulan_ini}\n\n`;
+
+  msg += `📰 *Berita & Pemda*\n`;
+  msg += `• Operasi pasar/bazar → ${ringkasan.operasi_pasar_bazar_murah}\n\n`;
+
+  msg += `🎯 *Harga spesifik Rote Ndao:*\n`;
+  msg += ringkasan.harga_rote_ndao_realtime;
+  return msg;
 }
 
 function rp(n) {
@@ -104,6 +133,7 @@ function formatMarketIntel(analisis, tipe = 'harian') {
   msg += `📍 Rote Barat Laut, Rote Ndao\n`;
   msg += `📅 ${wita('dddd, DD/MM/YYYY')} | WITA\n`;
   msg += `📌 Referensi: Pasar Baa + Distributor Kupang + ongkir\n`;
+  msg += `🔍 Cek harga naik: panelharga.badanpangan.go.id\n`;
   msg += div + '\n';
 
   let potensiTambahan = 0;
@@ -140,4 +170,4 @@ function formatHargaSatuProduk(a) {
   return msg;
 }
 
-module.exports = { risetHargaTop, updateHargaMarket, analyzeHarga, loadBase, formatMarketIntel, formatHargaSatuProduk };
+module.exports = { risetHargaTop, updateHargaMarket, analyzeHarga, loadBase, formatMarketIntel, formatHargaSatuProduk, formatSumberMonitoring };

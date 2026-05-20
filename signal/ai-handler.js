@@ -6,7 +6,8 @@ const path = require('path');
 const fs = require('fs');
 const webSearch = require('../skills/web-search');
 
-const CONFIG_FILE = path.join(__dirname, '..', 'config', 'openclaw.json');
+const CONFIG_FILE  = path.join(__dirname, '..', 'config', 'openclaw.json');
+const TOKEN_FILE   = path.join(__dirname, '..', 'data', 'token-usage.json');
 
 let _config = null;
 function loadConfig() {
@@ -14,6 +15,57 @@ function loadConfig() {
     try { _config = JSON.parse(fs.readFileSync(CONFIG_FILE, 'utf8')); } catch { _config = {}; }
   }
   return _config;
+}
+
+function loadTokenData() {
+  try { return JSON.parse(fs.readFileSync(TOKEN_FILE, 'utf8')); } catch { return {}; }
+}
+
+function simpanToken(provider, prompt, completion) {
+  try {
+    const now    = new Date(Date.now() + 8 * 3600000); // WITA
+    const hari   = now.toISOString().slice(0, 10);
+    const bulan  = now.toISOString().slice(0, 7);
+    const total  = prompt + completion;
+
+    const d = loadTokenData();
+    d.total_prompt     = (d.total_prompt || 0) + prompt;
+    d.total_completion = (d.total_completion || 0) + completion;
+    d.total_tokens     = (d.total_tokens || 0) + total;
+    d.calls            = (d.calls || 0) + 1;
+    d[`${provider}_calls`] = (d[`${provider}_calls`] || 0) + 1;
+    d.last_call        = now.toISOString().slice(0, 16).replace('T', ' ');
+    d.last_provider    = provider;
+
+    d.daily  = d.daily  || {};
+    d.monthly = d.monthly || {};
+
+    const hEntry = d.daily[hari]   || { prompt: 0, completion: 0, total: 0, calls: 0 };
+    const bEntry = d.monthly[bulan] || { prompt: 0, completion: 0, total: 0, calls: 0 };
+
+    hEntry.prompt     += prompt;
+    hEntry.completion += completion;
+    hEntry.total      += total;
+    hEntry.calls      += 1;
+
+    bEntry.prompt     += prompt;
+    bEntry.completion += completion;
+    bEntry.total      += total;
+    bEntry.calls      += 1;
+
+    d.daily[hari]    = hEntry;
+    d.monthly[bulan] = bEntry;
+
+    // Simpan hanya 30 hari terakhir
+    const hariKeys = Object.keys(d.daily).sort();
+    if (hariKeys.length > 30) {
+      hariKeys.slice(0, hariKeys.length - 30).forEach(k => delete d.daily[k]);
+    }
+
+    const tmp = TOKEN_FILE + '.tmp';
+    fs.writeFileSync(tmp, JSON.stringify(d, null, 2));
+    fs.renameSync(tmp, TOKEN_FILE);
+  } catch {}
 }
 
 function ringkasStok(stok) {
@@ -257,6 +309,9 @@ async function tanyaGroq(teks, stok, memory, config, searchCtx = '') {
     tool_choice: 'auto',
   }, { timeout: ai.timeout_ms || 10000 });
 
+  const u = resp.usage || {};
+  simpanToken('groq', u.prompt_tokens || 0, u.completion_tokens || 0);
+
   return resp.choices[0].message;
 }
 
@@ -270,6 +325,8 @@ async function tanyaGemini(teks, stok, memory, config, searchCtx = '') {
 
   const prompt = buatSystemPrompt(stok, memory, config, searchCtx) + '\n\nPertanyaan: ' + teks;
   const hasil = await model.generateContent(prompt);
+  const meta  = hasil.response.usageMetadata || {};
+  simpanToken('gemini', meta.promptTokenCount || 0, meta.candidatesTokenCount || 0);
   return { role: 'assistant', content: hasil.response.text() };
 }
 
@@ -347,4 +404,4 @@ async function prosesAI({ teks, stok, memory }) {
   return { tipe: 'AI_RESPONS', teks: (msg.content || '').trim() || 'Maaf kak, tidak bisa memproses permintaan.' };
 }
 
-module.exports = { prosesAI };
+module.exports = { prosesAI, loadTokenData };

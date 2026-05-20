@@ -71,4 +71,31 @@ async function cekGelombangPeriodik() {
   } catch {}
 }
 
-module.exports = { init, laporanHarian, alertGudangCuaca, risetHargaTop10, risetHargaMingguan, laporanBelajar, cekGelombangPeriodik };
+// 01:30 WITA — kompres queue sebelum sesi belajar
+function ringkasQueue() {
+  try { callSkill('self-learner', 'ringkas', {}); } catch {}
+}
+
+// 02:00 WITA — sesi belajar mandiri (analisis lokal, 0 token kecuali batch AI)
+async function selfLearn() {
+  try {
+    const r = callSkill('self-learner', 'belajar', {});
+    if (r.ok && r.data?.status !== 'skip' && r.data?.pelajaran?.length) {
+      const pelajaran = r.data.pelajaran.join('\n• ');
+      const hemat     = r.data.token_hemat || 0;
+      const rate      = r.data.berhasil_rate || 0;
+      const msg = `🧠 *Sesi Belajar Bot*\n` +
+        `📅 ${r.data.sesi}\n` +
+        `✅ Sukses: ${rate}% | Antrian: ${r.data.total_antrian}\n` +
+        `• ${pelajaran}\n` +
+        `💡 Token hemat: ${hemat} permintaan diproses lokal`;
+      await _kirimPesan(msg);
+    }
+  } catch {}
+}
+
+module.exports = {
+  init, laporanHarian, alertGudangCuaca, risetHargaTop10,
+  risetHargaMingguan, laporanBelajar, cekGelombangPeriodik,
+  selfLearn, ringkasQueue,
+};

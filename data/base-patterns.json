@@ -18,15 +18,55 @@
     "kornet": "kornet"
   },
   "aliases": {
-    "mie sedaap": ["mie", "mie sedap", "sedaap"],
-    "indomie": ["indo", "indomie goreng", "indomie rebus"],
-    "aqua": ["air aqua", "air minum", "air botol", "minuman air", "aer"],
-    "susu kental manis": ["skm", "susu omela", "omela", "indomilk", "frisian flag", "dancow"],
-    "minyak goreng": ["migor", "minyak"],
-    "gula pasir": ["gula", "gula putih"],
-    "beras": ["beras pulen", "beras pera"],
-    "rokok": ["rokok sampoerna", "sampoerna", "gudang garam", "djarum"],
-    "minuman energi": ["extra joss", "kratingdaeng", "m-150", "hemaviton"]
+    "mie sedaap": [
+      "mie",
+      "mie sedap",
+      "sedaap"
+    ],
+    "indomie": [
+      "indo",
+      "indomie goreng",
+      "indomie rebus"
+    ],
+    "aqua": [
+      "air aqua",
+      "air minum",
+      "air botol",
+      "minuman air",
+      "aer"
+    ],
+    "susu kental manis": [
+      "skm",
+      "susu omela",
+      "omela",
+      "indomilk",
+      "frisian flag",
+      "dancow"
+    ],
+    "minyak goreng": [
+      "migor",
+      "minyak"
+    ],
+    "gula pasir": [
+      "gula",
+      "gula putih"
+    ],
+    "beras": [
+      "beras pulen",
+      "beras pera"
+    ],
+    "rokok": [
+      "rokok sampoerna",
+      "sampoerna",
+      "gudang garam",
+      "djarum"
+    ],
+    "minuman energi": [
+      "extra joss",
+      "kratingdaeng",
+      "m-150",
+      "hemaviton"
+    ]
   },
   "lokasi": {
     "kecamatan": "Rote Barat Laut",
@@ -37,23 +77,77 @@
     "bmkg_maritim_area": "LAUT SAWU",
     "distributor_kota": "Kupang",
     "estimasi_ongkir_persen": 15,
-    "hari_kapal": ["Selasa", "Kamis", "Sabtu"]
+    "hari_kapal": [
+      "Selasa",
+      "Kamis",
+      "Sabtu"
+    ]
   },
   "produk_prioritas_rote": [
-    "air minum", "beras", "gula pasir", "minyak goreng",
-    "mie instan", "rokok", "susu kental manis",
-    "minuman energi", "kopi sachet", "sabun mandi",
-    "bensin nelayan", "es batu", "garam"
+    "air minum",
+    "beras",
+    "gula pasir",
+    "minyak goreng",
+    "mie instan",
+    "rokok",
+    "susu kental manis",
+    "minuman energi",
+    "kopi sachet",
+    "sabun mandi",
+    "bensin nelayan",
+    "es batu",
+    "garam"
   ],
   "harga_referensi": {
-    "aqua 600ml": { "min": 3500, "max": 4500, "satuan": "botol" },
-    "aqua 1500ml": { "min": 5000, "max": 6500, "satuan": "botol" },
-    "indomie": { "min": 3000, "max": 3500, "satuan": "bungkus" },
-    "mie sedaap": { "min": 2800, "max": 3200, "satuan": "bungkus" },
-    "gula pasir": { "min": 14000, "max": 17000, "satuan": "kg" },
-    "minyak goreng": { "min": 15000, "max": 18000, "satuan": "liter" },
-    "beras": { "min": 12000, "max": 16000, "satuan": "kg" },
-    "susu kental manis": { "min": 12000, "max": 15000, "satuan": "kaleng" },
-    "rokok sampoerna": { "min": 25000, "max": 28000, "satuan": "bungkus" }
+    "aqua 600ml": {
+      "min": 3500,
+      "max": 4500,
+      "satuan": "botol"
+    },
+    "aqua 1500ml": {
+      "min": 5000,
+      "max": 6500,
+      "satuan": "botol"
+    },
+    "indomie": {
+      "min": 3000,
+      "max": 3500,
+      "satuan": "bungkus"
+    },
+    "mie sedaap": {
+      "min": 2800,
+      "max": 3200,
+      "satuan": "bungkus"
+    },
+    "gula pasir": {
+      "min": 14000,
+      "max": 17000,
+      "satuan": "kg"
+    },
+    "minyak goreng": {
+      "min": 15000,
+      "max": 18000,
+      "satuan": "liter"
+    },
+    "beras": {
+      "min": 12000,
+      "max": 16000,
+      "satuan": "kg"
+    },
+    "susu kental manis": {
+      "min": 12000,
+      "max": 15000,
+      "satuan": "kaleng"
+    },
+    "rokok sampoerna": {
+      "min": 25000,
+      "max": 28000,
+      "satuan": "bungkus"
+    }
+  },
+  "habits": {
+    "peak_hours": {
+      "16": 1
+    }
   }
 }
