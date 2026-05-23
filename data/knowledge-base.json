@@ -3,855 +3,16 @@
   "prevention_rules": [],
   "best_practices": [
     "AI_CHAT: response sent",
-    "CONFIRM:HAPUS_PRODUK: CONFIRM:HAPUS_PRODUK"
+    "CONFIRM:HAPUS_PRODUK: CONFIRM:HAPUS_PRODUK",
+    "CONFIRM:UNDANGAN_GRUP: CONFIRM:UNDANGAN_GRUP"
   ],
   "edge_cases": [],
   "error_patterns": {
-    "Error": 1
+    "Error": 2
   },
   "session_count": 1,
-  "task_count": 148,
+  "task_count": 232,
   "experience_log": [
-    {
-      "session_id": "SESS-49",
-      "date": "2026-05-19 07:07",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Tambahkan 5 pada stok gula pasir",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-50",
-      "date": "2026-05-19 07:08",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Tambahkan jumlah 5 pada stok gula pasir",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-51",
-      "date": "2026-05-19 07:20",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Tambah produk massal",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-52",
-      "date": "2026-05-19 07:21",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Berapa stok gula pasir",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-53",
-      "date": "2026-05-19 07:21",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Berapa stok produk gula pasir",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-54",
-      "date": "2026-05-19 07:22",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Cek apakah ada beberapa comand yang error",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-55",
-      "date": "2026-05-19 07:22",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Produk id",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-56",
-      "date": "2026-05-19 07:22",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Produk id beras",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-57",
-      "date": "2026-05-19 07:23",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Update produk id beras",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-58",
-      "date": "2026-05-19 07:34",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Update produk id beras",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-59",
-      "date": "2026-05-19 07:34",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Saya ingin update",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-60",
-      "date": "2026-05-19 07:34",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Berikan format",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-61",
-      "date": "2026-05-19 07:35",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Berikan format",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-62",
-      "date": "2026-05-19 07:43",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Berikan format",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-63",
-      "date": "2026-05-19 07:44",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Ada berapa suplier di rote ndao",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-64",
-      "date": "2026-05-19 07:47",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Cari harga tepung kompas 1 kg di rote barat laut, ",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-65",
-      "date": "2026-05-19 07:47",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Harga pasta gigi di rote barat laut, rote ndao, nt",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-66",
-      "date": "2026-05-19 07:48",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Harga tepung kompas di rote barat laut, rote ndao,",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-67",
-      "date": "2026-05-19 07:48",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Harga di daerah sekitar",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-68",
-      "date": "2026-05-19 08:41",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Harga tepung kompas di rote barat laut, rote ndao,",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-69",
-      "date": "2026-05-19 08:41",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Harga di daerah sekitar",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-70",
-      "date": "2026-05-19 08:42",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Cek apakah harga  di kios dapat bersaing dengan ki",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-71",
-      "date": "2026-05-19 08:47",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Cek apakah harga  di kios dapat bersaing dengan ki",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-72",
-      "date": "2026-05-19 08:49",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Cari harga kompetitif ultra milk susu uht 200ml pe",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-73",
-      "date": "2026-05-19 08:55",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Cari harga kompetitif ultra milk susu uht 200ml pe",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-74",
-      "date": "2026-05-19 09:00",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Cari harga kompetitif ultra milk susu uht 200ml pe",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-75",
-      "date": "2026-05-19 09:01",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Harga kompetitif ultra milk susu uht 200ml",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-76",
-      "date": "2026-05-19 09:11",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Harga hp iphone terbaru",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-77",
-      "date": "2026-05-19 09:12",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Harga sampo pantene per renteng",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-78",
-      "date": "2026-05-19 09:14",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Harga tepung kompas di baa, rote ndao, ntt",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-79",
-      "date": "2026-05-19 09:17",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Harga tepung kompas di rote barat laut, rote ndao,",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-80",
-      "date": "2026-05-19 09:18",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Harga di daerah sekitar",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-81",
-      "date": "2026-05-19 09:18",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Cek apakah harga tersebut kompetitif",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-82",
-      "date": "2026-05-19 09:23",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Top harga di baa saat ini",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-83",
-      "date": "2026-05-19 09:31",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Hi",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-84",
-      "date": "2026-05-19 09:32",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Apa yang baru di kios",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-85",
-      "date": "2026-05-19 09:33",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Bantuan",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-86",
-      "date": "2026-05-19 09:33",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Status",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-87",
-      "date": "2026-05-19 09:34",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Cek token groq",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-88",
-      "date": "2026-05-19 09:35",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Tambahkan supplier [Suryadi]",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-89",
-      "date": "2026-05-19 09:36",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Tambahkan supplier [Yanto]",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-90",
-      "date": "2026-05-19 09:37",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Apa yang ditambahkan terakhir",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-91",
-      "date": "2026-05-19 14:19",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Hi",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-92",
-      "date": "2026-05-19 14:19",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Apa yang kamu bisa lakukan",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-93",
-      "date": "2026-05-19 14:20",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Format",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-94",
-      "date": "2026-05-19 14:20",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Format intruksi",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-95",
-      "date": "2026-05-19 14:20",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Format perintah",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-96",
-      "date": "2026-05-19 14:21",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Harga pasar untuk tepung di rote ndao, ntt",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-97",
-      "date": "2026-05-19 14:22",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Beras premium hitungan nya 5kg bukan 1kilo",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-98",
-      "date": "2026-05-19 14:22",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Status",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-99",
-      "date": "2026-05-19 14:22",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Lihat bug dan perbaiki",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-100",
-      "date": "2026-05-19 14:22",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Tampilkan bug",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-101",
-      "date": "2026-05-19 14:23",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Mengapa ada angka 1 pada bug",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-102",
-      "date": "2026-05-19 14:23",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Status",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-103",
-      "date": "2026-05-19 14:24",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Tambahkan beberapa produk",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-104",
-      "date": "2026-05-20 09:28",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Hi",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-105",
-      "date": "2026-05-20 09:28",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Apa yang bisa kamu lakukan",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-106",
-      "date": "2026-05-20 09:29",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Siapa ini",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-107",
-      "date": "2026-05-20 09:29",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Siapa ini",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-108",
-      "date": "2026-05-20 09:29",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Nomor tidak dikenal",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-109",
-      "date": "2026-05-20 09:30",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Daftar 2499d2ee-7cdb-4d5a-81e6-2e0d760b4998 sebaga",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-110",
-      "date": "2026-05-20 09:31",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Hi",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-111",
-      "date": "2026-05-20 09:31",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Delete beras",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-112",
-      "date": "2026-05-20 09:31",
-      "task_type": "CONFIRM:HAPUS_PRODUK",
-      "what_happened": "Konfirmasi dieksekusi",
-      "what_worked": "CONFIRM:HAPUS_PRODUK",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-113",
-      "date": "2026-05-20 09:32",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Produk",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-114",
-      "date": "2026-05-20 10:26",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Hi",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-115",
-      "date": "2026-05-20 10:27",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Daftar akses user",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-116",
-      "date": "2026-05-20 10:28",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Tambahkan produk",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-117",
-      "date": "2026-05-20 10:28",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Tambah produk massal",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-118",
-      "date": "2026-05-20 10:28",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Stok massal",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-119",
-      "date": "2026-05-20 10:29",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Ubah harga beras",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-120",
-      "date": "2026-05-20 10:29",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Edit harga beras",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-121",
-      "date": "2026-05-20 10:30",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Laporan hasil belajar",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-122",
-      "date": "2026-05-20 10:30",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Status",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-123",
-      "date": "2026-05-20 11:00",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Hi",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-124",
-      "date": "2026-05-20 11:00",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Kamu sama openclaw ngapain",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-125",
-      "date": "2026-05-20 11:03",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Harga minyak goreng di rote ndao",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-126",
-      "date": "2026-05-20 11:05",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Berdasarkan harga pasar di seluruh ntt, berapa har",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-127",
-      "date": "2026-05-20 11:24",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Bandingkan harga minyak di kios dengan harga dari ",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-128",
-      "date": "2026-05-20 11:24",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Buka Facebook",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-129",
-      "date": "2026-05-20 11:53",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Harga pasar minyak tanah",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-130",
-      "date": "2026-05-20 11:54",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Harga pasar Indonesia minyak goreng",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-131",
-      "date": "2026-05-20 12:36",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Hi",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
-    {
-      "session_id": "SESS-132",
-      "date": "2026-05-20 12:37",
-      "task_type": "AI_CHAT",
-      "what_happened": "Pesan diproses: Simpan chat kemudian cek pesan yang sudah lebih da",
-      "what_worked": "response sent",
-      "what_failed": "",
-      "lesson_learned": "",
-      "rule_updated": false
-    },
     {
       "session_id": "SESS-133",
       "date": "2026-05-20 13:00",
@@ -1011,6 +172,914 @@
       "what_failed": "",
       "lesson_learned": "",
       "rule_updated": false
+    },
+    {
+      "session_id": "SESS-149",
+      "date": "2026-05-20 14:46",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Status",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-150",
+      "date": "2026-05-20 14:47",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Jual air aqua 450 ml  3",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-151",
+      "date": "2026-05-20 15:01",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Jual air aqua 450 ml  3",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-152",
+      "date": "2026-05-20 15:02",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Pisang",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-153",
+      "date": "2026-05-20 15:02",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Laptop",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-154",
+      "date": "2026-05-20 15:03",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Status",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-155",
+      "date": "2026-05-20 15:04",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Status",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-156",
+      "date": "2026-05-20 15:34",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Hi",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-157",
+      "date": "2026-05-20 15:40",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Tambahkan kasir Ken +6285932832215",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-158",
+      "date": "2026-05-20 16:06",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Tambahkan kasir Ken +6285932832215",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-159",
+      "date": "2026-05-20 16:12",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Tambahkan kasir Ken +6285932832215",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-160",
+      "date": "2026-05-20 16:13",
+      "task_type": "CONFIRM:UNDANGAN_GRUP",
+      "what_happened": "Konfirmasi dieksekusi",
+      "what_worked": "CONFIRM:UNDANGAN_GRUP",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-161",
+      "date": "2026-05-20 16:16",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Harga produk",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-162",
+      "date": "2026-05-20 16:16",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Harga minyak goreng",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-163",
+      "date": "2026-05-20 16:17",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Jual minyak goreng 1 | gula pasir 1",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-164",
+      "date": "2026-05-20 16:18",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Minyak goreng 1 | beras 1",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-165",
+      "date": "2026-05-20 16:18",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Jual massal",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-166",
+      "date": "2026-05-20 16:19",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Gula pasir | 1\nBeras | 1\nMinyak | 1",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-167",
+      "date": "2026-05-20 16:20",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Kasir",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-168",
+      "date": "2026-05-20 16:21",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Format jual",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-169",
+      "date": "2026-05-20 16:22",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Hi",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-170",
+      "date": "2026-05-20 16:22",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Status",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-171",
+      "date": "2026-05-20 22:52",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Daftar role user",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-172",
+      "date": "2026-05-20 22:53",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Tambah View Andi +6285857330551",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-173",
+      "date": "2026-05-20 22:53",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Tambah kasir Andi +6285857330551",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-174",
+      "date": "2026-05-20 22:54",
+      "task_type": "CONFIRM:UNDANGAN_GRUP",
+      "what_happened": "Konfirmasi dieksekusi",
+      "what_worked": "CONFIRM:UNDANGAN_GRUP",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-175",
+      "date": "2026-05-20 22:54",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Cabut akses Andi +6285857330551",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-176",
+      "date": "2026-05-20 22:55",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Hapus kasir +6285857330551",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-177",
+      "date": "2026-05-20 23:34",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Kelola akses",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-178",
+      "date": "2026-05-20 23:44",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Tambah kasir Yohana +6281338003402",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-179",
+      "date": "2026-05-20 23:44",
+      "task_type": "CONFIRM:UNDANGAN_GRUP",
+      "what_happened": "Konfirmasi dieksekusi",
+      "what_worked": "CONFIRM:UNDANGAN_GRUP",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-180",
+      "date": "2026-05-20 23:47",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Stok produk sekarang",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-181",
+      "date": "2026-05-20 23:47",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Produk",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-182",
+      "date": "2026-05-20 23:48",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Apa saja yang dapat kamu lakukan",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-183",
+      "date": "2026-05-20 23:53",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Apa saja yang bisa kamu lakukan",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-184",
+      "date": "2026-05-21 00:54",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Apa saja yang bisa kamu lakukan",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-185",
+      "date": "2026-05-21 00:55",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Apa saja yang bisa kamu lakukan",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-186",
+      "date": "2026-05-21 00:56",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Perbaiki bug",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-187",
+      "date": "2026-05-21 00:57",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Pesan yang dikirim tidak sesuai",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-188",
+      "date": "2026-05-21 00:57",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Update produk",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-189",
+      "date": "2026-05-21 01:56",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Update produk",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-190",
+      "date": "2026-05-21 01:57",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Update produk",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-191",
+      "date": "2026-05-21 01:57",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Hi",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-192",
+      "date": "2026-05-21 01:57",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Siapa kamu",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-193",
+      "date": "2026-05-21 01:57",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Nama mu",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-194",
+      "date": "2026-05-21 01:57",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Hi irma",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-195",
+      "date": "2026-05-21 01:57",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: User",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-196",
+      "date": "2026-05-21 01:57",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Coba cek gudang",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-197",
+      "date": "2026-05-21 01:58",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Kasir",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-198",
+      "date": "2026-05-21 01:58",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Buat menu kasir",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-199",
+      "date": "2026-05-21 01:58",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Laporan hari ini",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-200",
+      "date": "2026-05-21 01:58",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Laporan kemarin",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-201",
+      "date": "2026-05-21 01:58",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Buat laporan hari kemarin",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-202",
+      "date": "2026-05-23 02:02",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Buat laporan hari kemarin",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-203",
+      "date": "2026-05-23 02:03",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: User",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-204",
+      "date": "2026-05-23 02:03",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Ingin Manambahkan user",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-205",
+      "date": "2026-05-23 02:04",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: catat_penjualan",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-206",
+      "date": "2026-05-23 02:05",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: catat_penjualan",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-207",
+      "date": "2026-05-23 02:05",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: catat_penjualan beras 1",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-208",
+      "date": "2026-05-23 02:06",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Stok produk",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-209",
+      "date": "2026-05-23 02:06",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Semua produk",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-210",
+      "date": "2026-05-23 02:06",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Stok barang sekarang",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-211",
+      "date": "2026-05-23 02:23",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Lihat semua Produk",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-212",
+      "date": "2026-05-23 02:23",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Apa saja fungsi kamu",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-213",
+      "date": "2026-05-23 02:24",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: /tambah_produk",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-214",
+      "date": "2026-05-23 02:24",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: /lihat_produk",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-215",
+      "date": "2026-05-23 02:25",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Lihat semua laporan",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-216",
+      "date": "2026-05-23 02:25",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: /lihat_semua_produk",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-217",
+      "date": "2026-05-23 02:35",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: stokRingkas()",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-218",
+      "date": "2026-05-23 02:36",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Semua produk",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-219",
+      "date": "2026-05-23 02:47",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Supplier",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-220",
+      "date": "2026-05-23 02:47",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Fungsi baru kamu",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-221",
+      "date": "2026-05-23 02:48",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Apa saja yang bisa kamu lakukan",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-222",
+      "date": "2026-05-23 02:48",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Semua produk",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-223",
+      "date": "2026-05-23 02:50",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Bandingkan harga setiap suplayer",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-224",
+      "date": "2026-05-23 02:52",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Bandingkan harga supplier di Rote Ndao, Ntt",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-225",
+      "date": "2026-05-23 03:01",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Dari perpustakaan local periksa perbandingan harga",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-226",
+      "date": "2026-05-23 03:02",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Harga pasar dari sumber informasi yang tersimpan",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-227",
+      "date": "2026-05-23 03:05",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Periksa semua user",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-228",
+      "date": "2026-05-23 03:13",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: 👌user",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-229",
+      "date": "2026-05-23 03:14",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Lihat data produk kios",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-230",
+      "date": "2026-05-23 03:17",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Status",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-231",
+      "date": "2026-05-23 03:25",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Status",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    },
+    {
+      "session_id": "SESS-232",
+      "date": "2026-05-23 03:26",
+      "task_type": "AI_CHAT",
+      "what_happened": "Pesan diproses: Clear chache",
+      "what_worked": "response sent",
+      "what_failed": "",
+      "lesson_learned": "",
+      "rule_updated": false
+    }
+  ],
+  "ai_resolusi_log": [
+    {
+      "ts": "2026-05-20 22:40",
+      "pesan": "Tambahkan kasir Ken +6285932832215",
+      "intent": "TAMBAH_PRODUK",
+      "produk": ""
+    },
+    {
+      "ts": "2026-05-20 23:18",
+      "pesan": "Minyak goreng 1 | beras 1",
+      "intent": "JUAL",
+      "produk": "Minyak Goreng 1L"
+    },
+    {
+      "ts": "2026-05-21 07:55",
+      "pesan": "Update produk",
+      "intent": "UPDATE_HARGA",
+      "produk": "Minyak Goreng"
+    },
+    {
+      "ts": "2026-05-21 07:56",
+      "pesan": "Perbaiki bug",
+      "intent": "CEK_KRITIS",
+      "produk": ""
+    },
+    {
+      "ts": "2026-05-23 09:02",
+      "pesan": "Buat laporan hari kemarin",
+      "intent": "LAPORAN_AI",
+      "produk": ""
+    },
+    {
+      "ts": "2026-05-23 09:04",
+      "pesan": "catat_penjualan",
+      "intent": "JUAL",
+      "produk": "Minyak Goreng Test"
+    },
+    {
+      "ts": "2026-05-23 09:05",
+      "pesan": "catat_penjualan beras 1",
+      "intent": "JUAL",
+      "produk": "beras"
+    },
+    {
+      "ts": "2026-05-23 09:24",
+      "pesan": "/lihat_produk",
+      "intent": "LAPORAN_AI",
+      "produk": ""
+    },
+    {
+      "ts": "2026-05-23 09:25",
+      "pesan": "/lihat_semua_produk",
+      "intent": "LAPORAN_AI",
+      "produk": ""
+    },
+    {
+      "ts": "2026-05-23 09:35",
+      "pesan": "stokRingkas()",
+      "intent": "CEK_KRITIS",
+      "produk": ""
+    },
+    {
+      "ts": "2026-05-23 10:05",
+      "pesan": "Periksa semua user",
+      "intent": "CEK_KRITIS",
+      "produk": ""
     }
   ]
 }

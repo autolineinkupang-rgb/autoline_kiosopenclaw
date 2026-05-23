@@ -13,7 +13,31 @@ const Formatter = {
     const expired = stok.filter(s => s.has_exp === '1' && s.exp_date && s.exp_date <= today);
     const nearExp = stok.filter(s => s.has_exp === '1' && s.exp_date > today && s.exp_date <= in7);
 
-    let msg = `📦 *Status Stok* — ${dayjs().format('DD/MM/YYYY HH:mm')}\n`;
+    let msg = `📦 *Daftar Produk Lengkap* — ${dayjs().format('DD/MM/YYYY HH:mm')}\n`;
+    msg += `Total produk: ${stok.length}\n`;
+    msg += `Kritis: ${kritis.length} | Rendah: ${rendah.length} | Expired: ${expired.length} | Hampir exp: ${nearExp.length}\n`;
+    msg += `━━━━━━━━━━━━━━━━━━━━━━━\n`;
+    if (!stok.length) return msg + 'Belum ada produk di database.';
+
+    const raw = (v) => v === undefined || v === null ? '' : String(v);
+    stok.forEach((s, i) => {
+      msg += `\n${i + 1}. *${raw(s.nama)}* (#${raw(s.id)})\n`;
+      msg += `id: ${raw(s.id)}\n`;
+      msg += `nama: ${raw(s.nama)}\n`;
+      msg += `kategori: ${raw(s.kategori)}\n`;
+      msg += `satuan: ${raw(s.satuan)}\n`;
+      msg += `stok: ${raw(s.stok)}\n`;
+      msg += `harga_beli: ${raw(s.harga_beli)}\n`;
+      msg += `harga_jual: ${raw(s.harga_jual)}\n`;
+      msg += `stok_minimum: ${raw(s.stok_minimum)}\n`;
+      msg += `stok_kritis: ${raw(s.stok_kritis)}\n`;
+      msg += `supplier: ${raw(s.supplier)}\n`;
+      msg += `last_update: ${raw(s.last_update)}\n`;
+      msg += `has_exp: ${raw(s.has_exp)}\n`;
+      msg += `exp_date: ${raw(s.exp_date)}\n`;
+    });
+
+    msg += `\n━━━━━━━━━━━━━━━━━━━━━━━`;
     if (kritis.length) { msg += `\n🔴 *Kritis:*\n`; kritis.forEach(s => { msg += `  • ${s.nama}: sisa ${s.stok} ${s.satuan}\n`; }); }
     if (rendah.length) { msg += `\n🟡 *Rendah:*\n`; rendah.forEach(s => { msg += `  • ${s.nama}: ${s.stok} ${s.satuan}\n`; }); }
     if (expired.length) { msg += `\n⛔ *Kadaluarsa:*\n`; expired.forEach(s => { msg += `  • ${s.nama} (exp: ${s.exp_date})\n`; }); }
@@ -161,7 +185,7 @@ const Formatter = {
   },
 
   bantuan() {
-    return `👋 *Halo! Saya Irma — asisten kios kamu*\n━━━━━━━━━━━━━━━━━━━━━━━\n\n*📤 JUAL:*\n  jual [produk] [qty]\n  jual gula 2 tunai bayar 10000\n\n*📥 RESTOCK:*\n  beli [produk] [qty] [harga]\n  beli gula 50 harga 13000\n\n*📦 STOK & CARI:*\n  stok · cari [produk] · harga [produk]\n  exp · produk mau habis\n\n*📊 LAPORAN:*\n  laporan · laba · riwayat\n  laporan mingguan · laporan bulanan\n  produk terlaris · riwayat harga [produk]\n\n*🔄 MASSAL:*\n  jual banyak:\n  Gula | 2\n  Beras | 1\n\n  restock massal:\n  Gula | 50 | 13000\n  Beras | 100 | 68000\n\n*🏪 SHIFT:*\n  buka shift [saldo awal]\n  tutup shift [saldo akhir]\n  status shift\n\n*🎁 PROMO:*\n  buat promo [produk] [nilai]%\n  lihat promo · hapus promo PROMO-0001\n\n*🚚 SUPPLIER:*\n  tambah supplier [nama]\n  daftar supplier · cari supplier [nama]\n\n*💰 HARGA PASAR:*\n  harga pasar [produk]\n  estimasi harga [produk]\n  prediksi harga [produk]\n  harga facebook [produk]\n\n*⚙️ LAINNYA:*\n  status · backup · bantuan · daftar skill`;
+    return `👋 *Halo! Saya Irma — asisten kios kamu*\n━━━━━━━━━━━━━━━━━━━━━━━\n\n*📤 JUAL:*\n  jual [produk] [qty]\n  jual gula 2 tunai bayar 10000\n\n*📥 RESTOCK:*\n  beli [produk] [qty] [harga]\n  beli gula 50 harga 13000\n\n*📦 STOK & CARI:*\n  stok · cari [produk] · harga [produk]\n  exp · produk mau habis\n\n*📊 LAPORAN:*\n  laporan · laba · riwayat\n  laporan mingguan · laporan bulanan\n  produk terlaris · riwayat harga [produk]\n\n*🔄 MASSAL:*\n  jual banyak:\n  Gula | 2\n  Beras | 1 | qris\n  _(nama | qty | metode opsional)_\n\n  restock massal:\n  Gula | 50 | 13000\n  Beras | 100 | 68000 | SupplierX\n  _(nama | qty | harga beli | supplier opsional)_\n\n  tambah produk massal:\n  Gula Pasir | Sembako | kg | 18000 | 15000 | 100\n  _(nama | kategori | satuan | harga jual | harga beli | stok)_\n\n*🏪 SHIFT:*\n  buka shift [saldo awal]\n  tutup shift [saldo akhir]\n  status shift\n\n*🎁 PROMO:*\n  buat promo [produk] [nilai]%\n  lihat promo · hapus promo PROMO-0001\n\n*🚚 SUPPLIER:*\n  tambah supplier [nama]\n  daftar supplier · cari supplier [nama]\n  harga supplier [produk]\n\n*💰 HARGA PASAR:*\n  harga pasar [produk]\n  estimasi harga [produk]\n  prediksi harga [produk]\n  harga facebook [produk]\n\n*⚙️ LAINNYA:*\n  status · backup · bantuan · daftar skill`;
   },
 
   status(memory) {
@@ -342,33 +366,39 @@ const Formatter = {
   restockMassalOk(results) {
     const ok = results.filter(r => r.ok);
     const gagal = results.filter(r => !r.ok);
-    const totalQty = ok.reduce((s, r) => s + r.qty, 0);
+    const totalQty = ok.reduce((s, r) => s + (r.qty || 0), 0);
+    const totalModal = ok.reduce((s, r) => s + (r.data?.harga_beli || 0) * (r.qty || 0), 0);
     const div = '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
     let msg = `📦 *RESTOCK MASSAL SELESAI*\n${div}\n`;
     results.forEach((r, i) => {
       if (r.ok) {
         const d = r.data;
-        const hargaInfo = d.price_changed ? ` | harga: ${rp(d.harga_lama)}→${rp(d.harga_beli)}` : '';
-        msg += `✅ ${i + 1}. *${d.item?.nama || r.produk}* +${r.qty} → stok: ${d.stok_baru}${hargaInfo}\n`;
+        const nama = d.item?.nama || r.produk;
+        const hargaInfo = d.price_changed ? ` (harga: ${rp(d.harga_lama)}→${rp(d.harga_beli)})` : (d.harga_beli > 0 ? ` @${rp(d.harga_beli)}` : '');
+        const tag = d.auto_created ? ' ✨baru' : '';
+        msg += `✅ ${i + 1}. *${nama}*${tag} +${r.qty} → stok: ${d.stok_baru}${hargaInfo}\n`;
       } else {
         msg += `❌ ${i + 1}. *${r.produk}* — ${r.error}\n`;
       }
     });
-    msg += `${div}\n✅ ${ok.length} berhasil | ❌ ${gagal.length} gagal | 📦 +${totalQty} unit total`;
+    msg += `${div}\n✅ ${ok.length} berhasil | ❌ ${gagal.length} gagal\n📦 +${totalQty} unit | 💵 Modal: ${rp(totalModal)}`;
     return msg;
   },
 
   jualMassalOk(results) {
     const ok = results.filter(r => r.ok);
     const gagal = results.filter(r => !r.ok);
-    const totalOmzet = ok.reduce((s, r) => s + (r.data?.total || 0), 0);
+    const totalOmzet = ok.reduce((s, r) => s + (Number(r.data?.total) || 0), 0);
     const div = '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
     let msg = `🧾 *TRANSAKSI MASSAL*\n${div}\n`;
     results.forEach((r, i) => {
       if (r.ok) {
-        msg += `✅ ${i + 1}. ${r.data.item?.nama || r.produk} x${r.qty} → ${rp(r.data.total)}\n`;
+        const nama = r.data.item?.nama || r.produk;
+        const metodeStr = r.metode && r.metode !== 'tunai' ? ` (${r.metode.toUpperCase()})` : '';
+        const sisaStr = r.data.sisa !== undefined ? ` sisa: ${r.data.sisa}` : '';
+        msg += `✅ ${i + 1}. *${nama}* x${r.qty} → ${rp(r.data.total)}${metodeStr}${sisaStr}\n`;
       } else {
-        msg += `❌ ${i + 1}. ${r.produk} — ${r.error}\n`;
+        msg += `❌ ${i + 1}. *${r.produk}* — ${r.error}\n`;
       }
     });
     msg += `${div}\n💰 Total: *${rp(totalOmzet)}*\n✅ ${ok.length} item | ❌ ${gagal.length} gagal`;
@@ -383,12 +413,15 @@ const Formatter = {
     results.forEach((r, i) => {
       if (r.ok) {
         const p = r.data?.produk;
-        msg += `✅ ${i + 1}. *${p?.nama || r.produk}* | jual: ${rp(p?.harga_jual)} | stok: ${p?.stok}\n`;
+        const nama = p?.nama || r.produk;
+        const laba = (Number(p?.harga_jual) || 0) - (Number(p?.harga_beli) || 0);
+        const labaStr = laba > 0 ? ` untung: ${rp(laba)}` : '';
+        msg += `✅ ${i + 1}. *${nama}* (${p?.kategori || '-'}, ${p?.satuan || '-'})\n   jual: ${rp(p?.harga_jual)} | beli: ${rp(p?.harga_beli)} | stok: ${p?.stok}${labaStr}\n`;
       } else {
         msg += `❌ ${i + 1}. *${r.produk}* — ${r.error}\n`;
       }
     });
-    msg += `${div}\n✅ ${ok.length} dibuat | ❌ ${gagal.length} gagal`;
+    msg += `${div}\n✅ ${ok.length} produk ditambahkan | ❌ ${gagal.length} gagal`;
     return msg;
   },
 
@@ -442,6 +475,52 @@ const Formatter = {
     let msg = `🏪 *${s.nama}*\n🆔 ${s.id}\n📞 Kontak: ${s.kontak || '-'}\n📍 Alamat: ${s.alamat || '-'}\n`;
     if (s.produk_utama) msg += `📦 Produk utama: ${s.produk_utama}\n`;
     if (produkSupplied.length) msg += `\n*Produk yang di-supply:*\n${produkSupplied.map(p => `  • ${p}`).join('\n')}`;
+    return msg;
+  },
+
+  bandingHargaSupplier(data, picamanInfo = '') {
+    const div = '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
+    const suppliers = data.suppliers || [];
+    let msg = `🧾 *PERBANDINGAN HARGA SUPPLIER*\n${div}\n`;
+    msg += `Produk: *${data.produk || '-'}*${data.produk_id ? ` (#${data.produk_id})` : ''}\n`;
+    if (data.stok_kini !== '') msg += `Stok kini: ${data.stok_kini} ${data.satuan || ''}\n`;
+    if (data.harga_beli_kini !== '') msg += `Harga beli kini: ${rp(data.harga_beli_kini)}\n`;
+    msg += `Supplier dengan harga: ${data.total_harga || 0}/${data.total_supplier || 0}\n`;
+
+    if (data.best) {
+      msg += `\n✅ *Opsi termurah:* ${data.best.supplier} — ${rp(data.best.harga_beli)}\n`;
+      if (data.best.kontak) msg += `Kontak: ${data.best.kontak}\n`;
+      if (data.best.moq) msg += `MOQ: ${data.best.moq}\n`;
+      if (data.best.lead_time) msg += `Lead time: ${data.best.lead_time}\n`;
+    }
+
+    if (!suppliers.length) {
+      msg += `\nBelum ada data harga supplier lokal untuk produk ini.\n`;
+      msg += `Catat restock dengan supplier agar perbandingan berikutnya tersedia.`;
+      if (picamanInfo) msg += `\n\n${picamanInfo}`;
+      return msg;
+    }
+
+    msg += `\n${div}\n*Opsi Supplier:*\n`;
+    suppliers.forEach((s, i) => {
+      const harga = s.harga_beli ? rp(s.harga_beli) : 'belum ada harga';
+      const badge = data.best && s.supplier === data.best.supplier ? ' ✅ TERMURAH' : '';
+      msg += `\n${i + 1}. *${s.supplier}*${badge}\n`;
+      msg += `Harga: ${harga}\n`;
+      if (s.tanggal) msg += `Tanggal data: ${s.tanggal}\n`;
+      if (s.qty) msg += `Qty terakhir: ${s.qty}\n`;
+      if (s.source) msg += `Sumber lokal: ${s.source}\n`;
+      msg += `Kontak: ${s.kontak || '-'}\n`;
+      msg += `Alamat: ${s.alamat || '-'}\n`;
+      msg += `MOQ: ${s.moq || '-'}\n`;
+      msg += `Lead time: ${s.lead_time || '-'}\n`;
+      if (s.produk_utama) msg += `Produk utama: ${s.produk_utama}\n`;
+      if (s.catatan) msg += `Catatan: ${s.catatan}\n`;
+    });
+
+    if (picamanInfo) {
+      msg += `\n${div}\n${picamanInfo}`;
+    }
     return msg;
   },
 

@@ -142,5 +142,653 @@
     "respons": "ℹ️ *Status Sistem*\n🕐 20/05/2026 19:46\n🤖 AI: groq\n📶 Signal: aktif\n💾 Checkpoint: 17:55\n\n┌─────────────────────────────────────────┐\n│ 📦 INVENTORY   : 147 tugas                  │\n│ 🔧 BUG STATUS  : 1 bug (0 fixed)            │\n│ 🧠 LEARNED     : 0 rules                    │\n│ ✅ SYSTEM      : Operational                │\n└─────────────────────────────────────────┘\n\n🤖 *Token AI Hari Ini:*\n• Terpakai: 46.045 token (16x panggilan)\n• Hemat PicaMan: 0 token\n• Efisiensi: 0% token dihemat\n• Groq: 16",
     "intent": "AI_CHAT",
     "dari_grup": true
+  },
+  {
+    "ts": "2026-05-20 21:46",
+    "sender": "+6285165061698",
+    "pesan": "Status",
+    "respons": "ℹ️ *Status Sistem*\n🕐 20/05/2026 20:46\n🤖 AI: groq\n📶 Signal: aktif\n💾 Checkpoint: 17:55\n\n┌─────────────────────────────────────────┐\n│ 📦 INVENTORY   : 148 tugas                  │\n│ 🔧 BUG STATUS  : 1 bug (0 fixed)            │\n│ 🧠 LEARNED     : 0 rules                    │\n│ ✅ SYSTEM      : Operational                │\n└─────────────────────────────────────────┘\n\n🤖 *Token AI Hari Ini:*\n• Terpakai: 46.045 token (16x panggilan)\n• Hemat PicaMan: 0 token\n• Efisiensi: 0% token dihemat\n• Groq: 16",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-20 21:47",
+    "sender": "+6285165061698",
+    "pesan": "Jual air aqua 450 ml  3",
+    "respons": "Aduh, ada yang error nih kak 😅\n_Produk tidak ditemukan_\nCoba lagi bentar ya!",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-20 22:01",
+    "sender": "+6285165061698",
+    "pesan": "Jual air aqua 450 ml  3",
+    "respons": "Aduh, ada yang error nih kak 😅\n_Produk tidak ditemukan_\nCoba lagi bentar ya!",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-20 22:02",
+    "sender": "+6285165061698",
+    "pesan": "Pisang",
+    "respons": "Maaf, Pisang tidak tersedia di Kios Desa Maju. Kios Desa Maju menyediakan produk seperti sembako, minuman, snack, dan kebutuhan rumah tangga. Jika Anda mencari buah, mungkin bisa mencari di pasar atau toko lain yang menjual buah-buahan. Apakah ada yang lain saya bisa bantu?",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-20 22:02",
+    "sender": "+6285165061698",
+    "pesan": "Laptop",
+    "respons": "Maaf, kami tidak menjual laptop di sini. Produk kami meliputi sembako, minuman, snack, kebutuhan rumah tangga, alat tulis, pulsa/token listrik, aksesoris HP, dan kebutuhan bayi. Jika Anda membutuhkan laptop, mungkin bisa mencari di toko elektronik lain.",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-20 22:03",
+    "sender": "+6285165061698",
+    "pesan": "Status",
+    "respons": "ℹ️ *Status Sistem*\n🕐 20/05/2026 21:03\n🤖 AI: groq\n📶 Signal: aktif\n💾 Checkpoint: 17:55\n\n┌─────────────────────────────────────────┐\n│ 📦 INVENTORY   : 153 tugas                  │\n│ 🔧 BUG STATUS  : 1 bug (0 fixed)            │\n│ 🧠 LEARNED     : 0 rules                    │\n│ ✅ SYSTEM      : Operational                │\n└─────────────────────────────────────────┘\n\n🤖 *Token AI Hari Ini:*\n• Terpakai: 50.800 token (18x panggilan)\n• Hemat PicaMan: 0 token\n• Efisiensi: 0% token dihemat\n• Groq: 18",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-20 22:04",
+    "sender": "+6285165061698",
+    "pesan": "Status",
+    "respons": "ℹ️ *Status Sistem*\n🕐 20/05/2026 21:04\n🤖 AI: groq\n📶 Signal: aktif\n💾 Checkpoint: 17:55\n\n┌─────────────────────────────────────────┐\n│ 📦 INVENTORY   : 154 tugas                  │\n│ 🔧 BUG STATUS  : 1 bug (0 fixed)            │\n│ 🧠 LEARNED     : 0 rules                    │\n│ ✅ SYSTEM      : Operational                │\n└─────────────────────────────────────────┘\n\n🤖 *Token AI Hari Ini:*\n• Terpakai: 50.800 token (18x panggilan)\n• Hemat PicaMan: 0 token\n• Efisiensi: 0% token dihemat\n• Groq: 18",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-20 22:34",
+    "sender": "+6285165061698",
+    "pesan": "Hi",
+    "respons": "Hai! Selamat datang di Kios Desa Maju. Ada yang bisa saya bantu?",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-20 22:40",
+    "sender": "+6285165061698",
+    "pesan": "Tambahkan kasir Ken +6285932832215",
+    "respons": "Aduh, ada yang error nih kak 😅\n_Harga jual wajib diisi_\nCoba lagi bentar ya!",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-20 23:06",
+    "sender": "+6285165061698",
+    "pesan": "Tambahkan kasir Ken +6285932832215",
+    "respons": "✅ *ken* ditambahkan sebagai *kasir*.\nNomor: +6285932832215\n\nIzin kasir:\n• Jual barang\n• Lihat stok & laporan\n• Buka/tutup shift\n\n📨 Undangan ke grup Kios Cerdas HQ sudah dikirim ke nomor mereka.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-20 23:12",
+    "sender": "+6285165061698",
+    "pesan": "Tambahkan kasir Ken +6285932832215",
+    "respons": "✅ *ken* ditambahkan sebagai *kasir*.\nNomor: +6285932832215\n\nIzin kasir:\n• Jual barang\n• Lihat stok & laporan\n• Buka/tutup shift\n\n📨 Undangan ke grup Kios Cerdas HQ sudah dikirim ke nomor mereka.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-20 23:16",
+    "sender": "+6285932832215",
+    "pesan": "Harga produk",
+    "respons": "Untuk mendapatkan harga produk, saya perlu tahu nama produknya terlebih dahulu. Silakan berikan nama produk yang ingin Anda tahu harganya. \n\nContoh: harga \"Minyak Goreng 1L\" \n\nSaya akan memberikan informasi harga produk tersebut.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-20 23:16",
+    "sender": "+6285932832215",
+    "pesan": "Harga minyak goreng",
+    "respons": "💲 *Minyak Goreng 1L*\nHarga jual: Rp 19.000\nHarga beli: Rp 17.000\nStok: 18 botol",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-20 23:17",
+    "sender": "+6285932832215",
+    "pesan": "Jual minyak goreng 1 | gula pasir 1",
+    "respons": "Aduh, ada yang error nih kak 😅\n_Produk tidak ditemukan_\nCoba lagi bentar ya!",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-20 23:18",
+    "sender": "+6285932832215",
+    "pesan": "Minyak goreng 1 | beras 1",
+    "respons": "✅ Oke kak, udah aku catat!\n📦 Minyak Goreng 1L — 1 botol\n💰 Total: Rp 19.000 (TUNAI)\n📊 Sisa stok: 17 botol",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-20 23:18",
+    "sender": "+6285932832215",
+    "pesan": "Jual massal",
+    "respons": "Kak, format jual massal:\n*jual banyak:*\nGula Pasir | 2\nBeras | 1\nMinyak | 3\n\nAtau: *jual banyak: gula 2, beras 1*",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-20 23:19",
+    "sender": "+6285932832215",
+    "pesan": "Gula pasir | 1\nBeras | 1\nMinyak | 1",
+    "respons": "✅ Oke kak, udah aku catat!\n📦 Gula Pasir 1kg — 1 bungkus\n💰 Total: Rp 15.000 (TUNAI)\n📊 Sisa stok: 13 bungkus",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-20 23:20",
+    "sender": "+6285932832215",
+    "pesan": "Kasir",
+    "respons": "Hai, saya siap membantu Anda dengan transaksi di Kios Desa Maju. Silakan mulai dengan memasukkan produk yang ingin dibeli atau ditanyakan.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-20 23:21",
+    "sender": "+6285932832215",
+    "pesan": "Format jual",
+    "respons": "Maaf kak, *format* tidak tersedia di kios 🙏",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-20 23:22",
+    "sender": "+6285932832215",
+    "pesan": "Hi",
+    "respons": "Hai! Selamat datang di Kios Desa Maju. Ada yang bisa saya bantu?",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-20 23:22",
+    "sender": "+6285932832215",
+    "pesan": "Status",
+    "respons": "ℹ️ *Status Sistem*\n🕐 20/05/2026 22:22\n🤖 AI: groq\n📶 Signal: aktif\n💾 Checkpoint: 17:55\n\n┌─────────────────────────────────────────┐\n│ 📦 INVENTORY   : 169 tugas                  │\n│ 🔧 BUG STATUS  : 1 bug (0 fixed)            │\n│ 🧠 LEARNED     : 0 rules                    │\n│ ✅ SYSTEM      : Operational                │\n└─────────────────────────────────────────┘\n\n🤖 *Token AI Hari Ini:*\n• Terpakai: 67.562 token (25x panggilan)\n• Hemat PicaMan: 3.000 token\n• Efisiensi: 4% token dihemat\n• Groq",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 05:52",
+    "sender": "+6285165061698",
+    "pesan": "Daftar role user",
+    "respons": "I don't have access to daftar role user information.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 05:53",
+    "sender": "+6285165061698",
+    "pesan": "Tambah View Andi +6285857330551",
+    "respons": "Maaf, saya tidak bisa menambahkan informasi kontak atau view untuk Andi dengan nomor +6285857330551 karena tidak ada fungsi yang tersedia untuk tujuan tersebut. Fungsi yang tersedia lebih fokus pada pengelolaan stok, penjualan, pembelian, dan laporan. Jika Anda memiliki pertanyaan atau membutuhkan bantuan dengan topik lain yang terkait dengan fungsi yang tersedia, saya dengan senang hati akan membantu.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 05:53",
+    "sender": "+6285165061698",
+    "pesan": "Tambah kasir Andi +6285857330551",
+    "respons": "✅ *andi* ditambahkan sebagai *kasir*.\nNomor: +6285857330551\n\nIzin kasir:\n• Jual barang\n• Lihat stok & laporan\n• Buka/tutup shift\n\n📨 Undangan ke grup Kios Cerdas HQ sudah dikirim ke nomor mereka.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 05:54",
+    "sender": "+6285165061698",
+    "pesan": "Cabut akses Andi +6285857330551",
+    "respons": "👥 *Kelola Akses*\n━━━━━━━━━━━━━━━━━━━━━━━\n*tambah kasir [nama] [nomor]* — beri akses kasir\n*tambah viewer [nama] [nomor]* — akses baca saja\n*daftar kasir* — lihat semua user aktif\n*hapus kasir [nomor]* — cabut akses\n\nIzin per role:\n• *owner* (kamu) — semua operasi\n• *kasir* — jual, stok, laporan, shift\n• *viewer* — stok & laporan saja",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 05:55",
+    "sender": "+6285165061698",
+    "pesan": "Hapus kasir +6285857330551",
+    "respons": "✅ Akses *andi* sudah dinonaktifkan.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 06:34",
+    "sender": "+6285165061698",
+    "pesan": "Kelola akses",
+    "respons": "👥 *Kelola Akses*\n━━━━━━━━━━━━━━━━━━━━━━━\n*tambah kasir [nama] [nomor]* — beri akses kasir\n*tambah viewer [nama] [nomor]* — akses baca saja\n*daftar kasir* — lihat semua user aktif\n*hapus kasir [nomor]* — cabut akses\n\nIzin per role:\n• *owner* (kamu) — semua operasi\n• *kasir* — jual, stok, laporan, shift\n• *viewer* — stok & laporan saja",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 06:44",
+    "sender": "+6285165061698",
+    "pesan": "Tambah kasir Yohana +6281338003402",
+    "respons": "✅ *yohana* ditambahkan sebagai *kasir*.\nNomor: +6281338003402\n\nIzin kasir:\n• Jual barang\n• Lihat stok & laporan\n• Buka/tutup shift\n\n📨 Undangan ke grup Kios Cerdas HQ sudah dikirim ke nomor mereka.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 06:47",
+    "sender": "+6281338003402",
+    "pesan": "Stok produk sekarang",
+    "respons": "📦 *Status Stok* — 21/05/2026 05:47\n\n🔴 *Kritis:*\n  • Minyak Goreng Test: sisa 0",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 06:47",
+    "sender": "+6281338003402",
+    "pesan": "Produk",
+    "respons": "Maaf kak, AI lagi sibuk nih 😅 Coba perintah manual ya, ketik *bantuan* buat lihat daftarnya.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 06:48",
+    "sender": "+6281338003402",
+    "pesan": "Apa saja yang dapat kamu lakukan",
+    "respons": "Maaf kak, AI lagi sibuk nih 😅 Coba perintah manual ya, ketik *bantuan* buat lihat daftarnya.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 06:53",
+    "sender": "+6285165061698",
+    "pesan": "Apa saja yang bisa kamu lakukan",
+    "respons": "Maaf kak, AI lagi sibuk nih 😅 Coba perintah manual ya, ketik *bantuan* buat lihat daftarnya.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 07:54",
+    "sender": "+6285165061698",
+    "pesan": "Apa saja yang bisa kamu lakukan",
+    "respons": "Maaf kak, AI lagi sibuk nih 😅 Coba perintah manual ya, ketik *bantuan* buat lihat daftarnya.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 07:55",
+    "sender": "+6285165061698",
+    "pesan": "Apa saja yang bisa kamu lakukan",
+    "respons": "Saya dapat membantu dengan beberapa tugas, seperti:\n\n* Mengelola stok produk\n* Mencatat penjualan dan pembelian\n* Menambah produk baru\n* Mengubah harga produk\n* Mengatur stok produk\n* Menghapus produk\n* Melihat laporan omzet, laba, dan transaksi\n* Mengecek produk dengan stok hampir habis atau hampir kadaluarsa\n* Membatalkan transaksi\n\nNamun, saya tidak dapat membantu dengan topik seperti:\n\n* Elektronik\n* Fashion\n* Furnitur\n* Obat resep\n* Investasi\n* Suku cadang\n\nJika Anda memiliki pertanyaan ata",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 07:56",
+    "sender": "+6285165061698",
+    "pesan": "Perbaiki bug",
+    "respons": "📦 *Stok Hampir Habis:*\n🔴 Minyak Goreng Test: sisa 0  (KRITIS!)\n\nSegera restock ya kak! 🛒",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 07:57",
+    "sender": "+6285165061698",
+    "pesan": "Pesan yang dikirim tidak sesuai",
+    "respons": "Aduh, ada yang error nih kak 😅\n_Stok tidak cukup (ada: 0)_\nCoba lagi bentar ya!",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 07:57",
+    "sender": "+6285165061698",
+    "pesan": "Update produk",
+    "respons": "Aduh, ada yang error nih kak 😅\n_Produk tidak ditemukan_\nCoba lagi bentar ya!",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 08:56",
+    "sender": "+6285165061698",
+    "pesan": "Update produk",
+    "respons": "✅ Harga *Minyak Goreng 1L* udah diupdate kak!\n💰 Harga jual: Rp 15.000\n💵 Harga beli: Rp 10.000",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 08:57",
+    "sender": "+6285165061698",
+    "pesan": "Update produk",
+    "respons": "✅ Harga *Minyak Goreng 1L* udah diupdate kak!\n💰 Harga jual: Rp 15.000\n💵 Harga beli: Rp 10.000",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 08:57",
+    "sender": "+6285165061698",
+    "pesan": "Hi",
+    "respons": "Selamat datang di Kios Desa Maju! Ada yang bisa saya bantu?",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 08:57",
+    "sender": "+6285165061698",
+    "pesan": "Siapa kamu",
+    "respons": "Saya adalah asisten virtual yang dirancang untuk membantu Anda dengan berbagai tugas dan pertanyaan. Saya dapat membantu Anda dengan informasi dan tugas-tugas yang terkait dengan kios \"Kios Desa Maju\" seperti melakukan transaksi jual beli, mengelola stok produk, dan lain-lain.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 08:57",
+    "sender": "+6285165061698",
+    "pesan": "Nama mu",
+    "respons": "Irma",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 08:57",
+    "sender": "+6285165061698",
+    "pesan": "Hi irma",
+    "respons": "Hai! Selamat pagi! Kios Desa Maju sudah buka. Ada yang bisa saya bantu?",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 08:57",
+    "sender": "+6285165061698",
+    "pesan": "User",
+    "respons": "Maaf kak, AI lagi sibuk nih 😅 Coba perintah manual ya, ketik *bantuan* buat lihat daftarnya.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 08:57",
+    "sender": "+6285165061698",
+    "pesan": "Coba cek gudang",
+    "respons": "Maaf kak, *coba gudang* tidak tersedia di kios 🙏",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 08:58",
+    "sender": "+6285165061698",
+    "pesan": "Kasir",
+    "respons": "Hai, saya siap membantu Anda dengan transaksi di Kios Desa Maju. Silakan mulai dengan memasukkan produk yang ingin dibeli atau ditanyakan.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 08:58",
+    "sender": "+6285165061698",
+    "pesan": "Buat menu kasir",
+    "respons": "Berikut adalah contoh menu kasir:\n\n1. **Transaksi**:\n - Jual produk\n - Catat pembelian (restock)\n2. **Produk**:\n - Tambah produk baru\n - Ubah harga produk\n - Set stok produk\n - Hapus produk\n3. **Laporan**:\n - Lihat laporan omzet\n - Lihat laporan laba\n - Lihat riwayat transaksi\n4. **Stok**:\n - Cek produk dengan stok hampir habis\n - Cek produk dengan tanggal kadaluarsa hampir habis\n5. **Batalkan Transaksi**:\n - Batalkan transaksi berdasarkan ID\n\nSilakan pilih opsi yang diinginkan.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 08:58",
+    "sender": "+6285165061698",
+    "pesan": "Laporan hari ini",
+    "respons": "📊 *Laporan Harian*\n📅 21/05/2026\n\n💰 Omzet: Rp 0\n📈 Laba kotor: Rp 0\n🛒 Transaksi: 0x\n🏆 Terlaris: -\n\n⚠️ Kritis: Minyak Goreng Test\n\n⚠️ *1 produk harga tidak kompetitif:* Beras Medium 5kg\nKetik *harga pasar* untuk detail.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 08:58",
+    "sender": "+6285165061698",
+    "pesan": "Laporan kemarin",
+    "respons": "📊 *Laporan Harian*\n📅 21/05/2026\n\n💰 Omzet: Rp 0\n📈 Laba kotor: Rp 0\n🛒 Transaksi: 0x\n🏆 Terlaris: -\n\n⚠️ Kritis: Minyak Goreng Test\n\n⚠️ *1 produk harga tidak kompetitif:* Beras Medium 5kg\nKetik *harga pasar* untuk detail.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-21 08:58",
+    "sender": "+6285165061698",
+    "pesan": "Buat laporan hari kemarin",
+    "respons": "Maaf kak, AI lagi sibuk nih 😅 Coba perintah manual ya, ketik *bantuan* buat lihat daftarnya.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 09:02",
+    "sender": "+6285165061698",
+    "pesan": "Buat laporan hari kemarin",
+    "respons": "📊 *Laporan Harian*\n📅 23/05/2026\n\n💰 Omzet: Rp 0\n📈 Laba kotor: Rp 0\n🛒 Transaksi: 0x\n🏆 Terlaris: -\n\n⚠️ Kritis: Minyak Goreng Test",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 09:03",
+    "sender": "+6285165061698",
+    "pesan": "User",
+    "respons": "Saya siap membantu. Silakan berikan pertanyaan atau permintaan Anda. \n\nMohon diingat bahwa saya hanya dapat menggunakan fungsi-fungsi yang telah terdaftar dan tidak dapat memberikan informasi yang tidak tersedia dalam fungsi-fungsi tersebut. \n\nJika Anda memiliki pertanyaan atau permintaan, saya akan berusaha menjawabnya dengan singkat dan praktis dalam Bahasa Indonesia. \n\nSilakan mulai!",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 09:03",
+    "sender": "+6285165061698",
+    "pesan": "Ingin Manambahkan user",
+    "respons": "Untuk menambahkan user, saya perlu informasi lebih lanjut tentang user yang ingin ditambahkan. Namun, berdasarkan fungsi yang tersedia, saya tidak dapat langsung menambahkan user.\n\nTapi saya bisa memberikan informasi bahwa untuk mengelola user atau melakukan perubahan pada data kios, Anda dapat menggunakan fungsi yang tersedia seperti:\n\n- Tambah produk baru: `tambah_produk_baru`\n- Update harga produk: `update_harga_produk`\n- Set stok produk: `set_stok_produk`\n- Hapus produk: `hapus_produk`\n\nNamu",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 09:04",
+    "sender": "+6285165061698",
+    "pesan": "catat_penjualan",
+    "respons": "Aduh, ada yang error nih kak 😅\n_Stok tidak cukup (ada: 0)_\nCoba lagi bentar ya!",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 09:05",
+    "sender": "+6285165061698",
+    "pesan": "catat_penjualan",
+    "respons": "✅ Oke kak, udah aku catat!\n📦 Minyak Goreng 1L — 2 botol\n💰 Total: Rp 30.000 (TUNAI)\n📊 Sisa stok: 15 botol",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 09:05",
+    "sender": "+6285165061698",
+    "pesan": "catat_penjualan beras 1",
+    "respons": "✅ Oke kak, udah aku catat!\n📦 Beras Medium 5kg — 1 karung\n💰 Total: Rp 62.000 (TUNAI)\n📊 Sisa stok: 27 karung",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 09:06",
+    "sender": "+6285165061698",
+    "pesan": "Stok produk",
+    "respons": "📦 *Status Stok* — 23/05/2026 08:06\n\n🔴 *Kritis:*\n  • Minyak Goreng Test: sisa 0",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 09:06",
+    "sender": "+6285165061698",
+    "pesan": "Semua produk",
+    "respons": "👋 *Halo! Saya Irma — asisten kios kamu*\n━━━━━━━━━━━━━━━━━━━━━━━\n\n*📤 JUAL:*\n  jual [produk] [qty]\n  jual gula 2 tunai bayar 10000\n\n*📥 RESTOCK:*\n  beli [produk] [qty] [harga]\n  beli gula 50 harga 13000\n\n*📦 STOK & CARI:*\n  stok · cari [produk] · harga [produk]\n  exp · produk mau habis\n\n*📊 LAPORAN:*\n  laporan · laba · riwayat\n  laporan mingguan · laporan bulanan\n  produk terlaris · riwayat harga [produk]\n\n*🔄 MASSAL:*\n  jual banyak:\n  Gula | 2\n  Beras | 1 | qris\n  _(nama | qty | metode opsional",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 09:06",
+    "sender": "+6285165061698",
+    "pesan": "Stok barang sekarang",
+    "respons": "📦 *Status Stok* — 23/05/2026 08:06\n\n🔴 *Kritis:*\n  • Minyak Goreng Test: sisa 0",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 09:23",
+    "sender": "+6285165061698",
+    "pesan": "Lihat semua Produk",
+    "respons": "Maaf kak, *semua produk* tidak tersedia di kios 🙏",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 09:23",
+    "sender": "+6285165061698",
+    "pesan": "Apa saja fungsi kamu",
+    "respons": "Fungsi yang tersedia:\n\n1. `catat_penjualan`: Catat penjualan barang ke pembeli, kurangi stok.\n2. `catat_pembelian`: Catat restock/pembelian dari supplier. Jika produk belum ada, otomatis dibuat baru.\n3. `tambah_produk_baru`: Tambah jenis produk baru ke inventaris.\n4. `hapus_produk`: Hapus produk dari inventaris.\n5. `update_harga_produk`: Update harga jual dan/atau harga beli produk yang sudah ada.\n6. `update_exp_produk`: Update atau set tanggal kadaluarsa produk.\n7. `set_stok_produk`: Set stok p",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 09:24",
+    "sender": "+6285165061698",
+    "pesan": "/tambah_produk",
+    "respons": "Untuk menambahkan produk baru, saya memerlukan informasi detail tentang produk tersebut. Silakan berikan informasi berikut:\n\n- Nama produk\n- Harga jual\n- Stok awal\n- Kategori (sembako, snack, minuman, rokok, obat, umum)\n- Satuan (pcs, bungkus, botol, karung, dll.)\n- Supplier (jika ada)\n- Tanggal kadaluarsa (jika ada, format YYYY-MM-DD)\n- Harga beli (jika ada)\n\nDengan informasi tersebut, saya dapat membantu Anda menambahkan produk baru ke inventaris.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 09:24",
+    "sender": "+6285165061698",
+    "pesan": "/lihat_produk",
+    "respons": "📊 *Laporan Harian*\n📅 23/05/2026\n\n💰 Omzet: Rp 92.000\n📈 Laba kotor: Rp 17.000\n🛒 Transaksi: 2x\n🏆 Terlaris: Minyak Goreng 1L, Beras Medium 5kg\n\n⚠️ Kritis: Minyak Goreng Test",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 09:25",
+    "sender": "+6285165061698",
+    "pesan": "Lihat semua laporan",
+    "respons": "Maaf kak, *semua laporan* tidak tersedia di kios 🙏",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 09:25",
+    "sender": "+6285165061698",
+    "pesan": "/lihat_semua_produk",
+    "respons": "📊 *Laporan Harian*\n📅 23/05/2026\n\n💰 Omzet: Rp 92.000\n📈 Laba kotor: Rp 17.000\n🛒 Transaksi: 2x\n🏆 Terlaris: Minyak Goreng 1L, Beras Medium 5kg\n\n⚠️ Kritis: Minyak Goreng Test",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 09:35",
+    "sender": "+6285165061698",
+    "pesan": "stokRingkas()",
+    "respons": "📦 *Stok Hampir Habis:*\n🔴 Minyak Goreng Test: sisa 0  (KRITIS!)\n\nSegera restock ya kak! 🛒",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 09:36",
+    "sender": "+6285165061698",
+    "pesan": "Semua produk",
+    "respons": "📦 *Daftar Produk Lengkap* — 23/05/2026 08:36\nTotal produk: 19\nKritis: 1 | Rendah: 0 | Expired: 0 | Hampir exp: 0\n━━━━━━━━━━━━━━━━━━━━━━━\n\n1. *Beras Medium 5kg* (#002)\nid: 002\nnama: Beras Medium 5kg\nkategori: sembako\nsatuan: karung\nstok: 27\nharga_beli: 55000\nharga_jual: 62000\nstok_minimum: 10\nstok_kritis: 3\nsupplier: Pak Haji Soleh\nlast_update: 2026-05-23\nhas_exp: 0\nexp_date: \n\n2. *Gula Pasir 1kg* (#003)\nid: 003\nnama: Gula Pasir 1kg\nkategori: sembako\nsatuan: bungkus\nstok: 13\nharga_beli: 13500\nha",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 09:47",
+    "sender": "+6285165061698",
+    "pesan": "Supplier",
+    "respons": "Supplier tidak dapat diolah secara langsung. Silakan berikan informasi lebih spesifik tentang supplier yang Anda maksud, seperti nama supplier atau keperluan apa.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 09:47",
+    "sender": "+6285165061698",
+    "pesan": "Fungsi baru kamu",
+    "respons": "Tolong berikan informasi lebih lanjut tentang fungsi baru yang Anda maksud. Saya dapat membantu Anda jika Anda ingin membuat atau menggunakan fungsi yang sudah ada.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 09:48",
+    "sender": "+6285165061698",
+    "pesan": "Apa saja yang bisa kamu lakukan",
+    "respons": "Maaf kak, AI lagi sibuk nih 😅 Coba perintah manual ya, ketik *bantuan* buat lihat daftarnya.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 09:48",
+    "sender": "+6285165061698",
+    "pesan": "Semua produk",
+    "respons": "📦 *Daftar Produk Lengkap* — 23/05/2026 08:48\nTotal produk: 19\nKritis: 1 | Rendah: 0 | Expired: 0 | Hampir exp: 0\n━━━━━━━━━━━━━━━━━━━━━━━\n\n1. *Beras Medium 5kg* (#002)\nid: 002\nnama: Beras Medium 5kg\nkategori: sembako\nsatuan: karung\nstok: 27\nharga_beli: 55000\nharga_jual: 62000\nstok_minimum: 10\nstok_kritis: 3\nsupplier: Pak Haji Soleh\nlast_update: 2026-05-23\nhas_exp: 0\nexp_date: \n\n2. *Gula Pasir 1kg* (#003)\nid: 003\nnama: Gula Pasir 1kg\nkategori: sembako\nsatuan: bungkus\nstok: 13\nharga_beli: 13500\nha",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 09:50",
+    "sender": "+6285165061698",
+    "pesan": "Bandingkan harga setiap suplayer",
+    "respons": "🔍 *Riset Harga: setiap suplayer*\n━━━━━━━━━━━━━━━━━━━━━━━\n📡 URL ditemukan: 8 | ✅ Aman: 8 | 🛡️ Diblokir: 0\n\n💰 *Harga ditemukan (Indonesia):*\n  Min:  Rp 764\n  Max:  Rp 3.379.623\n  Rata: Rp 1.123.013\n  Dari 26 data harga\n\n📋 *Sumber aman (8):*\n• [60%] Ralali.com: B2B Marketplace Indonesia - Harga\n• [70%] Jual Power Supply 34volt 30 Ampere Slim Terba\n• [70%] Daftar Supplier Tangan Pertama Langsung dari \n\n━━━━━━━━━━━━━━━━━━━━━━━\n🧠 *Dipelajari:*\n  📌 5 sumber baru disimpan\n  📊 Harga referensi dip",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 09:52",
+    "sender": "+6285165061698",
+    "pesan": "Bandingkan harga supplier di Rote Ndao, Ntt",
+    "respons": "🧾 *PERBANDINGAN HARGA SUPPLIER*\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nProduk: *di rote ndao, ntt*\nSupplier dengan harga: 0/0\n\nBelum ada data harga supplier lokal untuk produk ini.\nCatat restock dengan supplier agar perbandingan berikutnya tersedia.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 10:01",
+    "sender": "+6285165061698",
+    "pesan": "Dari perpustakaan local periksa perbandingan harga",
+    "respons": "Maaf kak, *perpustakaan local periksa perbandingan* tidak tersedia di kios 🙏",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 10:02",
+    "sender": "+6285165061698",
+    "pesan": "Harga pasar dari sumber informasi yang tersimpan",
+    "respons": "🔍 *Riset Harga: dari sumber informasi yang tersimpan*\n━━━━━━━━━━━━━━━━━━━━━━━\n📡 URL ditemukan: 7 | ✅ Aman: 6 | 🛡️ Diblokir: 1\n\n💰 *Harga ditemukan (Indonesia):*\n  Min:  Rp 602\n  Max:  Rp 439.547\n  Rata: Rp 59.349\n  Dari 17 data harga\n\n📋 *Sumber aman (6):*\n• [70%] Search Engine Paling Banyak Dipakai di Indone\n• [70%] Visa: Kepercayaan Konsumen Menjadi Aset Strat\n• [80%] ChargeItem | SATUSEHAT Platform\n\n━━━━━━━━━━━━━━━━━━━━━━━\n🧠 *Dipelajari:*\n  📌 6 sumber baru disimpan\n  📊 Harga referensi d",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 10:05",
+    "sender": "+6285165061698",
+    "pesan": "Periksa semua user",
+    "respons": "📦 *Stok Hampir Habis:*\n🔴 Minyak Goreng Test: sisa 0  (KRITIS!)\n\nSegera restock ya kak! 🛒",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 10:13",
+    "sender": "+6285165061698",
+    "pesan": "👌user",
+    "respons": "Hai, saya Picaman. Silakan berinteraksi dengan saya. Apakah ada yang bisa saya bantu?",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 10:14",
+    "sender": "+6285165061698",
+    "pesan": "Lihat data produk kios",
+    "respons": "Maaf kak, *data produk kios* tidak tersedia di kios 🙏",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 10:17",
+    "sender": "+6285165061698",
+    "pesan": "Status",
+    "respons": "ℹ️ *Status Sistem*\n🕐 23/05/2026 09:17\n🤖 AI: groq\n📶 Signal: aktif\n💾 Checkpoint: 17:55\n\n┌─────────────────────────────────────────┐\n│ 📦 INVENTORY   : 229 tugas                  │\n│ 🔧 BUG STATUS  : 2 bug (0 fixed)            │\n│ 🧠 LEARNED     : 0 rules                    │\n│ ✅ SYSTEM      : Operational                │\n└─────────────────────────────────────────┘\n\n🤖 *Token AI Hari Ini:*\n• Terpakai: 40.497 token (15x panggilan)\n• Hemat PicaMan: 8.800 token\n• Efisiensi: 18% token dihemat\n• Gro",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 10:25",
+    "sender": "+6285165061698",
+    "pesan": "Status",
+    "respons": "ℹ️ *Status Sistem*\n🕐 23/05/2026 09:25\n🤖 AI: groq\n📶 Signal: aktif\n💾 Checkpoint: 17:55\n\n┌─────────────────────────────────────────┐\n│ 📦 INVENTORY   : 230 tugas                  │\n│ 🔧 BUG STATUS  : 2 bug (0 fixed)            │\n│ 🧠 LEARNED     : 0 rules                    │\n│ ✅ SYSTEM      : Operational                │\n└─────────────────────────────────────────┘\n\n🤖 *Token AI Hari Ini:*\n• Terpakai: 40.497 token (15x panggilan)\n• Hemat PicaMan: 8.800 token\n• Efisiensi: 18% token dihemat\n• Gro",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 10:26",
+    "sender": "+6285165061698",
+    "pesan": "Clear chache",
+    "respons": "Tidak ada fungsi yang tersedia untuk membersihkan cache. Saya dapat membantu Anda dengan informasi atau tugas lain yang terkait dengan kios \"Kios Desa Maju\". Jika Anda memiliki pertanyaan atau permintaan lain, silakan bertanya!",
+    "intent": "AI_CHAT",
+    "dari_grup": false
   }
 ]

@@ -270,5 +270,933 @@
     "berhasil": true,
     "resp_len": 691,
     "count": 1
+  },
+  {
+    "ts": "2026-05-20 22:01",
+    "pesan": "Pisang",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 22:02",
+    "pesan": "Pisang",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 274,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 22:02",
+    "pesan": "Laptop",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 22:02",
+    "pesan": "Laptop",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 253,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 22:34",
+    "pesan": "Hi",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 22:34",
+    "pesan": "Hi",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 64,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 22:40",
+    "pesan": "Tambahkan kasir Ken +6285932832215",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 22:40",
+    "pesan": "Tambahkan kasir Ken +6285932832215",
+    "intent": "TAMBAH_PRODUK",
+    "berhasil": true,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 23:06",
+    "pesan": "Tambahkan kasir Ken +6285932832215",
+    "intent": "KELOLA_USER",
+    "berhasil": true,
+    "resp_len": 193,
+    "count": 2
+  },
+  {
+    "ts": "2026-05-20 23:18",
+    "pesan": "Minyak goreng 1 | beras 1",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 23:18",
+    "pesan": "Minyak goreng 1 | beras 1",
+    "intent": "JUAL",
+    "berhasil": true,
+    "resp_len": 16,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 23:18",
+    "pesan": "Jual massal",
+    "intent": "JUAL_MASSAL",
+    "berhasil": true,
+    "resp_len": 113,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 23:19",
+    "pesan": "Gula pasir | 1\nBeras | 1\nMinyak | 1",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 23:19",
+    "pesan": "Gula pasir | 1\nBeras | 1\nMinyak | 1",
+    "intent": "JUAL",
+    "berhasil": true,
+    "resp_len": 10,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 23:20",
+    "pesan": "Kasir",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 23:20",
+    "pesan": "Kasir",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 138,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 23:21",
+    "pesan": "Format jual",
+    "intent": "LOKAL",
+    "berhasil": true,
+    "resp_len": 43,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 23:22",
+    "pesan": "Hi",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-20 23:22",
+    "pesan": "Hi",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 64,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 05:52",
+    "pesan": "Daftar role user",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 05:52",
+    "pesan": "Daftar role user",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 52,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 05:53",
+    "pesan": "Tambah View Andi +6285857330551",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 05:53",
+    "pesan": "Tambah View Andi +6285857330551",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 405,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 05:53",
+    "pesan": "Tambah kasir Andi +6285857330551",
+    "intent": "KELOLA_USER",
+    "berhasil": true,
+    "resp_len": 194,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 05:54",
+    "pesan": "Cabut akses Andi +6285857330551",
+    "intent": "KELOLA_USER",
+    "berhasil": true,
+    "resp_len": 335,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 05:55",
+    "pesan": "Hapus kasir +6285857330551",
+    "intent": "KELOLA_USER",
+    "berhasil": true,
+    "resp_len": 35,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 06:34",
+    "pesan": "Kelola akses",
+    "intent": "KELOLA_USER",
+    "berhasil": true,
+    "resp_len": 335,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 06:44",
+    "pesan": "Tambah kasir Yohana +6281338003402",
+    "intent": "KELOLA_USER",
+    "berhasil": true,
+    "resp_len": 196,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 06:47",
+    "pesan": "Produk",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 06:47",
+    "pesan": "Produk",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 92,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 06:48",
+    "pesan": "Apa saja yang dapat kamu lakukan",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 06:48",
+    "pesan": "Apa saja yang dapat kamu lakukan",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 92,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 06:53",
+    "pesan": "Apa saja yang bisa kamu lakukan",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 06:53",
+    "pesan": "Apa saja yang bisa kamu lakukan",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 92,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 07:54",
+    "pesan": "Apa saja yang bisa kamu lakukan",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 07:54",
+    "pesan": "Apa saja yang bisa kamu lakukan",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 92,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 07:55",
+    "pesan": "Apa saja yang bisa kamu lakukan",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 07:55",
+    "pesan": "Apa saja yang bisa kamu lakukan",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 550,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 07:55",
+    "pesan": "Update produk",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 07:55",
+    "pesan": "Update produk",
+    "intent": "UPDATE_HARGA",
+    "berhasil": true,
+    "resp_len": 13,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 07:56",
+    "pesan": "Perbaiki bug",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 07:56",
+    "pesan": "Perbaiki bug",
+    "intent": "CEK_KRITIS",
+    "berhasil": true,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 07:56",
+    "pesan": "Pesan yang dikirim tidak sesuai",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 07:57",
+    "pesan": "Pesan yang dikirim tidak sesuai",
+    "intent": "JUAL",
+    "berhasil": true,
+    "resp_len": 18,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 07:57",
+    "pesan": "Update produk",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 07:57",
+    "pesan": "Update produk",
+    "intent": "UPDATE_HARGA",
+    "berhasil": true,
+    "resp_len": 13,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 08:56",
+    "pesan": "Update produk",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 08:56",
+    "pesan": "Update produk",
+    "intent": "UPDATE_HARGA",
+    "berhasil": true,
+    "resp_len": 13,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 08:57",
+    "pesan": "Update produk",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 08:57",
+    "pesan": "Update produk",
+    "intent": "UPDATE_HARGA",
+    "berhasil": true,
+    "resp_len": 13,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 08:57",
+    "pesan": "Hi",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 08:57",
+    "pesan": "Hi",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 59,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 08:57",
+    "pesan": "Siapa kamu",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 08:57",
+    "pesan": "Siapa kamu",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 277,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 08:57",
+    "pesan": "Nama mu",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 08:57",
+    "pesan": "Nama mu",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 4,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 08:57",
+    "pesan": "Hi irma",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 08:57",
+    "pesan": "Hi irma",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 71,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 08:57",
+    "pesan": "User",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 08:57",
+    "pesan": "User",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 92,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 08:57",
+    "pesan": "Coba cek gudang",
+    "intent": "LOKAL",
+    "berhasil": true,
+    "resp_len": 48,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 08:58",
+    "pesan": "Kasir",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 08:58",
+    "pesan": "Kasir",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 138,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 08:58",
+    "pesan": "Buat menu kasir",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 08:58",
+    "pesan": "Buat menu kasir",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 483,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 08:58",
+    "pesan": "Buat laporan hari kemarin",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-21 08:58",
+    "pesan": "Buat laporan hari kemarin",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 92,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:02",
+    "pesan": "Buat laporan hari kemarin",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:02",
+    "pesan": "Buat laporan hari kemarin",
+    "intent": "LAPORAN_AI",
+    "berhasil": true,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:03",
+    "pesan": "User",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:03",
+    "pesan": "User",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 389,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:03",
+    "pesan": "Ingin Manambahkan user",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:03",
+    "pesan": "Ingin Manambahkan user",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 958,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:04",
+    "pesan": "catat_penjualan",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:04",
+    "pesan": "catat_penjualan",
+    "intent": "JUAL",
+    "berhasil": true,
+    "resp_len": 18,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:05",
+    "pesan": "catat_penjualan",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:05",
+    "pesan": "catat_penjualan",
+    "intent": "JUAL",
+    "berhasil": true,
+    "resp_len": 13,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:05",
+    "pesan": "catat_penjualan beras 1",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:05",
+    "pesan": "catat_penjualan beras 1",
+    "intent": "JUAL",
+    "berhasil": true,
+    "resp_len": 5,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:16",
+    "pesan": "daftar supplier",
+    "intent": "DAFTAR_SUPPLIER",
+    "berhasil": true,
+    "resp_len": 84,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:16",
+    "pesan": "lihat promo",
+    "intent": "LIHAT_PROMO",
+    "berhasil": true,
+    "resp_len": 92,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:16",
+    "pesan": "status bahasa",
+    "intent": "STATUS_BAHASA",
+    "berhasil": true,
+    "resp_len": 609,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:18",
+    "pesan": "bayar 10000",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 92,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:23",
+    "pesan": "Lihat semua Produk",
+    "intent": "LOKAL",
+    "berhasil": true,
+    "resp_len": 49,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:23",
+    "pesan": "Apa saja fungsi kamu",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:23",
+    "pesan": "Apa saja fungsi kamu",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 987,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:24",
+    "pesan": "/tambah_produk",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:24",
+    "pesan": "/tambah_produk",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 453,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:24",
+    "pesan": "/lihat_produk",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:24",
+    "pesan": "/lihat_produk",
+    "intent": "LAPORAN_AI",
+    "berhasil": true,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:25",
+    "pesan": "Lihat semua laporan",
+    "intent": "LOKAL",
+    "berhasil": true,
+    "resp_len": 50,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:25",
+    "pesan": "/lihat_semua_produk",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:25",
+    "pesan": "/lihat_semua_produk",
+    "intent": "LAPORAN_AI",
+    "berhasil": true,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:35",
+    "pesan": "stokRingkas()",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:35",
+    "pesan": "stokRingkas()",
+    "intent": "CEK_KRITIS",
+    "berhasil": true,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:44",
+    "pesan": "bandingkan harga supplier gula",
+    "intent": "HARGA_SUPPLIER",
+    "berhasil": true,
+    "resp_len": 420,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:45",
+    "pesan": "harga supplier beras",
+    "intent": "HARGA_SUPPLIER",
+    "berhasil": true,
+    "resp_len": 693,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:45",
+    "pesan": "cek harga supplier beras",
+    "intent": "HARGA_SUPPLIER",
+    "berhasil": true,
+    "resp_len": 693,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:45",
+    "pesan": "bandingkan harga supplier gula",
+    "intent": "HARGA_SUPPLIER",
+    "berhasil": true,
+    "resp_len": 420,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:47",
+    "pesan": "Supplier",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:47",
+    "pesan": "Supplier",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 162,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:47",
+    "pesan": "Fungsi baru kamu",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:47",
+    "pesan": "Fungsi baru kamu",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 164,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:48",
+    "pesan": "Apa saja yang bisa kamu lakukan",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:48",
+    "pesan": "Apa saja yang bisa kamu lakukan",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 92,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:50",
+    "pesan": "Bandingkan harga setiap suplayer",
+    "intent": "PICAMAN:HARGA_PASAR",
+    "berhasil": true,
+    "resp_len": 499,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 09:52",
+    "pesan": "Bandingkan harga supplier di Rote Ndao, Ntt",
+    "intent": "HARGA_SUPPLIER",
+    "berhasil": true,
+    "resp_len": 246,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 10:01",
+    "pesan": "Dari perpustakaan local periksa perbandingan harga",
+    "intent": "LOKAL",
+    "berhasil": true,
+    "resp_len": 76,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 10:02",
+    "pesan": "Harga pasar dari sumber informasi yang tersimpan",
+    "intent": "PICAMAN:HARGA_PASAR",
+    "berhasil": true,
+    "resp_len": 501,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 10:05",
+    "pesan": "Periksa semua user",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 10:05",
+    "pesan": "Periksa semua user",
+    "intent": "CEK_KRITIS",
+    "berhasil": true,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 10:13",
+    "pesan": "👌user",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 10:13",
+    "pesan": "👌user",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 85,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 10:14",
+    "pesan": "Lihat data produk kios",
+    "intent": "LOKAL",
+    "berhasil": true,
+    "resp_len": 53,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 10:26",
+    "pesan": "Clear chache",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 10:26",
+    "pesan": "Clear chache",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 227,
+    "count": 1
   }
 ]

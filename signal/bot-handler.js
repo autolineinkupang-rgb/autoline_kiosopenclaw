@@ -10,14 +10,18 @@ const dayjs = require('dayjs');
 const { parsePerintah, validasiPerintah } = require('./message-parser');
 const { detect, detectAsync, resetBasePatterns } = require('./intent-detector');
 const Formatter = require('./response-formatter');
-const { prosesAI, loadTokenData, simpanTokenHemat } = require('./ai-handler');
+const { prosesDelegasiPicaman, loadTokenData, simpanTokenHemat } = require('./ai-handler');
 const { callSkill, invalidateCache } = require('./bridge');
 const { sanitizeInput, cekRateLimit } = require('../scripts/security');
 const Kasir = require('../skills/kasir');
 const Learning = require('../skills/learning-engine');
 const SelfDebug = require('../skills/self-debug');
 const { prosesIntentBaru } = require('./intent-handlers');
-const { prosesLokal } = require('./local-processor');
+const { prosesLokal, klasifikasiLokal } = require('./local-processor');
+const {
+  shouldDelegateToPicaman,
+  buildPicamanRequest,
+} = require('./delegation-policy');
 const { initCron } = require('../cron/scheduler');
 const CronHandlers = require('../cron/handlers');
 const RBAC       = require('../scripts/rbac');
@@ -42,6 +46,55 @@ function antriLearning(pesan, intent, berhasil, respons = '') {
   try {
     callSkill('self-learner', 'antri', { pesan, intent, berhasil, respons });
   } catch {}
+}
+
+function buatDelegasiPicaman({ teks, parsed, sender, reason, localAttempts = [], constraints = [] }) {
+  const request = buildPicamanRequest({ teks, parsed, sender, reason, localAttempts, constraints });
+  log(`[delegasi] Irma -> Picaman: ${request.task_kind} | ${request.reason}`);
+  return request;
+}
+
+async function jalankanDelegasiAI(request) {
+  const stokR = callSkill('stok', 'cek', {});
+  return prosesDelegasiPicaman(request, {
+    stok: stokR.ok ? stokR.data.stok : [],
+    memory: readMemory(),
+  });
+}
+
+async function finalisasiPicamanResult(aiResult, teksAsli, sender) {
+  if (aiResult.tipe !== 'AI_RESPONS') {
+    const produkAI = aiResult.produk || aiResult.nama_produk || '';
+    try {
+      callSkill('self-learner', 'laporan_resolusi', {
+        pesan  : teksAsli,
+        intent : aiResult.tipe || 'UNKNOWN',
+        produk : produkAI,
+      });
+      resetBasePatterns();
+    } catch {}
+
+    if (produkAI) {
+      try {
+        const kataPengguna = teksAsli.toLowerCase().replace(/[^\w\s]/g, ' ').trim();
+        const namaProduk   = produkAI.toLowerCase().trim();
+        if (kataPengguna !== namaProduk && kataPengguna.length >= 3) {
+          callSkill('bahasa', 'pelajari', { tipe: 'sinonim', kunci: kataPengguna, nilai: namaProduk });
+        }
+      } catch {}
+    }
+  }
+
+  if (aiResult.tipe !== 'AI_RESPONS' && aiResult.produk) {
+    Learning.savePattern(teksAsli, aiResult.tipe, aiResult.produk).catch(() => {});
+  }
+  if (aiResult.tipe === 'AI_RESPONS') {
+    antriLearning(teksAsli, 'AI_RESPONS', true, aiResult.teks);
+    return aiResult.teks;
+  }
+  const vld = validasiPerintah(aiResult);
+  if (!vld.valid) return Formatter.error(vld.error);
+  return prosesAIResult(aiResult, sender);
 }
 
 // ── Remote Shell (owner-only, personal message only) ─────────────────────────
@@ -111,19 +164,21 @@ const pendingConfirmations = new Map();
 const CONFIRM_TTL_MS = 90_000;
 
 function setBuatKonfirmasi(sender, tipe, data, kode) {
-  pendingConfirmations.set(sender, { tipe, data, kode, expiresAt: Date.now() + CONFIRM_TTL_MS });
+  pendingConfirmations.set(_normalizePhone(sender), { tipe, data, kode, expiresAt: Date.now() + CONFIRM_TTL_MS });
 }
 
 function cekKonfirmasi(sender, teksInput) {
-  const p = pendingConfirmations.get(sender);
-  if (!p || Date.now() > p.expiresAt) { pendingConfirmations.delete(sender); return null; }
+  const normKey = _normalizePhone(sender);
+  const p = pendingConfirmations.get(normKey);
+  if (!p || Date.now() > p.expiresAt) { pendingConfirmations.delete(normKey); return null; }
   if (teksInput.trim().toUpperCase() === p.kode.toUpperCase()) {
-    pendingConfirmations.delete(sender);
+    pendingConfirmations.delete(normKey);
     return p;
   }
   if (/^(batal|cancel|tidak|ga jadi|no)/i.test(teksInput.trim())) {
-    pendingConfirmations.delete(sender);
-    return { tipe: 'BATAL' };
+    const prev = { prevTipe: p.tipe, data: p.data };
+    pendingConfirmations.delete(normKey);
+    return { tipe: 'BATAL', ...prev };
   }
   return null; // Masih nunggu konfirmasi valid
 }
@@ -170,22 +225,67 @@ function rpcOnLine(line) {
   }
 }
 
+function pecahPesan(teks, limit = 3900) {
+  const s = String(teks || '');
+  if (s.length <= limit) return [s];
+
+  const chunks = [];
+  let rest = s;
+  while (rest.length > limit) {
+    let cut = rest.lastIndexOf('\n', limit);
+    if (cut >= Math.floor(limit * 0.5)) cut += 1;
+    else cut = limit;
+    chunks.push(rest.slice(0, cut));
+    rest = rest.slice(cut);
+  }
+  if (rest) chunks.push(rest);
+  return chunks;
+}
+
 async function kirimPesan(teks, penerima = RECIPIENT) {
   if (!penerima) { log('[PREVIEW] ' + teks.slice(0, 100)); return false; }
   try {
-    await rpcWrite('send', { recipient: [penerima], message: teks.slice(0, 4096) });
+    const chunks = pecahPesan(teks);
+    for (const message of chunks) {
+      await rpcWrite('send', { recipient: [penerima], message });
+    }
     log(`Terkirim ke ${penerima}`);
     return true;
-  } catch (e) { log(`Gagal kirim: ${e.message}`); return false; }
+  } catch (e) {
+    // signal-cli kadang menolak send jika konteks quote tidak lengkap — retry dengan quoteTimestamp=0
+    if (/quote author/i.test(e.message)) {
+      try {
+        for (const message of pecahPesan(teks)) {
+          await rpcWrite('send', { recipient: [penerima], message, quoteTimestamp: 0, quoteAuthor: penerima });
+        }
+        log(`Terkirim ke ${penerima} (quote-retry)`);
+        return true;
+      } catch (e2) { log(`Gagal kirim (quote-retry): ${e2.message}`); return false; }
+    }
+    log(`Gagal kirim: ${e.message}`);
+    return false;
+  }
 }
 
 async function kirimKeGrup(teks) {
   if (!GROUP_ID) { log('GROUP_ID belum diset'); return false; }
   try {
-    await rpcWrite('send', { groupId: GROUP_ID, message: teks.slice(0, 4096) });
+    for (const message of pecahPesan(teks)) {
+      await rpcWrite('send', { groupId: GROUP_ID, message });
+    }
     log('Terkirim ke grup');
     return true;
   } catch (e) { log(`Gagal kirim grup: ${e.message}`); return false; }
+}
+
+async function undangKeGrup(phone) {
+  if (!GROUP_ID) throw new Error('GROUP_ID belum diset');
+  await rpcWrite('updateGroup', { groupId: GROUP_ID, addMembers: [phone] });
+}
+
+async function keluarkanDariGrup(phone) {
+  if (!GROUP_ID) throw new Error('GROUP_ID belum diset');
+  await rpcWrite('updateGroup', { groupId: GROUP_ID, removeMembers: [phone] });
 }
 
 function alertAdmin(pesan) {
@@ -202,13 +302,27 @@ async function eksekusiKonfirmasi(konfirmasi) {
   if (tipe === 'HAPUS_PRODUK') {
     const r = callSkill('stok', 'hapus', { produk: data.produk });
     if (!r.ok) return Formatter.error(r.error);
+    invalidateCache('stok'); invalidateCache('laporan');
     return Formatter.hapusProdukOk(r.data.item.nama);
   }
 
   if (tipe === 'BATALKAN_TX') {
     const r = callSkill('stok', 'batalkan_tx', { id: data.idTx });
     if (!r.ok) return Formatter.error(r.error);
+    invalidateCache('stok'); invalidateCache('laporan');
     return Formatter.batalkanTxOk(r.data.tx);
+  }
+
+  if (tipe === 'UNDANGAN_GRUP') {
+    try {
+      await undangKeGrup(data.phone);
+      for (const nomor of WHITELIST_SET) {
+        kirimPesan(`✅ *${data.nama}* (${data.role}) sudah bergabung ke grup Kios Cerdas HQ.`, nomor).catch(() => {});
+      }
+      return `🎉 Selamat datang *${data.nama}*! Kamu sudah bergabung ke grup *Kios Cerdas HQ* kak 😊\nSilakan cek grup ya!`;
+    } catch (e) {
+      return `⚠️ Gagal bergabung ke grup: ${e.message}\nHubungi owner untuk bantuan kak.`;
+    }
   }
 
   return 'Aksi selesai 👍';
@@ -218,6 +332,29 @@ async function eksekusiKonfirmasi(konfirmasi) {
 
 async function prosesAIResult(aiResult, sender) {
   switch (aiResult.tipe) {
+    case 'STOK': {
+      const r = callSkill('stok', 'cek', {});
+      return r.ok ? Formatter.stokRingkas(r.data.stok) : Formatter.error(r.error);
+    }
+    case 'LAPORAN': {
+      const r = callSkill('laporan', 'ringkas', {});
+      return r.ok ? Formatter.laporanRingkas(r.data) : Formatter.error(r.error);
+    }
+    case 'BACKUP': {
+      spawn(process.execPath, [path.join(ROOT, 'scripts/backup.js')], { stdio: 'ignore', detached: true }).unref();
+      return 'Oke kak, backup dimulai! 💾';
+    }
+    case 'CARI': {
+      const r = callSkill('stok', 'cari', { produk: aiResult.produk });
+      if (!r.ok) return Formatter.error(r.error);
+      return Formatter.detailProduk(r.data.item);
+    }
+    case 'HARGA': {
+      const r = callSkill('harga', 'cek', { produk: aiResult.produk });
+      return r.ok ? Formatter.infoHarga(r.data.item) : Formatter.error(r.error);
+    }
+    case 'BAYAR':
+      return Formatter.error('Nominal bayar harus digabung dengan perintah jual, contoh: jual gula 2 tunai bayar 10000');
     case 'JUAL': {
       const r = callSkill('stok', 'jual', { produk: aiResult.produk, qty: aiResult.qty, metode: aiResult.metode });
       if (!r.ok) return Formatter.error(r.error);
@@ -243,7 +380,7 @@ async function prosesAIResult(aiResult, sender) {
     case 'TAMBAH_PRODUK': {
       const r = callSkill('stok', 'tambah_produk', aiResult);
       if (!r.ok) return Formatter.error(r.error);
-      invalidateCache('stok');
+      invalidateCache('stok'); invalidateCache('laporan');
       logActivity(sender, `TAMBAH_PRODUK:${aiResult.nama}`, 'OK');
       return Formatter.tambahProdukOk(r.data.produk);
     }
@@ -268,12 +405,14 @@ async function prosesAIResult(aiResult, sender) {
     case 'UPDATE_EXP': {
       const r = callSkill('stok', 'update_exp', { produk: aiResult.produk, exp_date: aiResult.exp_date });
       if (!r.ok) return Formatter.error(r.error);
+      invalidateCache('stok'); invalidateCache('laporan');
       logActivity(sender, `UPDATE_EXP:${aiResult.produk}`, 'OK');
       return Formatter.updateExpOk(r.data.item);
     }
     case 'SET_STOK': {
       const r = callSkill('stok', 'set_stok', { produk: aiResult.produk, stok_baru: aiResult.stok_baru });
       if (!r.ok) return Formatter.error(r.error);
+      invalidateCache('laporan');
       logActivity(sender, `SET_STOK:${aiResult.produk} -> ${aiResult.stok_baru}`, 'OK');
       return Formatter.setStokOk(r.data.item.nama, r.data.stok_lama, r.data.stok_baru, r.data.item.satuan);
     }
@@ -411,9 +550,15 @@ async function prosesPerintah(teks, sender = 'unknown', ctx = {}) {
     case 'HARGA': {
       const r = callSkill('harga', 'cek', { produk: parsed.produk });
       if (r.ok) return Formatter.infoHarga(r.data.item);
-      // Produk tidak ada di kios → tanya AI (mungkin pertanyaan harga pasar)
-      const stokAI = callSkill('stok', 'cek', {});
-      const aiR = await prosesAI({ teks, stok: stokAI.ok ? stokAI.data.stok : [], memory: readMemory() });
+      // Produk tidak ada di data lokal Irma → delegasikan analisis harga umum ke Picaman.
+      const request = buatDelegasiPicaman({
+        teks,
+        parsed,
+        sender,
+        reason: 'Harga tidak ditemukan di data lokal Irma; perlu analisis umum atau klarifikasi.',
+        localAttempts: [`harga/cek gagal untuk produk "${parsed.produk}"`],
+      });
+      const aiR = await jalankanDelegasiAI(request);
       if (aiR.tipe === 'AI_RESPONS') return aiR.teks;
       return prosesAIResult(aiR, sender);
     }
@@ -451,6 +596,26 @@ async function prosesPerintah(teks, sender = 'unknown', ctx = {}) {
         if (!RBAC.boleh(role, intentFast.tipe)) {
           return `⛔ *Akses ditolak* — role *${role}* tidak boleh menjalankan *${intentFast.tipe}*.`;
         }
+        if (shouldDelegateToPicaman(intentFast)) {
+          rute.push('picaman');
+          const request = buatDelegasiPicaman({
+            teks: parsed.teks,
+            parsed: intentFast,
+            sender,
+            reason: `Intent ${intentFast.tipe} memerlukan input eksternal, riset, atau penalaran lanjutan.`,
+            localAttempts: ['Intent terdeteksi oleh Irma tanpa model AI.'],
+          });
+          kirimProgres(`⏳ _PicaMan: [${_progresBar(35)}] 35% · menerima delegasi ${intentFast.tipe}..._`);
+
+          const handled = await prosesIntentBaru(intentFast, sender, logActivity, { ...ctx, picamanRequest: request }).catch(() => null);
+          if (handled) {
+            antriLearning(parsed.teks, `PICAMAN:${intentFast.tipe}`, true, handled);
+            return handled;
+          }
+
+          const aiResult = await jalankanDelegasiAI(request);
+          return finalisasiPicamanResult(aiResult, parsed.teks, sender);
+        }
         // Intent terdeteksi tanpa AI
         const baru = await prosesIntentBaru(intentFast, sender, logActivity, ctx);
         if (baru) {
@@ -486,6 +651,10 @@ async function prosesPerintah(teks, sender = 'unknown', ctx = {}) {
 
       // ── Proses lokal — produk ada di DB, aksi bisa diidentifikasi ──────────
       try {
+        const lokalIntent = klasifikasiLokal(parsed.teks);
+        if (lokalIntent && !RBAC.boleh(role, lokalIntent)) {
+          return `⛔ *Akses ditolak* — role *${role}* tidak boleh menjalankan *${lokalIntent}*.`;
+        }
         const lokal = await prosesLokal(parsed.teks, sender, logActivity);
         if (lokal) {
           antriLearning(parsed.teks, 'LOKAL', true, lokal);
@@ -495,35 +664,22 @@ async function prosesPerintah(teks, sender = 'unknown', ctx = {}) {
       } catch {}
 
       // Simpan sebagai unknown — openclaw yang track
-      rute.push('ai');
-      kirimProgres(`⏳ _PicaMan: [${_progresBar(40)}] 40% · memproses AI..._`);
+      rute.push('picaman');
+      kirimProgres(`⏳ _PicaMan: [${_progresBar(40)}] 40% · memproses delegasi..._`);
       antriLearning(parsed.teks, 'UNKNOWN', false);
-      const stokR = callSkill('stok', 'cek', {});
-      const stokAI = stokR.ok ? stokR.data.stok : [];
-      const aiResult = await prosesAI({ teks: parsed.teks, stok: stokAI, memory: readMemory() });
-
-      // ── Laporkan hasil AI ke openclaw agar dipelajari ───────────────────────
-      if (aiResult.tipe !== 'AI_RESPONS') {
-        try {
-          callSkill('self-learner', 'laporan_resolusi', {
-            pesan  : parsed.teks,
-            intent : aiResult.tipe || 'UNKNOWN',
-            produk : aiResult.produk || aiResult.nama_produk || '',
-          });
-          // Reload cache intent-detector agar shortcut baru aktif langsung
-          resetBasePatterns();
-        } catch {}
-      }
-      if (aiResult.tipe !== 'AI_RESPONS' && aiResult.produk) {
-        Learning.savePattern(parsed.teks, aiResult.tipe, aiResult.produk).catch(() => {});
-      }
-      if (aiResult.tipe === 'AI_RESPONS') {
-        antriLearning(parsed.teks, 'AI_RESPONS', true, aiResult.teks);
-        return aiResult.teks;
-      }
-      const vld = validasiPerintah(aiResult);
-      if (!vld.valid) return Formatter.error(vld.error);
-      return prosesAIResult(aiResult, sender);
+      const request = buatDelegasiPicaman({
+        teks: parsed.teks,
+        parsed,
+        sender,
+        reason: 'Irma tidak menemukan intent lokal deterministik yang cukup aman untuk dieksekusi.',
+        localAttempts: [
+          'intent-detector tidak menghasilkan handler lokal final',
+          'openclaw/self-learner tidak memberi resolusi confidence tinggi',
+          'local-processor tidak dapat menyelesaikan permintaan',
+        ],
+      });
+      const aiResult = await jalankanDelegasiAI(request);
+      return finalisasiPicamanResult(aiResult, parsed.teks, sender);
     }
     default: return Formatter.bantuan();
   }
@@ -544,8 +700,10 @@ async function prosesEnvelope(envelope) {
   const dariGrup = dm?.groupInfo?.groupId || sm?.groupInfo?.groupId || null;
   const grupDiizinkan = GROUP_ID && dariGrup === GROUP_ID;
   const diWhitelist = isWhitelisted(senderPhone) || isWhitelisted(senderUuid);
+  const adaPendingKonfirmasi = senderPhone && pendingConfirmations.has(_normalizePhone(senderPhone));
+  const diTerdaftar = !!(senderPhone && RBAC.getRole(senderPhone, WHITELIST_SET));
 
-  if (!diWhitelist && !grupDiizinkan) {
+  if (!diWhitelist && !grupDiizinkan && !adaPendingKonfirmasi && !diTerdaftar) {
     log(`Ditolak dari ${sender || 'unknown'}`);
     alertAdmin(`Pesan dari nomor tidak dikenal: ${sender || 'unknown'}\nIsi: ${teksRaw.slice(0, 50)}`);
     return;
@@ -635,7 +793,18 @@ async function prosesEnvelope(envelope) {
     const konfirmasi = cekKonfirmasi(sender, teks);
     if (konfirmasi) {
       taskType = `CONFIRM:${konfirmasi.tipe}`;
-      if (konfirmasi.tipe === 'BATAL') { balas('Oke kak, dibatalin ya! 👍' + _progresFooter(100, Date.now() - mulai)); return; }
+      if (konfirmasi.tipe === 'BATAL') {
+        if (konfirmasi.prevTipe === 'UNDANGAN_GRUP') {
+          const nama = konfirmasi.data?.nama || 'Kak';
+          balas(`Maaf sudah mengganggu ${nama} 😔\nTerima kasih untuk partisipasinya!` + _progresFooter(100, Date.now() - mulai));
+          for (const nomor of WHITELIST_SET) {
+            kirimPesan(`ℹ️ *${nama}* (${konfirmasi.data?.phone}) menolak undangan grup Kios Cerdas HQ.`, nomor).catch(() => {});
+          }
+          return;
+        }
+        balas('Oke kak, dibatalin ya! 👍' + _progresFooter(100, Date.now() - mulai));
+        return;
+      }
       const resp = await eksekusiKonfirmasi(konfirmasi);
       logActivity(sender, taskType, 'OK');
       balas(resp + _progresFooter(100, Date.now() - mulai));
@@ -679,9 +848,11 @@ async function prosesEnvelope(envelope) {
 }
 
 let restartDelay = 5000;
+let rpcStartTime = 0;
 
 function mulaiJsonRpc() {
   log('Memulai signal-cli jsonRpc...');
+  rpcStartTime = Date.now();
   rpcProc = spawn(SIGNAL_CLI, ['-u', PHONE, 'jsonRpc'], {
     stdio: ['pipe', 'pipe', 'pipe'],
   });
@@ -700,21 +871,24 @@ function mulaiJsonRpc() {
   });
 
   rpcProc.on('close', (code) => {
-    log(`signal-cli jsonRpc exit (${code}) — restart ${restartDelay / 1000}s...`);
+    const uptime = Date.now() - rpcStartTime;
+    // Reset delay jika sudah stabil >60 detik, jika tidak backoff (max 60 detik)
+    if (uptime > 60000) {
+      restartDelay = 5000;
+    } else {
+      restartDelay = Math.min(restartDelay * 2, 60000);
+    }
+    log(`signal-cli jsonRpc exit (${code}) uptime ${Math.round(uptime / 1000)}s — restart ${restartDelay / 1000}s...`);
     rpcProc = null;
     // Batalkan semua pending RPC
     for (const [, pend] of pendingRpc) { clearTimeout(pend.timer); pend.reject(new Error('restart')); }
     pendingRpc.clear();
-    // Backoff: max 30 detik
-    setTimeout(() => { restartDelay = Math.min(restartDelay * 1.5, 30000); mulaiJsonRpc(); }, restartDelay);
+    setTimeout(mulaiJsonRpc, restartDelay);
   });
 
   rpcProc.on('error', (e) => {
     log(`signal-cli error: ${e.message}`);
   });
-
-  // Reset delay setelah berhasil terhubung 10 detik
-  setTimeout(() => { restartDelay = 5000; }, 10000);
 }
 
 async function main() {
@@ -763,20 +937,55 @@ async function main() {
     kirimPesan(`🧠 *Sesi Belajar Selesai*\nSukses: ${rate}% | Hemat: ${token_hemat} token${pl}`);
   });
 
-  bus.on('user:ditambah', ({ phone, nama, role }) => {
-    kirimPesan(`👤 *User Baru* — ${nama} (${role})\nNomor: ${phone}`);
+  // User baru/kembali ditambah → kirim undangan grup ke nomor mereka
+  bus.on('user:akses_diberikan', ({ phone, nama, role, kembali, mantan }) => {
+    if (!phone) return;
+    log(`[user] akses_diberikan → ${phone} (${nama}, ${role})${kembali ? ' [KEMBALI]' : ''}`);
+    pendingConfirmations.set(_normalizePhone(phone), {
+      tipe: 'UNDANGAN_GRUP',
+      data: { phone, nama, role },
+      kode: 'YA',
+      expiresAt: Date.now() + 10 * 60 * 1000, // 10 menit
+    });
+
+    const pesan = kembali
+      ? `Selamat datang kembali kak *${nama}*! 🎉\n\nSenang melihatmu kembali di kios kami.\nAkses *${role}* sudah dipulihkan.\n\nPicaMan mengundangmu kembali ke grup *Kios Cerdas HQ*.\n\nKetik *YA* untuk bergabung, atau *tidak* untuk menolak.`
+      : `Halo kak *${nama}*! 👋\n\nKamu baru saja diberikan akses *${role}* di kios kami.\n\nPicaMan mengundangmu bergabung ke grup *Kios Cerdas HQ* untuk menerima info dan update dari kios.\n\nKetik *YA* untuk bergabung, atau *tidak* untuk menolak.`;
+
+    kirimPesan(pesan, phone)
+      .then(ok => { if (!ok) log(`[user] undangan gagal terkirim ke ${phone}`); })
+      .catch(e => log(`[user] undangan error ke ${phone}: ${e.message}`));
   });
 
-  bus.on('bot:update', ({ shortcuts, aliases, hints }) => {
-    log(`[auto-update] shortcuts:${shortcuts} aliases:${aliases} hints:${hints}`);
+  // Akses dicabut → keluarkan dari grup + kirim pesan terima kasih
+  bus.on('user:akses_dicabut', ({ phone, nama }) => {
+    if (!phone) return;
+    log(`[user] akses_dicabut → ${phone} (${nama})`);
+    kirimPesan(
+      `Terima kasih atas kontribusimu selama ini kak *${nama}* 🙏\nAkses ke kios sudah dinonaktifkan. Semoga sukses selalu!`,
+      phone
+    ).then(ok => { if (!ok) log(`[user] pesan perpisahan gagal ke ${phone}`); })
+     .catch(() => {});
+    keluarkanDariGrup(phone).catch(e => {
+      log(`[user] gagal keluarkan ${phone} dari grup: ${e.message}`);
+    });
   });
 
-  // PicaMan kirim saran real-time ke grup Kios Cerdas HQ
-  bus.on('picaman:saran', ({ pesan, id }) => {
-    if (!pesan) return;
-    kirimKeGrup(pesan).then(() => {
-      try { callSkill('saran', 'tandai_terkirim', { id }); } catch {}
-    }).catch(() => {});
+  bus.on('bot:update', (data) => {
+    // Format dari aksi_terapkan: { shortcuts, aliases, hints }
+    // Format dari laporan_resolusi: { sumber, dipelajari }
+    if (data.sumber === 'laporan_resolusi') {
+      const n = data.dipelajari?.length || 0;
+      if (n) log(`[auto-update] laporan_resolusi: ${n} pola baru dipelajari`);
+      return;
+    }
+    const sc = data.shortcuts ?? 0;
+    const al = data.aliases   ?? 0;
+    const hi = data.hints     ?? 0;
+    if (sc + al + hi > 0) {
+      log(`[auto-update] shortcuts:${sc} aliases:${al} hints:${hi}`);
+      resetBasePatterns(); // aktifkan pola baru segera
+    }
   });
 
   // Wildcard: log semua event openclaw ke console
@@ -791,4 +1000,17 @@ async function main() {
   mulaiJsonRpc();
 }
 
-main().catch(e => { log(`FATAL: ${e.message}`); process.exit(1); });
+if (require.main === module) {
+  main().catch(e => { log(`FATAL: ${e.message}`); process.exit(1); });
+}
+
+module.exports = {
+  prosesPerintah,
+  prosesEnvelope,
+  prosesAIResult,
+  eksekusiKonfirmasi,
+  cekKonfirmasi,
+  setBuatKonfirmasi,
+  isWhitelisted,
+  pecahPesan,
+};

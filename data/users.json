@@ -1,1 +1,23 @@
-{}
+{
+  "+6285932832215": {
+    "phone": "+6285932832215",
+    "nama": "ken",
+    "role": "kasir",
+    "aktif": true,
+    "ditambahkan": "2026-05-20T15:12"
+  },
+  "+6285857330551": {
+    "phone": "+6285857330551",
+    "nama": "andi",
+    "role": "kasir",
+    "aktif": false,
+    "ditambahkan": "2026-05-20T21:53"
+  },
+  "+6281338003402": {
+    "phone": "+6281338003402",
+    "nama": "yohana",
+    "role": "kasir",
+    "aktif": true,
+    "ditambahkan": "2026-05-20T22:44"
+  }
+}

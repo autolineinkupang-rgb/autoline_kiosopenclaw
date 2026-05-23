@@ -9,5 +9,16 @@
     "fix_applied": "Refaktor aksi_tambah_produk menggunakan fungsi _n() untuk konversi aman ke int — handle None, '', dan string kosong",
     "test_result": "FIXED — stok.py baris 224: 'harga_beli': str(_n(params.get('harga_beli'), 0))",
     "prevention_rule": "Semua konversi numerik dari params harus pakai _n() bukan int(float())"
+  },
+  {
+    "bug_id": "BUG-0002",
+    "date": "2026-05-21 00:55",
+    "error_type": "Error",
+    "location": "prosesEnvelope",
+    "root_cause": "[harga.py] Traceback (most recent call last):\n  File \"/home/kevinman/kios-openclaw/skills/harga.py\", line 231, in <module>\n    handler(req.get('params', {}))\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/kevinman/kios-openclaw/skills/harga.py\", line 52, in aksi_update\n    updated = {**s, 'harga_jual': str(int(float(harga_jual))), 'last_update': tanggal}\n                                          ~~~~~^^^^^^^^^^^^\nValueError: could not convert string to float: 'Rp15.000'",
+    "input": "Update produk",
+    "fix_applied": null,
+    "test_result": null,
+    "prevention_rule": null
   }
 ]

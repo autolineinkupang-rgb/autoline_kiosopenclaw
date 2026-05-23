@@ -15,7 +15,11 @@
     "sabun": "sabun mandi",
     "odol": "pasta gigi",
     "sosis": "sosis",
-    "kornet": "kornet"
+    "kornet": "kornet",
+    "minyak goreng 1 | beras 1": "minyak goreng 1l",
+    "update produk": "minyak goreng",
+    "catat_penjualan": "minyak goreng test",
+    "catat_penjualan beras 1": "beras"
   },
   "aliases": {
     "mie sedaap": [
@@ -143,11 +147,51 @@
       "min": 25000,
       "max": 28000,
       "satuan": "bungkus"
+    },
+    "setiap suplayer": {
+      "min": 764,
+      "max": 3379623,
+      "updated": "2026-05-23"
+    },
+    "dari sumber informasi yang tersimpan": {
+      "min": 602,
+      "max": 439547,
+      "updated": "2026-05-23"
     }
   },
   "habits": {
     "peak_hours": {
       "16": 1
     }
-  }
+  },
+  "intent_hints": [
+    {
+      "re": "tambahkan\\ kasir\\ ken\\ \\+6285932832215",
+      "tipe": "TAMBAH_PRODUK"
+    },
+    {
+      "re": "perbaiki\\ bug",
+      "tipe": "CEK_KRITIS"
+    },
+    {
+      "re": "buat\\ laporan\\ hari\\ kemarin",
+      "tipe": "LAPORAN_AI"
+    },
+    {
+      "re": "/lihat_produk",
+      "tipe": "LAPORAN_AI"
+    },
+    {
+      "re": "/lihat_semua_produk",
+      "tipe": "LAPORAN_AI"
+    },
+    {
+      "re": "stokringkas\\(\\)",
+      "tipe": "CEK_KRITIS"
+    },
+    {
+      "re": "periksa\\ semua\\ user",
+      "tipe": "CEK_KRITIS"
+    }
+  ]
 }

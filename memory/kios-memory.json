@@ -11,11 +11,11 @@
     }
   },
   "harian": {
-    "tanggal": "2026-05-19",
-    "total_transaksi": 4,
-    "omzet": 169150,
+    "tanggal": "2026-05-23",
+    "total_transaksi": 2,
+    "omzet": 92000,
     "stok_kritis": [
-      "Minyak Goreng Test (sisa: 0)"
+      "Minyak Goreng Test"
     ]
   },
   "bulanan": {
@@ -32,6 +32,41 @@
           "Minyak Goreng Test (sisa: 0)"
         ],
         "waktu": "2026-05-19 15:55:33"
+      },
+      {
+        "tipe": "stok_kritis",
+        "data": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "waktu": "2026-05-23 07:55:21"
+      },
+      {
+        "tipe": "stok_kritis",
+        "data": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "waktu": "2026-05-23 08:00:16"
+      },
+      {
+        "tipe": "stok_kritis",
+        "data": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "waktu": "2026-05-23 08:20:06"
+      },
+      {
+        "tipe": "stok_kritis",
+        "data": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "waktu": "2026-05-23 08:35:05"
+      },
+      {
+        "tipe": "stok_kritis",
+        "data": [
+          "Minyak Goreng Test (sisa: 0)"
+        ],
+        "waktu": "2026-05-23 08:46:15"
       }
     ],
     "terkirim": [],

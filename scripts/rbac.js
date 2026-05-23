@@ -3,7 +3,8 @@
 const fs   = require('fs');
 const path = require('path');
 
-const USERS_FILE = path.join(__dirname, '..', 'data', 'users.json');
+const USERS_FILE       = path.join(__dirname, '..', 'data', 'users.json');
+const OLD_MEMBERS_FILE = path.join(__dirname, '..', 'data', 'old-members.json');
 
 // ── Definisi izin per role ────────────────────────────────────────────────────
 // owner  : semua operasi (diberikan otomatis ke WHITELIST_SET)
@@ -26,19 +27,23 @@ const IZIN = {
     'HARGA_PASAR', 'SUMBER_HARGA', 'CUACA', 'STATUS', 'STATUS_SHIFT',
     'BANTUAN', 'SHORTCUT', 'LAPORAN_BELAJAR', 'STATUS_BELAJAR', 'TOKEN_USAGE',
     'PERFORMA', 'DAFTAR_SUPPLIER', 'CARI_SUPPLIER', 'LIHAT_PROMO',
+    'HARGA_SUPPLIER',
     'HARGA', 'CARI', 'AI_CHAT',
     'HARGA_FB', 'TAMBAH_SUMBER', 'DAFTAR_SKILL', 'ESTIMASI_HARGA', 'PREDIKSI_HARGA',
   ]),
   kasir: new Set([
-    'JUAL', 'JUAL_MASSAL',
+    'JUAL', 'JUAL_MASSAL', 'BAYAR',
     'BUKA_SHIFT', 'TUTUP_SHIFT', 'STATUS_SHIFT',
     'STOK', 'HARGA', 'CARI', 'CEK_KRITIS', 'EXP',
     'LAPORAN', 'RIWAYAT', 'TERLARIS',
+    'HARGA_SUPPLIER',
     'BANTUAN', 'STATUS', 'CUACA', 'AI_CHAT',
+    'STATUS_BAHASA', 'CEK_SINONIM', 'PELAJARI_BAHASA',
   ]),
   viewer: new Set([
     'STOK', 'HARGA', 'CARI', 'LAPORAN', 'RIWAYAT', 'TERLARIS',
     'BANTUAN', 'STATUS', 'CUACA', 'AI_CHAT',
+    'STATUS_BAHASA', 'CEK_SINONIM',
   ]),
 };
 
@@ -51,6 +56,16 @@ function saveUsers(users) {
   const tmp = USERS_FILE + '.tmp';
   fs.writeFileSync(tmp, JSON.stringify(users, null, 2));
   fs.renameSync(tmp, USERS_FILE);
+}
+
+function loadOldMembers() {
+  try { return JSON.parse(fs.readFileSync(OLD_MEMBERS_FILE, 'utf8')); } catch { return {}; }
+}
+
+function saveOldMembers(data) {
+  const tmp = OLD_MEMBERS_FILE + '.tmp';
+  fs.writeFileSync(tmp, JSON.stringify(data, null, 2));
+  fs.renameSync(tmp, OLD_MEMBERS_FILE);
 }
 
 const _norm = (p) => String(p || '').replace(/[\s\-()]/g, '');
@@ -88,9 +103,29 @@ function tambahUser(phone, nama, role) {
   const users = loadUsers();
   const key = _norm(phone);
   if (!key) return { ok: false, error: 'Nomor tidak valid' };
-  users[key] = { phone, nama: nama || phone, role, aktif: true, ditambahkan: new Date().toISOString().slice(0, 16) };
+
+  // Cek apakah nomor ini pernah jadi member sebelumnya
+  const oldMembers = loadOldMembers();
+  const mantan = oldMembers[key] || null;
+
+  const namaFinal = nama || (mantan?.nama) || phone;
+  users[key] = {
+    phone,
+    nama    : namaFinal,
+    role,
+    aktif   : true,
+    ditambahkan: new Date().toISOString().slice(0, 16),
+    ...(mantan ? { bergabung_ke: (mantan.kali_bergabung || 1) + 1 } : {}),
+  };
   saveUsers(users);
-  return { ok: true, user: users[key] };
+
+  // Tandai di old-members bahwa mereka sudah aktif kembali
+  if (mantan) {
+    oldMembers[key].kembali_aktif = new Date().toISOString().slice(0, 16);
+    saveOldMembers(oldMembers);
+  }
+
+  return { ok: true, user: users[key], kembali: !!mantan, mantan };
 }
 
 /**
@@ -100,9 +135,29 @@ function hapusUser(phone) {
   const users = loadUsers();
   const key = _norm(phone);
   if (!users[key]) return { ok: false, error: 'User tidak ditemukan' };
-  users[key].aktif = false;
+
+  const user = users[key];
+
+  // Arsipkan ke old-members sebelum dinonaktifkan
+  const oldMembers = loadOldMembers();
+  const sudahAda = oldMembers[key];
+  oldMembers[key] = {
+    phone      : user.phone,
+    nama       : user.nama,
+    role       : user.role,
+    ditambahkan: user.ditambahkan,
+    dinonaktifkan: new Date().toISOString().slice(0, 16),
+    kali_bergabung: (sudahAda?.kali_bergabung || 0) + 1,
+    riwayat    : [
+      ...(sudahAda?.riwayat || []),
+      { ditambahkan: user.ditambahkan, dinonaktifkan: new Date().toISOString().slice(0, 16), role: user.role },
+    ],
+  };
+  saveOldMembers(oldMembers);
+
+  user.aktif = false;
   saveUsers(users);
-  return { ok: true, nama: users[key].nama };
+  return { ok: true, nama: user.nama, phone: user.phone };
 }
 
 /**
@@ -113,4 +168,4 @@ function daftarUser() {
   return Object.values(users).filter(u => u.aktif);
 }
 
-module.exports = { getRole, boleh, tambahUser, hapusUser, daftarUser, loadUsers };
+module.exports = { getRole, boleh, tambahUser, hapusUser, daftarUser, loadUsers, loadOldMembers };

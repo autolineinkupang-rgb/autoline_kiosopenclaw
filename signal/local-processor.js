@@ -121,6 +121,59 @@ function _aksiLokal(tl, item, sender, logActivity) {
   return null; // aksi benar-benar ambigu → AI
 }
 
+// Cari produk sejenis berdasarkan overlap kata (tanpa AI)
+function _cariSejenis(cleaned, stok) {
+  const kata = cleaned.toLowerCase().split(/\s+/).filter(k => k.length >= 3);
+  if (!kata.length) return [];
+  return stok
+    .map(s => ({ s, hits: kata.filter(k => s.nama.toLowerCase().includes(k)).length }))
+    .filter(x => x.hits > 0 && Number(x.s.stok) > 0)
+    .sort((a, b) => b.hits - a.hits)
+    .slice(0, 5)
+    .map(x => x.s);
+}
+
+function _formatTidakTersedia(namaDicari, sejenis) {
+  const nama = namaDicari.trim() || 'produk tersebut';
+  if (!sejenis.length) {
+    return `Maaf kak, *${nama}* tidak tersedia di kios 🙏`;
+  }
+  const daftar = sejenis.map(s =>
+    `• ${s.nama} — Rp${Number(s.harga_jual).toLocaleString('id-ID')} (stok: ${s.stok} ${s.satuan})`
+  ).join('\n');
+  return `Maaf kak, *${nama}* tidak tersedia 🙏\n\nYang mirip/sejenis tersedia:\n${daftar}`;
+}
+
+// ── Bahasa: normalisasi + cocokkan semantik ───────────────────────────────────
+
+function _normalisasiBahasa(cleaned) {
+  try {
+    const r = callSkill('bahasa', 'normalisasi', { teks: cleaned });
+    return r.ok ? r.data.normalisasi : cleaned;
+  } catch { return cleaned; }
+}
+
+function _cocokkanBahasa(query, stok) {
+  try {
+    const r = callSkill('bahasa', 'cocokkan', { query, produk: stok, top: 1, threshold: 0.55 });
+    if (r.ok && r.data.ditemukan && r.data.cocok.length) return r.data.cocok[0];
+  } catch {}
+  return null;
+}
+
+function klasifikasiLokal(teks) {
+  const tl = String(teks || '').toLowerCase().trim();
+  if (!tl) return null;
+  if (_K.JUAL.test(tl) && !_K.BELI.test(tl)) return 'JUAL';
+  if (_K.BELI.test(tl) && !_K.JUAL.test(tl)) return 'BELI';
+  if (_K.UPD_HRG.test(tl)) return 'UPDATE_HARGA';
+  if (_K.HAPUS.test(tl)) return 'HAPUS_PRODUK';
+  if (_K.SET_STK.test(tl)) return 'SET_STOK';
+  if (_K.HARGA.test(tl)) return 'HARGA';
+  if (_K.CARI.test(tl) || /\?/.test(tl)) return 'CARI';
+  return null;
+}
+
 // ── Entry point ───────────────────────────────────────────────────────────────
 async function prosesLokal(teks, sender, logActivity) {
   try {
@@ -134,15 +187,36 @@ async function prosesLokal(teks, sender, logActivity) {
     // 1. Exact match — paling cepat
     let item = _cariExact(tl, stok);
 
-    // 2. Fuzzy via skill — bersihkan kata kerja dulu
-    if (!item) {
-      const cleaned = _bersihkanUntukSearch(tl);
-      if (cleaned.length < 3) return null;
+    // 2. Bersihkan kata kerja → fuzzy via stok/cari
+    const cleaned = _bersihkanUntukSearch(tl);
+    if (!item && cleaned.length >= 3) {
       const r = callSkill('stok', 'cari', { produk: cleaned });
       if (r.ok && r.data?.item) item = r.data.item;
     }
 
-    if (!item) return null; // produk tidak dikenal → biarkan AI
+    // 3. Normalisasi bahasa (koreksi typo + sinonim) → stok/cari ulang
+    if (!item && cleaned.length >= 3) {
+      const normQuery = _normalisasiBahasa(cleaned);
+      if (normQuery !== cleaned) {
+        const r = callSkill('stok', 'cari', { produk: normQuery });
+        if (r.ok && r.data?.item) item = r.data.item;
+      }
+    }
+
+    // 4. Cocokkan semantik via bahasa skill (sinonim + Levenshtein)
+    if (!item && cleaned.length >= 3) {
+      item = _cocokkanBahasa(cleaned, stok) || null;
+    }
+
+    if (!item) {
+      // Produk tidak ditemukan — tangani lokal tanpa AI jika intent jelas
+      if (_K.JUAL.test(tl) || _K.CARI.test(tl) || _K.HARGA.test(tl)) {
+        const namaQuery = cleaned.length >= 3 ? cleaned : teks;
+        const sejenis = _cariSejenis(namaQuery, stok);
+        return _formatTidakTersedia(namaQuery, sejenis);
+      }
+      return null; // intent ambigu → biarkan AI
+    }
 
     return _aksiLokal(tl, item, sender, logActivity);
   } catch {
@@ -150,4 +224,4 @@ async function prosesLokal(teks, sender, logActivity) {
   }
 }
 
-module.exports = { prosesLokal };
+module.exports = { prosesLokal, klasifikasiLokal };

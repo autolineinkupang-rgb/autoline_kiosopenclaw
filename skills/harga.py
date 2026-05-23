@@ -1,4 +1,4 @@
-import sys, os, json
+import sys, os, json, re
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from helper import (
@@ -9,10 +9,22 @@ from helper import (
 BASE_FILE    = os.path.join(DATA_DIR, 'base-patterns.json')
 REGISTRY_FILE = os.path.join(DATA_DIR, 'skill-registry.json')
 
+_RE_RP = re.compile(r'(?i)rp\.?\s*')
+_RE_TS = re.compile(r'\.(\d{3})(?!\d)')  # titik pemisah ribuan: 15.000 → 15000
+
 
 def _n(val, default=0):
-    try: return int(float(str(val).strip())) if str(val).strip() else default
-    except: return default
+    """Parse angka dari string format apapun termasuk 'Rp15.000', '1.500.000', '15,000'."""
+    try:
+        s = str(val).strip()
+        if not s:
+            return default
+        s = _RE_RP.sub('', s)           # hapus prefix Rp
+        s = _RE_TS.sub(r'\1', s)        # hapus titik ribuan (iteratif via loop tidak perlu)
+        s = s.replace(',', '')          # hapus koma ribuan
+        return int(float(s)) if s else default
+    except:
+        return default
 
 
 def _load_json(path, default=None):
@@ -47,11 +59,17 @@ def aksi_update(params):
 
     tanggal = tanggal_hari_ini()
     stok_baru = []
+    harga_jual_int = _n(harga_jual)
+    harga_beli_int = _n(harga_beli) if harga_beli is not None else None
+
+    if harga_jual_int <= 0:
+        return err('harga_jual tidak valid')
+
     for s in stok:
         if s['id'] == item['id']:
-            updated = {**s, 'harga_jual': str(int(float(harga_jual))), 'last_update': tanggal}
-            if harga_beli is not None:
-                updated['harga_beli'] = str(int(float(harga_beli)))
+            updated = {**s, 'harga_jual': str(harga_jual_int), 'last_update': tanggal}
+            if harga_beli_int is not None:
+                updated['harga_beli'] = str(harga_beli_int)
             stok_baru.append(updated)
         else:
             stok_baru.append(s)
@@ -60,8 +78,8 @@ def aksi_update(params):
     item_updated = next(s for s in stok_baru if s['id'] == item['id'])
 
     # Log perubahan harga jual ke price-history
-    harga_lama_jual = int(float(item.get('harga_jual', 0)))
-    harga_baru_jual = int(float(harga_jual))
+    harga_lama_jual = _n(item.get('harga_jual', 0))
+    harga_baru_jual = harga_jual_int
     if harga_baru_jual != harga_lama_jual:
         hist = baca_csv('price-history.csv')
         max_id = max(

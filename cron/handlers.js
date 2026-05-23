@@ -7,6 +7,7 @@ const Cuaca = require('../skills/cuaca');
 const MarketIntel = require('../skills/market-intel');
 const Learning = require('../skills/learning-engine');
 const { resetBasePatterns } = require('../signal/intent-detector');
+const { getModel } = require('../config/models');
 const Groq = require('groq-sdk');
 const fs   = require('fs');
 const path = require('path');
@@ -125,7 +126,8 @@ async function applyAiBatch() {
     const batch = _loadJson(AI_BATCH_FILE, {});
     if (!batch.items || !batch.items.length) return;
 
-    const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+    const mdlBatch = getModel('batch');
+    const groq = new Groq({ apiKey: process.env[mdlBatch.env_key] });
     const daftarPesan = batch.items.map((it, i) => `${i + 1}. "${it.pesan}" (${it.frekuensi}x)`).join('\n');
 
     const prompt = `Kamu adalah asisten untuk bot kios toko kecil di Rote Ndao, NTT, Indonesia.
@@ -143,10 +145,10 @@ Jawab HANYA dengan JSON valid:
 {"shortcuts": {}, "aliases": {}, "intent_hints": []}`;
 
     const resp = await groq.chat.completions.create({
-      model  : 'llama-3.1-8b-instant',
-      messages: [{ role: 'user', content: prompt }],
-      temperature: 0.1,
-      max_tokens : 800,
+      model      : mdlBatch.model_id,
+      messages   : [{ role: 'user', content: prompt }],
+      temperature: mdlBatch.temperature,
+      max_tokens : mdlBatch.max_tokens,
     });
 
     const text = resp.choices?.[0]?.message?.content || '';

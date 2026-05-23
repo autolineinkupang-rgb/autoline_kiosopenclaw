@@ -96,5 +96,84 @@
     "berita_penyebab_kenaikan": "kupang.antaranews.com",
     "operasi_pasar_bazar_murah": "rotendaokab.go.id",
     "harga_rote_ndao_realtime": "panelharga.badanpangan.go.id → filter NTT → Rote Ndao"
-  }
+  },
+  "sumber_tambahan": [
+    {
+      "nama": "Jual Power Supply 34volt 30 Ampere Slim Terbaru Online ... - Lazada",
+      "url": "https://www.lazada.co.id/tag/power-supply-34volt-30-ampere-slim",
+      "skor_aman": 70,
+      "ditambahkan": "2026-05-23",
+      "produk_terkait": "setiap suplayer"
+    },
+    {
+      "nama": "Daftar Supplier Tangan Pertama Langsung dari Pabrik Termurah",
+      "url": "https://www.paper.id/blog/ide-bisnis/daftar-supplier-tangan-pertama/",
+      "skor_aman": 70,
+      "ditambahkan": "2026-05-23",
+      "produk_terkait": "setiap suplayer"
+    },
+    {
+      "nama": "Beranda - Satu Data Perdagangan Kemendag RI",
+      "url": "https://satudata.kemendag.go.id/",
+      "skor_aman": 80,
+      "ditambahkan": "2026-05-23",
+      "produk_terkait": "setiap suplayer"
+    },
+    {
+      "nama": "[PDF] STANDAR HARGA KAB. ROTE NDAO 1.1.12.01.01.0001 Bahan ...",
+      "url": "https://rotendaokab.go.id/wp-content/uploads/2024/06/ssh_asb_Kab.-Rote-Ndao.pdf",
+      "skor_aman": 100,
+      "ditambahkan": "2026-05-23",
+      "produk_terkait": "setiap suplayer"
+    },
+    {
+      "nama": "Pasar Murah GPM Pemkab Rote Ndao Sungguh Berdampak bagi ...",
+      "url": "https://www.victorynews.id/ntt/33112346808/pasar-murah-gpm-pemkab-rote-ndao-sungguh-berdampak-bagi-masyarakat-harga-baras-dan-kebutuhan-pokok-lainnya-turun-signifikan",
+      "skor_aman": 70,
+      "ditambahkan": "2026-05-23",
+      "produk_terkait": "setiap suplayer"
+    },
+    {
+      "nama": "Search Engine Paling Banyak Dipakai di Indonesia - GoodStats",
+      "url": "https://goodstats.id/article/search-engine-paling-banyak-dipakai-di-indonesia-KWJqd",
+      "skor_aman": 70,
+      "ditambahkan": "2026-05-23",
+      "produk_terkait": "dari sumber informasi yang tersimpan"
+    },
+    {
+      "nama": "Visa: Kepercayaan Konsumen Menjadi Aset Strategis dalam ...",
+      "url": "https://www.visa.co.id/about-visa/newsroom/press-releases/nr-id-260401.html",
+      "skor_aman": 70,
+      "ditambahkan": "2026-05-23",
+      "produk_terkait": "dari sumber informasi yang tersimpan"
+    },
+    {
+      "nama": "ChargeItem | SATUSEHAT Platform",
+      "url": "https://satusehat.kemkes.go.id/platform/docs/id/fhir/resources/charge-item",
+      "skor_aman": 80,
+      "ditambahkan": "2026-05-23",
+      "produk_terkait": "dari sumber informasi yang tersimpan"
+    },
+    {
+      "nama": "Raja Garam Baru dari Timur! 🧂🇮🇩 Rote Ndao, NTT, ...",
+      "url": "https://www.instagram.com/reel/DP6DgoGkzcx",
+      "skor_aman": 100,
+      "ditambahkan": "2026-05-23",
+      "produk_terkait": "dari sumber informasi yang tersimpan"
+    },
+    {
+      "nama": "Masyarakat Rote Ndao Kini Nikmati BBM Satu Harga",
+      "url": "https://www.migas.esdm.go.id/post/masyarakat-rote-ndao-kini-nikmati-bbm-satu-harga",
+      "skor_aman": 80,
+      "ditambahkan": "2026-05-23",
+      "produk_terkait": "dari sumber informasi yang tersimpan"
+    },
+    {
+      "nama": "Kehidupan Nelayan Lintas Batas di Kabupaten Rote Ndao ...",
+      "url": "https://repositori.kemendikdasmen.go.id/29834/1/KEHIDUPAN%20NELAYAN%20LINTAS%20BATAS%20PROPINSI%20NUSA%20TENGGARA%20TIMUR.pdf",
+      "skor_aman": 80,
+      "ditambahkan": "2026-05-23",
+      "produk_terkait": "dari sumber informasi yang tersimpan"
+    }
+  ]
 }
