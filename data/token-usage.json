@@ -1,11 +1,11 @@
 {
-  "total_prompt": 141603,
-  "total_completion": 5570,
-  "total_tokens": 147173,
-  "calls": 56,
-  "groq_calls": 56,
+  "total_prompt": 149334,
+  "total_completion": 5694,
+  "total_tokens": 155028,
+  "calls": 59,
+  "groq_calls": 59,
   "gemini_calls": 0,
-  "last_call": "2026-05-23 10:26",
+  "last_call": "2026-05-23 14:12",
   "last_provider": "groq",
   "daily": {
     "2026-05-20": {
@@ -23,19 +23,19 @@
       "hemat": 4600
     },
     "2026-05-23": {
-      "prompt": 41795,
-      "completion": 1326,
-      "total": 43121,
-      "calls": 16,
+      "prompt": 49526,
+      "completion": 1450,
+      "total": 50976,
+      "calls": 19,
       "hemat": 8800
     }
   },
   "monthly": {
     "2026-05": {
-      "prompt": 141603,
-      "completion": 5570,
-      "total": 147173,
-      "calls": 56
+      "prompt": 149334,
+      "completion": 5694,
+      "total": 155028,
+      "calls": 59
     }
   },
   "token_hemat": 16400

@@ -7,6 +7,7 @@ const MarketIntel = require('../skills/market-intel');
 const Learning = require('../skills/learning-engine');
 const SelfDebug = require('../skills/self-debug');
 const { loadTokenData, daftarModel } = require('./ai-handler');
+const ModelRegistry = require('../config/models');
 const RBAC = require('../scripts/rbac');
 const Kasir = require('../skills/kasir');
 const bus = require('../scripts/event-bus');
@@ -191,7 +192,7 @@ async function prosesIntentBaru(parsed, sender, logActivity, ctx = {}) {
       }
 
       // tambah user: tambah kasir [nama] [nomor] atau tambah kasir [nomor]
-      const tambahMatch = raw.match(/^tambah(?:kan)?\s+(kasir|staff|viewer)\s+(.+)/);
+      const tambahMatch = raw.match(/^tambah(?:kan)?\s+(kasir|staff|viewer|irma)\s+(.+)/);
       if (tambahMatch) {
         const roleInput = tambahMatch[1] === 'staff' ? 'kasir' : tambahMatch[1];
         const sisa = tambahMatch[2].trim();
@@ -213,20 +214,25 @@ async function prosesIntentBaru(parsed, sender, logActivity, ctx = {}) {
             `📨 Pesan sambutan sudah dikirim ke nomor mereka.`;
         }
 
+        const izinTeks = roleInput === 'kasir'
+          ? '• Jual barang\n• Lihat stok & laporan\n• Buka/tutup shift'
+          : roleInput === 'irma'
+            ? '• Akses penuh semua fungsi\n• ⚠️ Fungsi AI butuh approval owner (balas *aprove*)'
+            : '• Lihat stok & laporan saja';
         return `✅ *${r.user.nama}* ditambahkan sebagai *${r.user.role}*.\nNomor: ${r.user.phone}\n\nIzin ${r.user.role}:\n` +
-          (roleInput === 'kasir'
-            ? '• Jual barang\n• Lihat stok & laporan\n• Buka/tutup shift'
-            : '• Lihat stok & laporan saja') +
+          izinTeks +
           `\n\n📨 Undangan ke grup Kios Cerdas HQ sudah dikirim ke nomor mereka.`;
       }
 
       return `👥 *Kelola Akses*\n${div}\n` +
         `*tambah kasir [nama] [nomor]* — beri akses kasir\n` +
         `*tambah viewer [nama] [nomor]* — akses baca saja\n` +
+        `*tambah irma [nama] [nomor]* — akses penuh, AI butuh approval\n` +
         `*daftar kasir* — lihat semua user aktif\n` +
         `*hapus kasir [nomor]* — cabut akses\n\n` +
         `Izin per role:\n` +
-        `• *owner* (kamu) — semua operasi\n` +
+        `• *owner* (kamu) — semua operasi tanpa approval\n` +
+        `• *irma* — semua operasi; fungsi AI butuh approval owner\n` +
         `• *kasir* — jual, stok, laporan, shift\n` +
         `• *viewer* — stok & laporan saja`;
     }
@@ -242,17 +248,21 @@ async function prosesIntentBaru(parsed, sender, logActivity, ctx = {}) {
       const totalEst   = (hd.hemat || 0) + (hd.total || 0);
       const efisiensi  = totalEst > 0 ? Math.round(((hd.hemat || 0) / totalEst) * 100) : 0;
 
-      // Info model dari registry
+      // Info model dari registry — hanya yang aktif per peran
       const models = daftarModel();
-      const peranLabel = { primary: 'Utama   ', fallback: 'Fallback', batch: 'Batch   ' };
-      const modelInfo = models.map(m => {
+      const peranUrut = ['primary', 'fallback', 'batch'];
+      const labelPad  = { primary: 'AI Utama   ', fallback: 'AI Cadangan', batch: 'AI Batch   ' };
+      const aktifInfo = peranUrut.map(p => {
+        const m = models.find(x => x.peran === p && x.aktif);
+        if (!m) return `  ${labelPad[p]}: (belum ada model untuk peran ini)`;
         const status = m.key_ok ? '✅' : '❌ (API key tidak ada)';
-        const label  = peranLabel[m.peran] || m.peran;
-        return `  ${label}: ${m.nama} v${m.versi} — ${status}`;
+        const tag = m.override ? ' [override]' : '';
+        return `  ${labelPad[p]}: ${m.nama} v${m.versi}${tag} — ${status}`;
       }).join('\n');
 
       return `🤖 *Monitor Token & Model AI*\n${div}\n` +
-        `🧩 *Model Terdaftar:*\n${modelInfo}\n` +
+        `🧩 *Model Aktif:*\n${aktifInfo}\n` +
+        `_Ketik "daftar model" untuk lihat semua opsi_\n` +
         `${div}\n` +
         `📅 Hari ini (${hari}):\n` +
         `  Prompt:     ${hd.prompt.toLocaleString('id-ID')}\n` +
@@ -264,6 +274,48 @@ async function prosesIntentBaru(parsed, sender, logActivity, ctx = {}) {
         `📆 Bulan ini: ${bd.total.toLocaleString('id-ID')} token | ${bd.calls}x panggilan\n` +
         `📊 Total:     ${(d.total_tokens || 0).toLocaleString('id-ID')} token | rata-rata ${avgPerCall}/panggilan\n` +
         `  Terakhir: ${d.last_call || '-'} (${d.last_provider || '-'})`;
+    }
+    case 'DAFTAR_MODEL_AI': {
+      const div = '━━━━━━━━━━━━━━━━━━━━━━━';
+      const models = daftarModel();
+      const labelPad = { primary: 'AI Utama', fallback: 'AI Cadangan', batch: 'AI Batch' };
+
+      const grouped = ['primary', 'fallback', 'batch'].map(p => {
+        const list = models.filter(x => x.peran === p);
+        const baris = list.map(m => {
+          const tanda = m.aktif ? '➤' : ' ';
+          const tagOv = m.override ? ' [override]' : '';
+          const key   = m.key_ok ? '✅' : '❌';
+          return `  ${tanda} \`${m.id}\` — ${m.nama} v${m.versi}${tagOv} ${key}`;
+        }).join('\n') || '  (tidak ada model)';
+        return `📌 *${labelPad[p]}*\n${baris}`;
+      }).join('\n');
+
+      return `🧩 *Daftar Model AI*\n${div}\n${grouped}\n${div}\n` +
+        `Ganti dengan: *ganti ai [utama|cadangan|batch] [model_id]*\n` +
+        `Contoh: ganti ai utama gemini_flash_20\n` +
+        `Reset: *reset ai [utama|cadangan|batch]*\n\n` +
+        `_API key diset manual di file .env. ✅ = key tersedia, ❌ = belum diset_`;
+    }
+    case 'GANTI_MODEL': {
+      const div = '━━━━━━━━━━━━━━━━━━━━━━━';
+      const labelPad = ModelRegistry.LABEL_PERAN;
+      if (parsed.reset) {
+        const r = ModelRegistry.resetModel(parsed.peran);
+        if (!r.ok) return Formatter.error(r.error);
+        const aktif = ModelRegistry.getModel(parsed.peran);
+        return `🔁 *${labelPad[parsed.peran]}* direset ke default.\n` +
+          (aktif ? `Sekarang pakai: *${aktif.nama} v${aktif.versi}*` : '_Tidak ada default untuk peran ini_');
+      }
+      const r = ModelRegistry.setModelAktif(parsed.peran, parsed.modelId);
+      if (!r.ok) {
+        const list = ModelRegistry.daftarModel().map(m => `• \`${m.id}\``).join('\n');
+        return `❌ ${r.error}\n${div}\nModel tersedia:\n${list}`;
+      }
+      return `✅ *${labelPad[parsed.peran]}* diganti ke:\n` +
+        `*${r.model.nama} v${r.model.versi}* (${r.model.provider})\n` +
+        `Model ID: \`${parsed.modelId}\`\n\n` +
+        `_Perubahan langsung berlaku untuk request berikutnya._`;
     }
     case 'STATUS_BELAJAR': {
       const r = callSkill('self-learner', 'status', {});

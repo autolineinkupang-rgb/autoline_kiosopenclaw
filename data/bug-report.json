@@ -17,8 +17,19 @@
     "location": "prosesEnvelope",
     "root_cause": "[harga.py] Traceback (most recent call last):\n  File \"/home/kevinman/kios-openclaw/skills/harga.py\", line 231, in <module>\n    handler(req.get('params', {}))\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/kevinman/kios-openclaw/skills/harga.py\", line 52, in aksi_update\n    updated = {**s, 'harga_jual': str(int(float(harga_jual))), 'last_update': tanggal}\n                                          ~~~~~^^^^^^^^^^^^\nValueError: could not convert string to float: 'Rp15.000'",
     "input": "Update produk",
-    "fix_applied": null,
-    "test_result": null,
-    "prevention_rule": null
+    "fix_applied": "Refaktor aksi_update pakai _n() helper dengan regex _RE_RP (hapus prefix Rp) dan _RE_TS (hapus titik ribuan). harga.py baris 62: harga_jual_int = _n(harga_jual)",
+    "test_result": "FIXED — verifikasi 10 input: 'Rp15.000', 'Rp 15.000', 'rp15000', '15.000', '1.500.000', '15,000', '', None, 'abc', '25000' semua lulus 2026-05-23",
+    "prevention_rule": "Semua konversi numerik dari params USER INPUT harus pakai _n() helper. Jangan int(float(x)) langsung tanpa sanitasi prefix mata uang & separator ribuan."
+  },
+  {
+    "bug_id": "BUG-0003",
+    "date": "2026-05-23 13:30",
+    "error_type": "DetectionMiss",
+    "location": "signal/intent-detector.js — RE.KELOLA_USER",
+    "root_cause": "Saat fitur role 'irma' ditambahkan, RBAC.tambahUser dan intent-handlers menerima 'irma' tapi regex KELOLA_USER hanya match 'kasir|staff|viewer'. Perintah 'tambah irma <nama> <nomor>' jatuh ke AI_CHAT (boros token, kemungkinan gagal).",
+    "input": "tambah irma Irma +6285",
+    "fix_applied": "Tambah 'irma' ke alternation di RE.KELOLA_USER (tambah & hapus). Sekarang: tambah(kasir|staff|viewer|irma), hapus(kasir|user|staff|irma).",
+    "test_result": "FIXED — 'tambah irma Irma +6285' & 'hapus irma +6285' sekarang return tipe=KELOLA_USER. 'tambah kasir Budi' tetap match (regression test lulus).",
+    "prevention_rule": "Saat tambah role baru ke rbac.js, WAJIB juga update regex deteksi (KELOLA_USER di intent-detector.js) dan parser regex (tambahMatch di intent-handlers.js)."
   }
 ]

@@ -13,8 +13,6 @@
     "dashboard": "cd dashboard && npm run dev",
     "dashboard:build": "cd dashboard && npm run build",
     "dashboard:deploy": "cd dashboard && npx vercel --prod",
-    "desktop": "ELECTRON_DEV=1 electron electron/main.js",
-    "desktop:prod": "npm run dashboard:build && electron electron/main.js",
     "test:laporan": "node scripts/laporan-harian.js --test",
     "test:stok": "node scripts/cek-stok.js --test",
     "setup": "node scripts/startup.js --setup-only",
@@ -33,11 +31,6 @@
     "groq-sdk": "^1.2.0",
     "js-yaml": "^4.1.0",
     "node-cron": "^3.0.3"
-  },
-  "devDependencies": {
-    "concurrently": "^9.2.1",
-    "electron": "^42.1.0",
-    "wait-on": "^9.0.10"
   },
   "engines": {
     "node": ">=20.0.0"

@@ -1198,5 +1198,53 @@
     "berhasil": true,
     "resp_len": 227,
     "count": 1
+  },
+  {
+    "ts": "2026-05-23 14:11",
+    "pesan": "Model ai",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 14:11",
+    "pesan": "Model ai",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 451,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 14:12",
+    "pesan": "Models ai",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 14:12",
+    "pesan": "Models ai",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 81,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 14:12",
+    "pesan": "User aktif",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-23 14:12",
+    "pesan": "User aktif",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 68,
+    "count": 1
   }
 ]

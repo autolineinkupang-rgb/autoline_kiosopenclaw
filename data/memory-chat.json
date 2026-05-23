@@ -790,5 +790,69 @@
     "respons": "Tidak ada fungsi yang tersedia untuk membersihkan cache. Saya dapat membantu Anda dengan informasi atau tugas lain yang terkait dengan kios \"Kios Desa Maju\". Jika Anda memiliki pertanyaan atau permintaan lain, silakan bertanya!",
     "intent": "AI_CHAT",
     "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 14:11",
+    "sender": "+6285165061698",
+    "pesan": "Status",
+    "respons": "ℹ️ *Status Sistem*\n🕐 23/05/2026 13:11\n🤖 AI: groq\n📶 Signal: aktif\n💾 Checkpoint: 17:55\n\n┌─────────────────────────────────────────┐\n│ 📦 INVENTORY   : 232 tugas                  │\n│ 🔧 BUG STATUS  : 2 bug (0 fixed)            │\n│ 🧠 LEARNED     : 0 rules                    │\n│ ✅ SYSTEM      : Operational                │\n└─────────────────────────────────────────┘\n\n🤖 *Token AI Hari Ini:*\n• Terpakai: 43.121 token (16x panggilan)\n• Hemat PicaMan: 8.800 token\n• Efisiensi: 17% token dihemat\n• Gro",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-23 14:11",
+    "sender": "+6285165061698",
+    "pesan": "Model ai",
+    "respons": "Irma tidak menemukan intent lokal deterministik yang cukup aman untuk dieksekusi. Saya dapat membantu Anda dengan beberapa opsi:\n\n1. **Informasi Produk**: Jika Anda ingin tahu tentang ketersediaan produk tertentu atau informasi produk lainnya.\n2. **Transaksi**: Untuk melakukan penjualan atau pembelian produk.\n3. **Laporan**: Untuk melihat laporan omzet, laba, atau riwayat transaksi.\n\nSilakan pilih opsi yang sesuai atau berikan pertanyaan spesifik.",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-23 14:12",
+    "sender": "+6285165061698",
+    "pesan": "Models ai",
+    "respons": "Irma tidak menemukan intent lokal deterministik yang cukup aman untuk dieksekusi.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 14:12",
+    "sender": "+6285165061698",
+    "pesan": "User aktif",
+    "respons": "Saya siap membantu. Silakan berikan pertanyaan atau permintaan Anda.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 14:12",
+    "sender": "+6285165061698",
+    "pesan": "Cek user",
+    "respons": "Aduh, ada yang error nih kak 😅\n_Produk tidak ditemukan_\nCoba lagi bentar ya!",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 14:12",
+    "sender": "+6285165061698",
+    "pesan": "Status",
+    "respons": "ℹ️ *Status Sistem*\n🕐 23/05/2026 13:12\n🤖 AI: groq\n📶 Signal: aktif\n💾 Checkpoint: 17:55\n\n┌─────────────────────────────────────────┐\n│ 📦 INVENTORY   : 237 tugas                  │\n│ 🔧 BUG STATUS  : 2 bug (0 fixed)            │\n│ 🧠 LEARNED     : 0 rules                    │\n│ ✅ SYSTEM      : Operational                │\n└─────────────────────────────────────────┘\n\n🤖 *Token AI Hari Ini:*\n• Terpakai: 50.976 token (19x panggilan)\n• Hemat PicaMan: 8.800 token\n• Efisiensi: 15% token dihemat\n• Gro",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 14:32",
+    "sender": "+6285165061698",
+    "pesan": "Status",
+    "respons": "ℹ️ *Status Sistem*\n🕐 23/05/2026 13:32\n🤖 AI: groq\n📶 Signal: aktif\n💾 Checkpoint: 17:55\n\n┌─────────────────────────────────────────┐\n│ 📦 INVENTORY   : 238 tugas                  │\n│ 🔧 BUG STATUS  : 3 bug (0 fixed)            │\n│ 🧠 LEARNED     : 0 rules                    │\n│ ✅ SYSTEM      : Operational                │\n└─────────────────────────────────────────┘\n\n🤖 *Token AI Hari Ini:*\n• Terpakai: 50.976 token (19x panggilan)\n• Hemat PicaMan: 8.800 token\n• Efisiensi: 15% token dihemat\n• Gro",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-23 14:32",
+    "sender": "+6285165061698",
+    "pesan": "Status",
+    "respons": "ℹ️ *Status Sistem*\n🕐 23/05/2026 13:32\n🤖 AI: groq\n📶 Signal: aktif\n💾 Checkpoint: 17:55\n\n┌─────────────────────────────────────────┐\n│ 📦 INVENTORY   : 239 tugas                  │\n│ 🔧 BUG STATUS  : 3 bug (0 fixed)            │\n│ 🧠 LEARNED     : 0 rules                    │\n│ ✅ SYSTEM      : Operational                │\n└─────────────────────────────────────────┘\n\n🤖 *Token AI Hari Ini:*\n• Terpakai: 50.976 token (19x panggilan)\n• Hemat PicaMan: 8.800 token\n• Efisiensi: 15% token dihemat\n• Gro",
+    "intent": "AI_CHAT",
+    "dari_grup": false
   }
 ]

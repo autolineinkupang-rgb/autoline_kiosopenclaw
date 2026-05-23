@@ -1081,3 +1081,162 @@ Log tersimpan di folder `logs/`:
 
 *Dokumentasi ini dibuat otomatis oleh Claude Code — 17 Mei 2026*
 *Untuk pertanyaan teknis, jalankan ulang Claude Code di folder project ini.*
+
+---
+
+## 14. FITUR BARU (Update 23 Mei 2026)
+
+> Panduan ini ditulis untuk **programmer pemula**.
+> Tujuannya: kalau ada yang perlu diubah manual, Anda tahu file mana yang harus disentuh.
+
+### 14.1 Role 'irma' + Approval Gate AI
+
+**Apa itu?**
+Role user baru bernama `irma`. Akses penuh seperti owner, **tapi** kalau dia mau pakai fungsi AI (chat AI, prediksi harga, dll), bot otomatis kirim notifikasi ke owner. Owner balas `aprove` → AI baru jalan.
+
+**Kenapa berguna?**
+Owner bisa kasih akses lebar ke asisten (`irma`) tanpa khawatir token AI dipakai sembarangan — semua pemakaian AI minta izin dulu.
+
+**File yang terkait:**
+
+| File | Apa isinya |
+|---|---|
+| `scripts/rbac.js` | Daftar role + permission. Ada konstanta `AI_INTENTS` (12 intent yang butuh approval) dan `OWNER_ONLY` (intent owner-only). |
+| `signal/bot-handler.js` | Logika gate: `pendingAIApprovals` Map (state pending), `antriAIApproval()` (kirim notif), `cekBalasanApprovalAI()` (deteksi balasan owner), `jalankanAIYangDisetujui()` (eksekusi setelah aprove). |
+| `signal/intent-handlers.js` | Case `KELOLA_USER` — terima role `irma` saat user ditambahkan. |
+| `signal/intent-detector.js` | Regex `RE.KELOLA_USER` — match `tambah irma` & `hapus irma`. |
+
+**Kalau mau ubah daftar intent yang butuh approval:**
+1. Buka `scripts/rbac.js`
+2. Cari constant `AI_INTENTS` (sekitar baris 15)
+3. Tambah/hapus nama intent di set itu
+
+**Kalau mau ubah waktu kedaluwarsa approval (default 5 menit):**
+1. Buka `signal/bot-handler.js`
+2. Cari `AI_APPROVAL_TTL_MS` (sekitar baris 175)
+3. Ganti angkanya. Format: `menit * 60_000`. Contoh 10 menit = `10 * 60_000`.
+
+**Kalau mau tambah/ubah kata kunci balasan owner (default: `aprove`, `setuju`, `oke`, dll):**
+1. Buka `signal/bot-handler.js`
+2. Cari fungsi `cekBalasanApprovalAI` (sekitar baris 245)
+3. Edit regex `/^(aprove|approve|setuju|izin|izinkan|oke|ok|ya)$/i`
+
+---
+
+### 14.2 Ganti AI Model dari Signal
+
+**Apa itu?**
+Owner bisa pilih AI model lewat perintah Signal (`ganti ai utama gemini_flash_20`) — tidak perlu edit kode. API key tetap manual di `.env`.
+
+**Kenapa berguna?**
+- Kalau kuota Groq habis → tinggal ganti ke Gemini lewat WhatsApp.
+- Test model baru tanpa restart bot.
+
+**File yang terkait:**
+
+| File | Apa isinya |
+|---|---|
+| `config/models.js` | Registri model. Tambah model baru di `DAFTAR_MODEL`. Fungsi `getModel(peran)`, `setModelAktif()`, `resetModel()`, `daftarModel()`. Override owner disimpan di `data/ai-models.json`. |
+| `signal/intent-detector.js` | Regex `RE.GANTI_MODEL`, `RE.RESET_MODEL`, `RE.DAFTAR_MODEL_AI`. |
+| `signal/intent-handlers.js` | Case `GANTI_MODEL` & `DAFTAR_MODEL_AI`. Juga update label TOKEN_USAGE: "Utama"→"AI Utama", "Fallback"→"AI Cadangan", "Batch"→"AI Batch". |
+| `signal/delegation-policy.js` | `GANTI_MODEL` & `DAFTAR_MODEL_AI` masuk `LOCAL_INTENTS` (tidak boros token). |
+| `scripts/rbac.js` | `OWNER_ONLY = {'GANTI_MODEL'}` — irma tidak boleh ganti model. |
+| `data/ai-models.json` | File JSON persistence override. Format: `{"primary":"gemini_flash_20"}`. Kalau kosong `{}` = pakai default registry. |
+
+**Kalau mau tambah model AI baru:**
+1. Buka `config/models.js`
+2. Tambah entry baru di `DAFTAR_MODEL`, contoh:
+   ```js
+   openai_gpt4: {
+     provider   : 'openai',
+     nama       : 'GPT-4',
+     versi      : 'turbo',
+     model_id   : 'gpt-4-turbo',
+     env_key    : 'OPENAI_API_KEY',
+     peran      : 'primary',  // primary | fallback | batch
+     max_tokens : 1024,
+     temperature: 0.3,
+     timeout_ms : 8000,
+   },
+   ```
+3. Set `OPENAI_API_KEY=sk-...` di `.env`
+4. Restart bot
+5. Sekarang owner bisa ketik: `ganti ai utama openai_gpt4`
+
+> **CATATAN:** Tambah model dengan provider baru juga perlu update `signal/ai-handler.js` — tambah fungsi `tanyaOpenAI()` mirip `tanyaGroq()` / `tanyaGemini()`.
+
+**Kalau mau reset semua override:**
+Hapus / kosongkan file `data/ai-models.json`:
+```bash
+echo "{}" > data/ai-models.json
+```
+
+---
+
+### 14.3 Bug Tracking — di mana lihat?
+
+File: `data/bug-report.json`
+
+Setiap bug ter-record dengan format:
+```json
+{
+  "bug_id": "BUG-0003",
+  "date": "2026-05-23 13:30",
+  "error_type": "DetectionMiss",
+  "location": "signal/intent-detector.js — RE.KELOLA_USER",
+  "root_cause": "...",
+  "input": "tambah irma Irma +6285",
+  "fix_applied": "...",
+  "test_result": "FIXED — ...",
+  "prevention_rule": "..."
+}
+```
+
+**Cara baca:**
+- `fix_applied: null` = belum di-fix
+- `test_result: "FIXED ..."` = sudah lulus test
+- `prevention_rule` = aturan agar bug serupa tidak terulang
+
+Sistem `self-debug` (file `skills/self-debug.js`) otomatis tambah bug ke file ini saat error terjadi di runtime.
+
+---
+
+### 14.4 Memory Leak Prevention
+
+Bot punya beberapa `Map` in-memory untuk state pending (konfirmasi, approval). Tanpa cleanup, kalau user tidak balas, entry numpuk dan habiskan RAM.
+
+**Cara cleanup ditangani:**
+
+| Map | File | Cara cleanup |
+|---|---|---|
+| `pendingConfirmations` | `bot-handler.js:163` | Dihapus saat `cekKonfirmasi()` dipanggil (cek TTL). |
+| `pendingAIApprovals` | `bot-handler.js:172` | `setInterval` periodik tiap 60 detik (lihat baris 178), hapus entry expired. |
+| `ownerPendingApproval` | `bot-handler.js:174` | Sama dengan `pendingAIApprovals`. |
+| `pendingRpc` | `bot-handler.js:254` | Per-request `setTimeout` cleanup. |
+
+**Kalau bot RAM membengkak:**
+1. Cek dengan `ps aux | grep bot-handler`
+2. Restart bot — Map akan kosong lagi
+3. Cek log `[AI-APPROVAL] cleanup: N approval kedaluwarsa dihapus` — kalau N besar, ada owner yang sering tidak balas approval
+
+---
+
+### 14.5 Daftar Singkat File Penting (Cheat Sheet untuk Programmer Pemula)
+
+| Mau ubah apa? | Buka file ini |
+|---|---|
+| Tambah role baru | `scripts/rbac.js` (di `IZIN`) |
+| Tambah/ubah permission per role | `scripts/rbac.js` (di `IZIN`) |
+| Tambah perintah baru | `signal/intent-detector.js` (tambah regex) + handler di `signal/intent-handlers.js` atau `signal/bot-handler.js` |
+| Ganti format respons | `signal/response-formatter.js` |
+| Ganti AI model | `config/models.js` (`DAFTAR_MODEL`) |
+| Tambah skill Python baru | Buat file di `skills/`, daftar di `signal/bridge.js` |
+| Ganti jadwal cron | `cron/scheduler.js` |
+| Tambah handler cron | `cron/handlers.js` |
+| Edit data stok manual | `data/stok.csv` |
+| Edit data user manual | `data/users.json` |
+| Edit nomor owner | `.env` → `SIGNAL_WHITELIST=+62...` (bisa banyak, dipisah koma) |
+
+---
+
+*Update 23 Mei 2026 — Fitur role 'irma', AI approval gate, model switcher, memory leak fix.*

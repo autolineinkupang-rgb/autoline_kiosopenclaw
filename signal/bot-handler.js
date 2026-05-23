@@ -167,6 +167,89 @@ function setBuatKonfirmasi(sender, tipe, data, kode) {
   pendingConfirmations.set(_normalizePhone(sender), { tipe, data, kode, expiresAt: Date.now() + CONFIRM_TTL_MS });
 }
 
+// --- AI Approval state (untuk role 'irma') ---
+// Pending AI approval: approvalId -> { sender, role, teks, intent, ctxLite, expiresAt }
+const pendingAIApprovals = new Map();
+// Pemetaan owner -> approvalId terakhir yang menunggu (untuk balasan 'aprove')
+const ownerPendingApproval = new Map();
+const AI_APPROVAL_TTL_MS = 5 * 60_000; // 5 menit
+
+// Cleanup periodik entry yang kedaluwarsa (cegah memory leak kalau owner tidak balas)
+setInterval(() => {
+  const now = Date.now();
+  let dibersihkan = 0;
+  for (const [id, p] of pendingAIApprovals) {
+    if (now > p.expiresAt) {
+      pendingAIApprovals.delete(id);
+      dibersihkan++;
+      // Bersihkan juga pointer owner→id yang sudah expired
+      for (const [owner, oid] of ownerPendingApproval) {
+        if (oid === id) ownerPendingApproval.delete(owner);
+      }
+    }
+  }
+  if (dibersihkan) log(`[AI-APPROVAL] cleanup: ${dibersihkan} approval kedaluwarsa dihapus`);
+}, 60_000).unref();
+
+function _genApprovalId() {
+  return `ai_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+}
+
+function antriAIApproval({ sender, role, teks, intent }) {
+  const id = _genApprovalId();
+  pendingAIApprovals.set(id, {
+    sender, role, teks, intent,
+    expiresAt: Date.now() + AI_APPROVAL_TTL_MS,
+  });
+  for (const ownerPhone of WHITELIST_SET) {
+    ownerPendingApproval.set(ownerPhone, id);
+    kirimPesan(
+      `🤖 *Permintaan Approval AI*\n` +
+      `━━━━━━━━━━━━━━━━━━━━━━━\n` +
+      `Irma akan menggunakan AI model.\n` +
+      `• Intent: *${intent}*\n` +
+      `• Dari: ${sender} (role: ${role})\n` +
+      `• Pesan: "${teks.slice(0, 100)}"\n\n` +
+      `Balas *aprove* untuk izinkan, atau *tolak* untuk batalkan.\n` +
+      `_Berlaku 5 menit_`,
+      ownerPhone
+    ).catch(() => {});
+  }
+  log(`[AI-APPROVAL] queued ${id} from ${sender} intent=${intent}`);
+  return id;
+}
+
+async function jalankanAIYangDisetujui(approvalId) {
+  const p = pendingAIApprovals.get(approvalId);
+  if (!p) return { ok: false, error: 'Approval tidak ditemukan' };
+  if (Date.now() > p.expiresAt) {
+    pendingAIApprovals.delete(approvalId);
+    return { ok: false, error: 'Permintaan AI sudah kedaluwarsa' };
+  }
+  pendingAIApprovals.delete(approvalId);
+  try {
+    const hasil = await prosesPerintah(p.teks, p.sender, { _aiApproved: true, kirimProgres: () => Promise.resolve(), rute: [] });
+    // Kirim hasil ke pengirim asli
+    if (p.sender) kirimPesan(hasil, p.sender).catch(() => {});
+    log(`[AI-APPROVAL] executed ${approvalId} for ${p.sender}`);
+    return { ok: true, hasil, sender: p.sender, intent: p.intent };
+  } catch (e) {
+    log(`[AI-APPROVAL] error ${approvalId}: ${e.message}`);
+    return { ok: false, error: e.message };
+  }
+}
+
+function cekBalasanApprovalAI(senderPhone, teksInput) {
+  if (!senderPhone || !isWhitelisted(senderPhone)) return null;
+  const normKey = _normalizePhone(senderPhone);
+  const approvalId = ownerPendingApproval.get(normKey);
+  if (!approvalId || !pendingAIApprovals.has(approvalId)) return null;
+  const t = teksInput.trim().toLowerCase();
+  if (/^(aprove|approve|setuju|izin|izinkan|oke|ok|ya)$/i.test(t)) return { aksi: 'aprove', approvalId };
+  if (/^(tolak|reject|tidak|batal|cancel|no)$/i.test(t)) return { aksi: 'tolak', approvalId };
+  return null;
+}
+
 function cekKonfirmasi(sender, teksInput) {
   const normKey = _normalizePhone(sender);
   const p = pendingConfirmations.get(normKey);
@@ -466,6 +549,12 @@ async function prosesPerintah(teks, sender = 'unknown', ctx = {}) {
   if (!role) return '⛔ Akses ditolak. Hubungi pemilik kios untuk mendapatkan akses.';
   if (!RBAC.boleh(role, parsed.tipe)) {
     return `⛔ *Akses ditolak* — role *${role}* tidak boleh menjalankan *${parsed.tipe}*.\nHubungi pemilik kios untuk izin tambahan.`;
+  }
+
+  // AI approval gate: role 'irma' butuh approval owner untuk intent yang pakai AI
+  if (!ctx._aiApproved && RBAC.butuhApprovalAI(role, parsed.tipe)) {
+    antriAIApproval({ sender, role, teks, intent: parsed.tipe });
+    return `🔐 Fungsi *${parsed.tipe}* membutuhkan AI model.\nPermintaan dikirim ke owner untuk approval.\nMohon tunggu — owner akan balas *aprove* untuk melanjutkan.`;
   }
 
   switch (parsed.tipe) {
@@ -790,6 +879,31 @@ async function prosesEnvelope(envelope) {
   const kirimProgres = (msg) => balas(msg).catch(() => {});
 
   try {
+    // Cek balasan AI approval dari owner (aprove/tolak)
+    const approvalReply = cekBalasanApprovalAI(senderPhone, teks);
+    if (approvalReply) {
+      const { aksi, approvalId } = approvalReply;
+      const pending = pendingAIApprovals.get(approvalId);
+      ownerPendingApproval.delete(_normalizePhone(senderPhone));
+      if (aksi === 'tolak') {
+        pendingAIApprovals.delete(approvalId);
+        if (pending?.sender) {
+          kirimPesan(`⛔ Permintaan AI (*${pending.intent}*) ditolak owner.`, pending.sender).catch(() => {});
+        }
+        balas(`✅ Permintaan AI ditolak.` + _progresFooter(100, Date.now() - mulai));
+        logActivity(sender, `AI_APPROVAL:TOLAK:${pending?.intent || '?'}`, 'OK');
+        return;
+      }
+      // aprove → jalankan
+      balas(`✅ Approved. Menjalankan AI untuk *${pending?.intent || '?'}*...` + _progresFooter(50, Date.now() - mulai));
+      const r = await jalankanAIYangDisetujui(approvalId);
+      if (!r.ok) {
+        kirimPesan(`⚠️ AI gagal: ${r.error}`, senderPhone).catch(() => {});
+      }
+      logActivity(sender, `AI_APPROVAL:APROVE:${pending?.intent || '?'}`, r.ok ? 'OK' : 'FAIL');
+      return;
+    }
+
     const konfirmasi = cekKonfirmasi(sender, teks);
     if (konfirmasi) {
       taskType = `CONFIRM:${konfirmasi.tipe}`;

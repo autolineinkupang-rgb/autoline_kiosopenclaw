@@ -8,8 +8,26 @@ const OLD_MEMBERS_FILE = path.join(__dirname, '..', 'data', 'old-members.json');
 
 // ── Definisi izin per role ────────────────────────────────────────────────────
 // owner  : semua operasi (diberikan otomatis ke WHITELIST_SET)
+// irma   : akses penuh seperti owner, TAPI fungsi AI butuh approval owner
 // kasir  : jual + lihat (tidak bisa ubah data master)
 // viewer : baca saja
+
+// Intent yang memanggil AI model (Groq/Gemini/PicaMan) — perlu approval owner
+// jika dijalankan oleh role 'irma'. Owner tetap bypass.
+const AI_INTENTS = new Set([
+  'AI_CHAT',
+  'PREDIKSI_HARGA',
+  'ESTIMASI_HARGA',
+  'LAPORAN',
+  'PELAJARI_BAHASA',
+  'LAPORAN_BELAJAR',
+  'CUACA',
+  'HARGA_PASAR',
+  'HARGA_FB',
+  'SUMBER_HARGA',
+  'TAMBAH_SUMBER',
+  'UPDATE_HARGA_PASAR',
+]);
 
 const IZIN = {
   owner: new Set([
@@ -21,6 +39,7 @@ const IZIN = {
     'TAMBAH_SUPPLIER',
     'BUKA_SHIFT', 'TUTUP_SHIFT',
     'KELOLA_USER',
+    'GANTI_MODEL', 'DAFTAR_MODEL_AI',
     // baca
     'STOK', 'LAPORAN', 'LABA', 'RIWAYAT', 'LAPORAN_MINGGUAN', 'LAPORAN_BULANAN',
     'TERLARIS', 'RIWAYAT_HARGA', 'MUTASI', 'PRODUK_BARU', 'EXP', 'CEK_KRITIS',
@@ -88,18 +107,31 @@ function getRole(sender, whitelistSet) {
 /**
  * Cek apakah role boleh menjalankan intent tertentu.
  */
+// Intent yang HANYA owner boleh jalankan (config sistem)
+const OWNER_ONLY = new Set(['GANTI_MODEL']);
+
 function boleh(role, intent) {
   if (!role) return false;
+  if (OWNER_ONLY.has(intent)) return role === 'owner';
   if (role === 'owner') return true;
+  if (role === 'irma') return true; // akses penuh; gate AI dilakukan di bot-handler
   return (IZIN[role] || new Set()).has(intent);
 }
 
 /**
+ * Cek apakah intent perlu approval owner saat dijalankan oleh role 'irma'.
+ */
+function butuhApprovalAI(role, intent) {
+  if (role !== 'irma') return false;
+  return AI_INTENTS.has(intent);
+}
+
+/**
  * Tambah/update user non-owner.
- * role: 'kasir' | 'viewer'
+ * role: 'kasir' | 'viewer' | 'irma'
  */
 function tambahUser(phone, nama, role) {
-  if (!['kasir', 'viewer'].includes(role)) return { ok: false, error: 'Role harus kasir atau viewer' };
+  if (!['kasir', 'viewer', 'irma'].includes(role)) return { ok: false, error: 'Role harus kasir, viewer, atau irma' };
   const users = loadUsers();
   const key = _norm(phone);
   if (!key) return { ok: false, error: 'Nomor tidak valid' };
@@ -168,4 +200,4 @@ function daftarUser() {
   return Object.values(users).filter(u => u.aktif);
 }
 
-module.exports = { getRole, boleh, tambahUser, hapusUser, daftarUser, loadUsers, loadOldMembers };
+module.exports = { getRole, boleh, butuhApprovalAI, tambahUser, hapusUser, daftarUser, loadUsers, loadOldMembers, AI_INTENTS };

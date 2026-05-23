@@ -50,8 +50,7 @@ scripts/         — Cron scripts, backup, security, setup
 cron/            — Penjadwal laporan & alert
 config/          — Konfigurasi sistem (openclaw.json)
 data/            — Database CSV + file JSON
-dashboard/       — Dashboard Next.js
-electron/        — Wrapper desktop (opsional)
+dashboard/       — Dashboard Next.js (web-only, deploy ke Vercel)
 logs/            — Log bot & sistem
 ```
 

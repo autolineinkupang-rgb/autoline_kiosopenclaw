@@ -86,7 +86,10 @@ const RE = {
   LAPORAN_BELAJAR: /^(?:laporan\s+belajar|bot\s+belajar\s+apa|yang\s+dipelajari|learning\s+report)/i,
   STATUS_BELAJAR: /^(?:status\s+belajar|cek\s+belajar|info\s+belajar|jadwal\s+belajar|bot\s+belajar\s+kapan|kapan\s+(?:bot\s+)?belajar|kualitas\s+bot|sesi\s+belajar)/i,
   TOKEN_USAGE: /^(?:token|cek\s+token|berapa\s+token|pemakaian\s+(?:token|ai)|penggunaan\s+(?:token|ai|model)|token\s+(?:habis|sisa|pakai|usage|monitor|stats?)|monitor\s+(?:token|ai|model)|statistik\s+(?:token|ai))/i,
-  KELOLA_USER: /^(?:tambah(?:kan)?\s+(?:kasir|staff|viewer)|daftar\s+(?:kasir|user|staff)|hapus(?:kan)?\s+(?:kasir|user|staff)|lihat\s+(?:kasir|user|staff)|kelola\s+(?:kasir|user|akses)|akses\s+(?:kasir|user|staff)|siapa\s+(?:kasir|yang\s+bisa\s+akses)|berikan?\s+akses|cabut\s+akses)/i,
+  GANTI_MODEL: /^(?:ganti|ubah|set|pilih|pakai)\s+(?:ai|model)\s+(utama|cadangan|fallback|batch)\s+(.+)/i,
+  RESET_MODEL: /^(?:reset|kembalikan|default)\s+(?:ai|model)\s+(utama|cadangan|fallback|batch)\s*$/i,
+  DAFTAR_MODEL_AI: /^(?:daftar|list)\s+(?:ai|model)(?:\s+ai)?$|^model\s+(?:apa|tersedia|aktif|saja)/i,
+  KELOLA_USER: /^(?:tambah(?:kan)?\s+(?:kasir|staff|viewer|irma)|daftar\s+(?:kasir|user|staff)|hapus(?:kan)?\s+(?:kasir|user|staff|irma)|lihat\s+(?:kasir|user|staff)|kelola\s+(?:kasir|user|akses)|akses\s+(?:kasir|user|staff)|siapa\s+(?:kasir|yang\s+bisa\s+akses)|berikan?\s+akses|cabut\s+akses)/i,
 
   // SHIFT MANAGEMENT
   BUKA_SHIFT: /^(?:buka\s+shift|mulai\s+shift|shift\s+buka|start\s+shift|open\s+shift)\s*(\d+)?/i,
@@ -190,6 +193,15 @@ function detect(teks) {
   if (RE.CUACA.test(tl)) return { tipe: 'CUACA' };
   if (RE.SUMBER_HARGA.test(tl)) return { tipe: 'SUMBER_HARGA' };
   if (RE.TOKEN_USAGE.test(tl)) return { tipe: 'TOKEN_USAGE' };
+  if ((m = tl.match(RE.GANTI_MODEL))) {
+    const peranMap = { utama: 'primary', cadangan: 'fallback', fallback: 'fallback', batch: 'batch' };
+    return { tipe: 'GANTI_MODEL', peran: peranMap[m[1].toLowerCase()], modelId: m[2].trim() };
+  }
+  if ((m = tl.match(RE.RESET_MODEL))) {
+    const peranMap = { utama: 'primary', cadangan: 'fallback', fallback: 'fallback', batch: 'batch' };
+    return { tipe: 'GANTI_MODEL', peran: peranMap[m[1].toLowerCase()], reset: true };
+  }
+  if (RE.DAFTAR_MODEL_AI.test(tl)) return { tipe: 'DAFTAR_MODEL_AI' };
   if (RE.KELOLA_USER.test(tl)) return { tipe: 'KELOLA_USER', rawTeks: t };
   if (RE.STATUS_BELAJAR.test(tl)) return { tipe: 'STATUS_BELAJAR' };
   if ((m = tl.match(RE.HARGA_SUPPLIER))) {
