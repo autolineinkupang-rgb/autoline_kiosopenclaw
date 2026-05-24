@@ -1,10 +1,10 @@
 'use strict';
 
 const PERINTAH = {
-  STOK: /^(stok|cek stok|stock)/i,
-  LAPORAN: /^(laporan|report|omzet)/i,
+  STOK: /^(?:stok|cek\s+stok|stock|gudang|inventory)$/i,
+  LAPORAN: /^(?:laporan|report|omzet|rekap|summary)$/i,
   // jual [produk] [qty] [metode?]
-  JUAL: /^jual\s+(.+?)\s+(\d+)(?:\s+(tunai|qris|transfer))?$/i,
+  JUAL: /^jual\s+(.+?)\s+(\d+)(?:\s+(tunai|qris|transfer))?(?:\s+bayar\s+(\d+))?$/i,
   // beli [produk] [qty] [harga_beli?]
   BELI: /^beli\s+(.+?)\s+(\d+)(?:\s+(\d+))?$/i,
   // tambah (alias beli tanpa harga)
@@ -14,8 +14,8 @@ const PERINTAH = {
   CARI: /^(cari|search|detail)\s+(.+)/i,
   // exp — lihat produk kadaluarsa / hampir kadaluarsa
   EXP: /^(exp|kadaluarsa|expired?)/i,
-  BACKUP: /^(backup|simpan)/i,
-  BANTUAN: /^(?:bantuan|help|tolong|\?|berikan\s+(?:format|contoh|panduan|info|petunjuk)|format\s+(?:perintah|input|command)|contoh\s+(?:perintah|format|input|command)|cara\s+(?:penggunaan|order|input))/i,
+  BACKUP: /^(?:backup|simpan\s+data)$/i,
+  BANTUAN: /^(?:bantuan|help|\?|menu|apa\s+bisa|bisa\s+apa|apa\s+aja|fitur|panduan|cara\s+pakai|tolong\s*$|berikan\s+(?:format|contoh|panduan|info|petunjuk)|format\s+(?:perintah|input|command)|contoh\s+(?:perintah|format|input|command)|cara\s+(?:penggunaan|order|input))/i,
   STATUS: /^(status|info|ping)$/i,
 };
 
@@ -24,7 +24,7 @@ function parsePerintah(teks) {
 
   if (PERINTAH.JUAL.test(t)) {
     const m = t.match(PERINTAH.JUAL);
-    return { tipe: 'JUAL', produk: m[1].trim(), qty: Number(m[2]), metode: (m[3] || 'tunai').toLowerCase() };
+    return { tipe: 'JUAL', produk: m[1].trim(), qty: Number(m[2]), metode: (m[3] || 'tunai').toLowerCase(), bayar: m[4] ? Number(m[4]) : null };
   }
 
   if (PERINTAH.BELI.test(t)) {
@@ -40,6 +40,7 @@ function parsePerintah(teks) {
   if (PERINTAH.HARGA.test(t)) {
     const m = t.match(PERINTAH.HARGA);
     const produk = m[1].trim();
+    if (/^(?:supplier|restock)\b/i.test(produk)) return { tipe: 'AI_CHAT', teks: t };
     // Jika ada kata lokasi → bukan cek harga kios, arahkan ke AI
     if (/\bdi\b|\bdari\b|\bpasaran\b|\bpasar\b|\bNTT\b|\bRote\b/i.test(produk)) return { tipe: 'AI_CHAT', teks: t };
     return { tipe: 'HARGA', produk };

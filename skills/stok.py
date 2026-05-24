@@ -1,5 +1,6 @@
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from event_emit import emit as bus_emit
 
 
 def _n(val, default=0):
@@ -36,6 +37,8 @@ def aksi_jual(params):
     nama = params.get('produk', '')
     qty = _n(params.get('qty'), 0)
     metode = params.get('metode', 'tunai')
+    if qty <= 0:
+        return err('Jumlah jual harus lebih dari 0')
 
     stok = baca_csv('stok.csv')
     item = cari_produk(nama, stok)
@@ -71,7 +74,13 @@ def aksi_jual(params):
     }
     tx_data.append(tx)
     tulis_csv('transaksi.csv', tx_data, TX_HEADERS)
-    ok({'item': item, 'qty': qty, 'total': total, 'sisa': sisa - qty, 'metode': metode})
+    sisa_akhir = sisa - qty
+    kritis_val = _n(item.get('stok_kritis', 2))
+    if sisa_akhir <= 0:
+        bus_emit('stok:habis', {'produk': item['nama']})
+    elif sisa_akhir <= kritis_val:
+        bus_emit('stok:kritis', {'produk': item['nama'], 'stok': sisa_akhir, 'kritis': kritis_val})
+    ok({'item': item, 'qty': qty, 'total': total, 'sisa': sisa_akhir, 'metode': metode, 'txId': tx['id'], 'id': tx['id']})
 
 
 def _catat_perubahan_harga(item, harga_lama, harga_baru, supplier):
@@ -125,6 +134,10 @@ def aksi_tambah(params):
     harga_beli = _n(params.get('harga'), 0)
     supplier = str(params.get('supplier', '')).strip()
     auto_create = params.get('auto_create', False)
+    if qty <= 0:
+        return err('Jumlah restock harus lebih dari 0')
+    if harga_beli < 0:
+        return err('Harga beli tidak boleh negatif')
 
     stok = baca_csv('stok.csv')
     item = cari_produk(nama, stok)
@@ -235,6 +248,8 @@ def aksi_tambah_produk(params):
         return err('Nama produk wajib diisi')
     if int(produk_baru['harga_jual']) == 0:
         return err('Harga jual wajib diisi')
+    if int(produk_baru['stok']) < 0:
+        return err('Stok awal tidak boleh negatif')
 
     stok.append(produk_baru)
     tulis_csv('stok.csv', stok, STOK_HEADERS)
@@ -275,6 +290,8 @@ def aksi_update_exp(params):
 def aksi_set_stok(params):
     nama = params.get('produk', '')
     stok_baru_val = _n(params.get('stok_baru'), 0)
+    if stok_baru_val < 0:
+        return err('Stok baru tidak boleh negatif')
 
     stok = baca_csv('stok.csv')
     item = cari_produk(nama, stok)

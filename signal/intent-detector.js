@@ -28,11 +28,11 @@ function applyShortcuts(teks) {
 // ─── Pattern definitions ─────────────────────────────────────────────────────
 
 const RE = {
-  // SELL — jual / sold / checkout / kasir
-  JUAL: /^(?:jual|terjual|laku|sold|checkout|kasir\s+jual)\s+(.+?)\s+(\d+(?:[.,]\d+)?)\s*(?:tunai|qris|transfer)?(?:\s+bayar\s+(\d+))?$/i,
+  // SELL — jual / sold / checkout / variasi informal (jualin, keluarin, dll)
+  JUAL: /^(?:jual|jualin|terjual|laku|sold|checkout|kasir\s+jual|keluarin|keluar(?:kan)?)\s+(.+?)\s+(\d+(?:[.,]\d+)?)\s*(tunai|qris|transfer)?(?:\s+bayar\s+(\d+))?$/i,
 
-  // RESTOCK — beli / terima barang / stok masuk
-  BELI: /^(?:beli|tambah\s+stok|restock|terima\s+barang|barang\s+masuk|stok\s+masuk|masukkan\s+stok|replenish)\s+(.+?)\s+(\d+(?:[.,]\d+)?)(?:\s+(?:harga|@)\s*(\d+))?/i,
+  // RESTOCK — beli / variasi informal (tambahin, masukin, restok, dll)
+  BELI: /^(?:beli|tambahin|masukin|masuk(?:in|kan)?\s+stok|tambah\s+stok|restock|restok|terima\s+barang|barang\s+masuk|stok\s+masuk|masukkan\s+stok|replenish)\s+(.+?)\s+(\d+(?:[.,]\d+)?)(?:\s+(?:harga|@)\s*(\d+))?/i,
 
   // STOCK VIEW — cek stok / inventory / daftar semua
   STOK: /^(?:stok|cek\s+stok|gudang|stock|stok\s+semua|lihat\s+stok|inventory|semua\s+barang|daftar\s+stok|list\s+stok|tampil\s+stok|katalog|semua\s+produk|daftar\s+produk)$/i,
@@ -56,6 +56,13 @@ const RE = {
 
   HARGA_PASAR: /^(?:harga\s+pasar|riset\s+harga|market|harga\s+di\s+pasar|bandingkan\s+harga|harga\s+(?:bersaing|kompetitif)|harga.*kios\s+lain|kios\s+lain.*harga)\s*(.+)?$/i,
   UPDATE_HARGA_PASAR: /^(?:update\s+harga\s+pasar|set\s+harga\s+pasar)\s+(.+?)\s+(\d+)/i,
+  SUMBER_HARGA: /^(?:sumber\s+harga|monitor\s+harga|pantau\s+harga|cek\s+harga\s+naik|sumber\s+monitor|link\s+harga|url\s+harga|referensi\s+harga\s+pasar|harga\s+naik\s+rote|monitor\s+(?:kenaikan\s+)?harga)/i,
+  HARGA_FB: /^(?:harga\s+(?:di\s+)?(?:facebook|fb|sosmed|medsos)|cek\s+(?:facebook|fb|sosmed)\s+harga|(?:facebook|fb)\s+(?:harga|jual|marketplace))\s+(.+)/i,
+  HARGA_SUPPLIER: /^(?:(?:bandingkan|compare|cek|lihat|riset)\s+harga\s+(?:supplier|restock)|harga\s+(?:supplier|restock)|supplier\s+termurah|cek\s+supplier\s+termurah|bandingkan\s+supplier)\s+(.+)/i,
+  TAMBAH_SUMBER: /^(?:tambah\s+sumber|simpan\s+(?:url|link|sumber)|daftarkan\s+(?:url|link)|sumber\s+baru|url\s+baru|link\s+baru)\s+(https?:\/\/\S+)(?:\s+(.+))?$/i,
+  DAFTAR_SKILL: /^(?:daftar\s+skill|skill\s+(?:terdaftar|tersedia|ada|apa)|list\s+skill|skill\s+openclaw|kemampuan\s+(?:bot|openclaw)|fitur\s+(?:bot|openclaw)|apa\s+saja\s+(?:skill|fitur))/i,
+  ESTIMASI_HARGA: /^(?:estimasi|perkiraan|kira[- ]kira)\s+harga\s+(.+)/i,
+  PREDIKSI_HARGA: /^(?:prediksi|tren|proyeksi)\s+harga\s+(.+)/i,
 
   // STOCK OPNAME — hitung fisik / audit stok
   OPNAME: /^(?:opname|sinkron\s+stok|stok\s+fisik|hitung\s+stok|audit\s+stok|count\s+stock)\s+(.+?)\s+(\d+)/i,
@@ -70,13 +77,19 @@ const RE = {
   BATAL_TX: /^(?:batal(?:kan)?\s+transaksi|cancel\s+trx|void\s+transaksi)\s+(TRX-\d+)/i,
 
   // HELP — expanded
-  BANTUAN: /^(?:bantuan|help|\?|menu|apa\s+bisa|tolong|bisa\s+apa|apa\s+aja|fitur|panduan|cara\s+pakai|berikan\s+(?:format|contoh|panduan|info|petunjuk)|format\s+(?:perintah|input|command)|contoh\s+(?:perintah|format|input|command)|cara\s+(?:penggunaan|order|input))(?:\s.*)?$/i,
+  BANTUAN: /^(?:bantuan|help|\?|menu|apa\s+bisa|bisa\s+apa|apa\s+aja|fitur|panduan|cara\s+pakai|tolong\s*$|berikan\s+(?:format|contoh|panduan|info|petunjuk)|format\s+(?:perintah|input|command)|contoh\s+(?:perintah|format|input|command)|cara\s+(?:penggunaan|order|input))(?:\s.*)?$/i,
 
   STATUS:  /^(?:status|ping|info\s+sistem)$/i,
   PERFORMA:/^(?:performa|performance\s+review|laporan\s+sistem|laporan\s+bot|bug\s+report)$/i,
   BACKUP:  /^(?:backup|simpan\s+data)$/i,
   SHORTCUT:/^(?:shortcut|paket|pintasan)\s*(.+)?$/i,
   LAPORAN_BELAJAR: /^(?:laporan\s+belajar|bot\s+belajar\s+apa|yang\s+dipelajari|learning\s+report)/i,
+  STATUS_BELAJAR: /^(?:status\s+belajar|cek\s+belajar|info\s+belajar|jadwal\s+belajar|bot\s+belajar\s+kapan|kapan\s+(?:bot\s+)?belajar|kualitas\s+bot|sesi\s+belajar)/i,
+  TOKEN_USAGE: /^(?:token|cek\s+token|berapa\s+token|pemakaian\s+(?:token|ai)|penggunaan\s+(?:token|ai|model)|token\s+(?:habis|sisa|pakai|usage|monitor|stats?)|monitor\s+(?:token|ai|model)|statistik\s+(?:token|ai))/i,
+  GANTI_MODEL: /^(?:ganti|ubah|set|pilih|pakai)\s+(?:ai|model)\s+(utama|cadangan|fallback|batch)\s+(.+)/i,
+  RESET_MODEL: /^(?:reset|kembalikan|default)\s+(?:ai|model)\s+(utama|cadangan|fallback|batch)\s*$/i,
+  DAFTAR_MODEL_AI: /^(?:daftar|list)\s+(?:ai|model)(?:\s+ai)?$|^model\s+(?:apa|tersedia|aktif|saja)/i,
+  KELOLA_USER: /^(?:tambah(?:kan)?\s+(?:kasir|staff|viewer|irma)|daftar\s+(?:kasir|user|staff)|hapus(?:kan)?\s+(?:kasir|user|staff|irma)|lihat\s+(?:kasir|user|staff)|kelola\s+(?:kasir|user|akses)|akses\s+(?:kasir|user|staff)|siapa\s+(?:kasir|yang\s+bisa\s+akses)|berikan?\s+akses|cabut\s+akses)/i,
 
   // SHIFT MANAGEMENT
   BUKA_SHIFT: /^(?:buka\s+shift|mulai\s+shift|shift\s+buka|start\s+shift|open\s+shift)\s*(\d+)?/i,
@@ -87,6 +100,7 @@ const RE = {
 
   // SEARCH / READ — cari / tampilkan / info
   CARI: /^(?:cari|search|detail|cek|tampilkan|info|adakah|ada\s+tidak|apakah\s+ada)\s+(.+)/i,
+  STOK_PRODUK: /^(?:stok|cek\s+stok|sisa\s+stok|stock)\s+(.+)/i,
 
   // PRICE CHECK — harga / berapa harga
   HARGA: /^(?:harga|berapa\s+harga|harganya)\s+(.+)/i,
@@ -121,6 +135,14 @@ const RE = {
   AUTO_RESTOCK: /^(?:restock\s+(?:semua\s+yang?\s+menipis?|low\s+stock|stok\s+menipis?|kritis|habis)|auto\s+restock|restock\s+otomatis)/i,
   JUAL_MASSAL: /^(?:jual\s+(?:massal|banyak|list|sekaligus)|transaksi\s+massal|checkout\s+(?:massal|semua|list)|daftar\s+belanja|list\s+belanjaan|belanja\s+massal)/i,
   TAMBAH_PRODUK_MASSAL: /^(?:tambah\s+produk\s+massal|input\s+produk\s+massal|buat\s+produk\s+banyak|batch\s+(?:tambah|create)\s+produk|import\s+produk|tambah\s+banyak\s+produk)/i,
+
+  // BAHASA SKILL — kelola pemetaan kata
+  STATUS_BAHASA   : /^(?:status\s+bahasa|info\s+bahasa|cek\s+bahasa|bahasa\s+skill|penerjemah\s+status|sinonim\s+aktif)/i,
+  TAMBAH_SINONIM  : /^(?:tambah|ajarkan|simpan|set)\s+sinonim\s+(.+?)\s*[=→>]+\s*(.+)/i,
+  TAMBAH_KOREKSI  : /^(?:tambah|ajarkan|simpan|set)\s+koreksi\s+(.+?)\s*[=→>]+\s*(.+)/i,
+  TAMBAH_SINGKATAN: /^(?:tambah|ajarkan|simpan|set)\s+singkatan\s+(.+?)\s*[=→>]+\s*(.+)/i,
+  TAMBAH_LOKAL    : /^(?:tambah|ajarkan|simpan|set)\s+(?:bahasa\s+)?lokal\s+(.+?)\s*[=→>]+\s*(.+)/i,
+  CEK_SINONIM     : /^(?:sinonim|sinonim\s+dari|apa\s+sinonim)\s+(.+)/i,
 };
 
 function extractQty(str) {
@@ -145,7 +167,7 @@ function detect(teks) {
   let m;
 
   if ((m = te.match(RE.JUAL))) {
-    return { tipe: 'JUAL', produk: m[1].trim(), qty: extractQty(m[2]), metode: 'tunai', bayar: m[3] ? Number(m[3]) : null };
+    return { tipe: 'JUAL', produk: m[1].trim(), qty: extractQty(m[2]), metode: m[3] ? m[3].toLowerCase() : 'tunai', bayar: m[4] ? Number(m[4]) : null };
   }
   if ((m = tl.match(/^(?:jual|sold|laku)\s+(.+?)\s+(\d+)\s+(tunai|qris|transfer)(?:\s+bayar\s+(\d+))?$/i))) {
     return { tipe: 'JUAL', produk: m[1].trim(), qty: extractQty(m[2]), metode: m[3].toLowerCase(), bayar: m[4] ? Number(m[4]) : null };
@@ -169,7 +191,39 @@ function detect(teks) {
   if (RE.EXP.test(tl)) return { tipe: 'EXP' };
   if (RE.KRITIS.test(tl)) return { tipe: 'CEK_KRITIS', subTipe: 'stok' };
   if (RE.CUACA.test(tl)) return { tipe: 'CUACA' };
+  if (RE.SUMBER_HARGA.test(tl)) return { tipe: 'SUMBER_HARGA' };
+  if (RE.TOKEN_USAGE.test(tl)) return { tipe: 'TOKEN_USAGE' };
+  if ((m = tl.match(RE.GANTI_MODEL))) {
+    const peranMap = { utama: 'primary', cadangan: 'fallback', fallback: 'fallback', batch: 'batch' };
+    return { tipe: 'GANTI_MODEL', peran: peranMap[m[1].toLowerCase()], modelId: m[2].trim() };
+  }
+  if ((m = tl.match(RE.RESET_MODEL))) {
+    const peranMap = { utama: 'primary', cadangan: 'fallback', fallback: 'fallback', batch: 'batch' };
+    return { tipe: 'GANTI_MODEL', peran: peranMap[m[1].toLowerCase()], reset: true };
+  }
+  if (RE.DAFTAR_MODEL_AI.test(tl)) return { tipe: 'DAFTAR_MODEL_AI' };
+  if (RE.KELOLA_USER.test(tl)) return { tipe: 'KELOLA_USER', rawTeks: t };
+  if (RE.STATUS_BELAJAR.test(tl)) return { tipe: 'STATUS_BELAJAR' };
+  if ((m = tl.match(RE.HARGA_SUPPLIER))) {
+    const produkRaw = m[1].trim();
+    const enrich = /\b(?:riset|internet|online|tren|trend|pasar|reputasi|ketersediaan|availability|terbaru)\b/i.test(tl);
+    const produk = produkRaw.replace(/\b(?:dengan|plus|pakai)?\s*(?:riset|internet|online|tren|trend|pasar|reputasi|ketersediaan|availability|terbaru)\b/gi, ' ').replace(/\s+/g, ' ').trim();
+    return { tipe: 'HARGA_SUPPLIER', produk: produk || produkRaw, enrich };
+  }
+  if ((m = tl.match(RE.HARGA_FB))) return { tipe: 'HARGA_FB', produk: m[1].trim() };
+  if ((m = t.match(RE.TAMBAH_SUMBER))) return { tipe: 'TAMBAH_SUMBER', url: m[1].trim(), nama: (m[2] || '').trim() };
+  if (RE.DAFTAR_SKILL.test(tl)) return { tipe: 'DAFTAR_SKILL' };
+  if ((m = tl.match(RE.ESTIMASI_HARGA))) return { tipe: 'ESTIMASI_HARGA', produk: m[1].trim() };
+  if ((m = tl.match(RE.PREDIKSI_HARGA))) return { tipe: 'PREDIKSI_HARGA', produk: m[1].trim() };
   if (RE.LAPORAN_BELAJAR.test(tl)) return { tipe: 'LAPORAN_BELAJAR' };
+
+  // BAHASA SKILL
+  if (RE.STATUS_BAHASA.test(tl)) return { tipe: 'STATUS_BAHASA' };
+  if ((m = t.match(RE.TAMBAH_SINONIM)))   return { tipe: 'PELAJARI_BAHASA', bahasaTipe: 'sinonim',   kunci: m[1].trim(), nilai: m[2].trim() };
+  if ((m = t.match(RE.TAMBAH_KOREKSI)))   return { tipe: 'PELAJARI_BAHASA', bahasaTipe: 'koreksi',   kunci: m[1].trim(), nilai: m[2].trim() };
+  if ((m = t.match(RE.TAMBAH_SINGKATAN))) return { tipe: 'PELAJARI_BAHASA', bahasaTipe: 'singkatan', kunci: m[1].trim(), nilai: m[2].trim() };
+  if ((m = t.match(RE.TAMBAH_LOKAL)))     return { tipe: 'PELAJARI_BAHASA', bahasaTipe: 'lokal',     kunci: m[1].trim(), nilai: m[2].trim() };
+  if ((m = tl.match(RE.CEK_SINONIM)))     return { tipe: 'CEK_SINONIM', query: m[1].trim() };
 
   if (RE.PRODUK_BARU.test(tl)) {
     return { tipe: 'PRODUK_BARU', periode: /minggu/i.test(tl) ? 'minggu' : 'hari_ini' };
@@ -266,6 +320,10 @@ function detect(teks) {
       if (!/\bdi\b|\bdari\b|\bpasar\b|\bntt\b|\brote\b|\bkupang\b/i.test(produk)) return { tipe: 'HARGA', produk };
     }
   }
+  if ((m = tl.match(RE.STOK_PRODUK))) {
+    const produk = m[1].trim();
+    if (produk && produk.length <= 45) return { tipe: 'CARI', produk };
+  }
   if ((m = tl.match(RE.CARI))) {
     const produk = m[1].trim();
     if (/\b(?:apakah|bagaimana|mengapa|kenapa|bisakah|dapatkah|haruskah)\b/i.test(produk) ||
@@ -281,7 +339,19 @@ function detect(teks) {
   if ((m = tl.match(RE.BAYAR))) return { tipe: 'BAYAR', nominal: Number(m[1]) };
   if ((m = tl.match(RE.SHORTCUT))) return { tipe: 'SHORTCUT', nama: (m[1] || '').trim() };
 
+  // Dynamic intent hints — dipelajari dari sesi belajar AI
+  const hints = getBase().intent_hints || [];
+  for (const h of hints) {
+    try {
+      if (new RegExp(h.re, 'i').test(tl)) return { tipe: h.tipe, _fromHint: true };
+    } catch {}
+  }
+
   return null;
+}
+
+function resetBasePatterns() {
+  basePatterns = null;
 }
 
 // Async version: also checks Redis-learned patterns
@@ -299,4 +369,4 @@ async function detectAsync(teks, learnEngine) {
   return null;
 }
 
-module.exports = { detect, detectAsync, applyShortcuts };
+module.exports = { detect, detectAsync, applyShortcuts, resetBasePatterns };

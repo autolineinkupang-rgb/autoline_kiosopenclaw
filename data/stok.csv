@@ -1,8 +1,7 @@
 id,nama,kategori,satuan,stok,harga_beli,harga_jual,stok_minimum,stok_kritis,supplier,last_update,has_exp,exp_date
-001,Beras Premium 5kg,sembako,karung,24,62000,70000,10,3,Yanto,2026-05-19,0,
-002,Beras Medium 5kg,sembako,karung,28,55000,62000,10,3,Pak Haji Soleh,2026-05-19,0,
-003,Gula Pasir 1kg,sembako,bungkus,14,13500,15000,8,2,Distributor UD Maju,2026-05-19,0,
-004,Minyak Goreng 1L,sembako,botol,18,17000,19000,8,2,Distributor UD Maju,2026-05-17,0,
+002,Beras Medium 5kg,sembako,karung,27,55000,62000,10,3,Pak Haji Soleh,2026-05-23,0,
+003,Gula Pasir 1kg,sembako,bungkus,13,13500,15000,8,2,Distributor UD Maju,2026-05-20,0,
+004,Minyak Goreng 1L,sembako,botol,15,10000,15000,8,2,Distributor UD Maju,2026-05-23,0,
 005,Tepung Terigu 1kg,sembako,bungkus,13,12000,14000,5,2,Distributor UD Maju,2026-05-18,0,
 006,Garam 250gr,sembako,bungkus,29,2000,2500,10,3,Distributor UD Maju,2026-05-18,0,
 007,Kecap Manis 275ml,sembako,botol,12,8000,10000,5,2,Distributor UD Maju,2026-05-17,0,

@@ -168,9 +168,63 @@ Bot akan membaca stok saat ini dan menjawab dengan konteks kios.
 ## CATATAN FORMAT
 
 - Nama produk **tidak harus persis** — bot pakai fuzzy match
-- Harga tanpa titik/koma: `15000` bukan `15.000`
+- Harga boleh pakai titik/koma: `15.000`, `15,000`, atau `Rp15.000` — semua jadi 15000
 - Qty desimal OK: `beli minyak 1.5 harga 15000`
 - Metode bayar default: `tunai`
+
+---
+
+## KELOLA USER (owner only)
+
+Tambah atau hapus user yang boleh akses bot.
+
+| Perintah | Contoh |
+|---|---|
+| `tambah kasir [nama] [nomor]` | `tambah kasir Budi +628123456789` |
+| `tambah viewer [nama] [nomor]` | `tambah viewer Sari +628987654321` |
+| `tambah irma [nama] [nomor]` | `tambah irma Asisten +628111222333` |
+| `daftar kasir` | (lihat semua user aktif) |
+| `hapus kasir [nomor]` | `hapus kasir +628123456789` |
+| `hapus irma [nomor]` | `hapus irma +628111222333` |
+
+### Apa beda role?
+
+| Role | Akses |
+|---|---|
+| `owner` | Semua. Tidak butuh approval untuk AI. (Diset di `.env` lewat `SIGNAL_WHITELIST`) |
+| `irma` | Semua. **Tapi setiap pakai AI butuh approval owner** (balas `aprove`). |
+| `kasir` | Jual, lihat stok/laporan, shift. |
+| `viewer` | Hanya lihat stok & laporan. |
+
+### Alur approval AI (role `irma`)
+
+1. User `irma` ketik perintah AI, contoh: `chat ai apa rekomendasi produk?`
+2. Bot kirim notifikasi ke owner: *"Irma akan pakai AI model. Balas aprove untuk izinkan."*
+3. Owner balas `aprove` (atau `setuju`, `oke`, `ya`) → AI jalan, hasil dikirim ke `irma`.
+4. Owner balas `tolak` (atau `batal`) → permintaan ditolak.
+5. Kalau owner tidak balas dalam **5 menit**, permintaan kedaluwarsa otomatis.
+
+---
+
+## GANTI AI MODEL (owner only)
+
+Owner bisa pilih model AI yang dipakai untuk peran *AI Utama / AI Cadangan / AI Batch*.
+API key tetap diset manual di `.env` (`GROQ_API_KEY`, `GEMINI_API_KEY`).
+
+| Perintah | Contoh |
+|---|---|
+| `daftar model` | Lihat semua model + status key |
+| `ganti ai utama [id]` | `ganti ai utama gemini_flash_20` |
+| `ganti ai cadangan [id]` | `ganti ai cadangan groq_llama4_scout` |
+| `ganti ai batch [id]` | `ganti ai batch groq_llama31_8b` |
+| `reset ai utama` | Kembali ke default registry |
+
+**Model ID** ada di `config/models.js`. Sekarang tersedia:
+- `groq_llama4_scout` — Llama 4 Scout 17B (cepat, default AI Utama)
+- `groq_llama31_8b` — Llama 3.1 8B (irit token, default AI Batch)
+- `gemini_flash_20` — Gemini 2.0 Flash (default AI Cadangan)
+
+Tambah model baru? Edit `config/models.js` → tambah entry di `DAFTAR_MODEL` dengan `provider`, `model_id`, `env_key`, `peran`. Sistem otomatis cek key tersedia sebelum izinkan switch.
 
 ---
 

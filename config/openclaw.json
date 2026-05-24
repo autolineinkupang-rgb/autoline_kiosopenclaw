@@ -15,7 +15,8 @@
       "temperature": 0.3,
       "timeout_ms": 10000,
       "retry": 1
-    }
+    },
+    "token_limit_harian": 50000
   },
   "kios": {
     "nama": "Kios Desa Maju",
@@ -25,13 +26,21 @@
     "jam_tutup": "21:00",
     "timezone": "Asia/Makassar"
   },
+  "identitas": {
+    "nama_bot": "Irma",
+    "nama_openclaw": "PicaMan",
+    "versi": "5.1",
+    "catatan": "Nama panggilan — bukan nama permanen"
+  },
   "jadwal": {
     "laporan_pagi": "0 6 * * *",
     "laporan_siang": "0 12 * * *",
     "laporan_malam": "0 20 * * *",
     "cek_stok": "0 */3 * * *",
     "backup": "0 22 * * *",
-    "checkpoint": "*/5 * * * *"
+    "checkpoint": "*/5 * * * *",
+    "jam_belajar": "0 2 * * *",
+    "durasi_belajar_jam": 2
   },
   "alert": {
     "stok_minimum": 5,

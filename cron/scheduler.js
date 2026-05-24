@@ -69,6 +69,42 @@ function initCron(handlers) {
     cron.schedule('*/30 * * * *', wrap('cekGelombangPeriodik', handlers.cekGelombangPeriodik), { timezone: WITA_TZ });
     log('Cron aktif: cekGelombangPeriodik @ setiap 30 menit');
   }
+
+  // 02:00 WITA — sesi belajar mandiri bot (jam belajar, hemat token)
+  if (handlers.selfLearn) {
+    cron.schedule('0 2 * * *', wrap('selfLearn', handlers.selfLearn), { timezone: WITA_TZ });
+    log('Cron aktif: selfLearn @ 02:00 WITA');
+  }
+
+  // 01:30 WITA — kompres queue sebelum sesi belajar
+  if (handlers.ringkasQueue) {
+    cron.schedule('30 1 * * *', wrap('ringkasQueue', handlers.ringkasQueue), { timezone: WITA_TZ });
+    log('Cron aktif: ringkasQueue @ 01:30 WITA');
+  }
+
+  // 02:30 WITA — apply AI batch ke base-patterns, self-update bot
+  if (handlers.applyAiBatch) {
+    cron.schedule('30 2 * * *', wrap('applyAiBatch', handlers.applyAiBatch), { timezone: WITA_TZ });
+    log('Cron aktif: applyAiBatch @ 02:30 WITA');
+  }
+
+  // 03:00 WITA — bersihkan memori percakapan grup (>1 hari)
+  if (handlers.bersihkanMemoriGrup) {
+    cron.schedule('0 3 * * *', wrap('bersihkanMemoriGrup', handlers.bersihkanMemoriGrup), { timezone: WITA_TZ });
+    log('Cron aktif: bersihkanMemoriGrup @ 03:00 WITA');
+  }
+
+  // 06:30 WITA — saran PicaMan pagi
+  if (handlers.kirimSaranPicaMan) {
+    cron.schedule('30 6 * * *', wrap('kirimSaranPicaMan', handlers.kirimSaranPicaMan), { timezone: WITA_TZ });
+    log('Cron aktif: kirimSaranPicaMan @ 06:30 WITA');
+  }
+
+  // 12:00 WITA — saran PicaMan siang
+  if (handlers.kirimSaranPicaMan) {
+    cron.schedule('0 12 * * *', wrap('kirimSaranPicaMan', handlers.kirimSaranPicaMan), { timezone: WITA_TZ });
+    log('Cron aktif: kirimSaranPicaMan @ 12:00 WITA');
+  }
 }
 
 module.exports = { initCron };
