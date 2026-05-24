@@ -13,7 +13,7 @@
 5. [File Data CSV](#5-file-data-csv)
 6. [File Memory](#6-file-memory)
 7. [Scripts Utama](#7-scripts-utama)
-8. [Signal Bot](#8-signal-bot)
+8. [Telegram Bot](#8-telegram-bot)
 9. [Dashboard Next.js](#9-dashboard-nextjs)
 10. [File Root Project](#10-file-root-project)
 11. [Keamanan Sistem](#11-keamanan-sistem)
@@ -29,7 +29,7 @@ Kios Openclaw adalah sistem manajemen kios desa yang bekerja secara otomatis men
 - **Hemat biaya** — semua layanan gratis (Groq, Gemini, Vercel)
 - **Hemat internet** — cocok untuk koneksi < 10 Mbps
 - **Otomatis** — laporan terkirim otomatis 3x sehari
-- **Mudah digunakan** — cukup kirim perintah via Signal (WhatsApp alternatif)
+- **Mudah digunakan** — cukup kirim perintah via Telegram
 
 ### Teknologi yang Digunakan
 
@@ -38,7 +38,7 @@ Kios Openclaw adalah sistem manajemen kios desa yang bekerja secara otomatis men
 | Backend/Scripts | Node.js v20 | Gratis |
 | AI Utama | Groq Llama 4 Scout | Gratis |
 | AI Cadangan | Google Gemini 2.0 Flash | Gratis |
-| Chat/Bot | Signal App + signal-cli | Gratis |
+| Chat/Bot | Telegram + Bot API | Gratis |
 | Dashboard Web | Next.js 15 | Gratis |
 | Hosting Dashboard | Vercel | Gratis selamanya |
 | Database | File CSV lokal | Gratis |
@@ -47,7 +47,7 @@ Kios Openclaw adalah sistem manajemen kios desa yang bekerja secara otomatis men
 ### Cara Kerja Singkat
 
 ```
-Ruflo kirim pesan Signal
+Ruflo kirim pesan Telegram
         ↓
 Bot menerima & verifikasi pengirim (whitelist)
         ↓
@@ -57,7 +57,7 @@ Data diambil dari file CSV lokal
         ↓
 Jika perlu AI → Groq (utama) atau Gemini (cadangan)
         ↓
-Hasil dikirim balik ke Signal
+Hasil dikirim balik ke Telegram
         ↓
 Dashboard Vercel menampilkan data real-time
 ```
@@ -80,7 +80,7 @@ kios-openclaw/
 │   └── transaksi.csv          ← Riwayat semua transaksi penjualan
 │
 ├── memory/                    ← Memori sistem (status real-time)
-│   ├── kios-memory.json       ← Status harian, AI, Signal, sistem
+│   ├── kios-memory.json       ← Status harian, AI, Telegram, sistem
 │   ├── checkpoint.json        ← Riwayat snapshot per 5 menit
 │   └── pending-tasks.json     ← Antrian tugas yang belum selesai
 │
@@ -94,7 +94,7 @@ kios-openclaw/
 │   ├── startup.js             ← Titik masuk utama sistem
 │   └── security.js            ← Fungsi keamanan bersama
 │
-├── signal/                    ← Bot WhatsApp/Signal
+├── signal/                    ← Bot Telegram (nama folder dipertahankan)
 │   ├── bot-handler.js         ← Menerima & memproses perintah
 │   ├── message-parser.js      ← Mengurai teks perintah
 │   └── response-formatter.js  ← Format pesan balasan
@@ -120,7 +120,7 @@ kios-openclaw/
 │   ├── laporan.log            ← Log laporan harian
 │   ├── stok.log               ← Log pengecekan stok
 │   ├── checkpoint.log         ← Log checkpoint memori
-│   ├── signal.log             ← Log aktivitas bot Signal
+│   ├── signal.log             ← Log aktivitas bot Telegram
 │   ├── backup.log             ← Log backup harian
 │   └── blockchain.log         ← Log blockchain logger
 │
@@ -151,7 +151,7 @@ npm start  →  scripts/startup.js
          Sistem siap beroperasi
 ```
 
-### B. Alur Penjualan via Signal
+### B. Alur Penjualan via Telegram
 
 ```
 Ruflo: "jual mie instan goreng 5"
@@ -184,7 +184,7 @@ Kirim prompt ke Groq AI
             ↓ (jika Groq gagal/timeout)
 Coba Gemini sebagai fallback
             ↓
-Hasil laporan dikirim ke Signal Ruflo
+Hasil laporan dikirim ke Telegram Ruflo
 ```
 
 ---
@@ -330,7 +330,7 @@ TX1716001234,2026-05-17,08:30:00,008,Mie Instan Goreng,snack,5,3500,17500,tunai,
 ```
 
 - `id: TX + timestamp` → setiap transaksi punya ID unik berdasarkan waktu (tidak bisa duplikat)
-- `kasir: "signal-bot"` → transaksi dicatat otomatis dari perintah Signal
+- `kasir: "signal-bot"` → transaksi dicatat otomatis dari perintah Telegram (label data sengaja dipertahankan)
 - File ini **hanya ditambah** (append), tidak pernah dihapus — menjaga audit trail
 
 ---
@@ -361,7 +361,7 @@ Otak sistem — menyimpan status real-time kios. Diupdate setiap kali ada aktivi
 
 - **`harian`** — reset setiap hari, berisi ringkasan hari berjalan
 - **`bulanan`** — akumulasi omzet bulan ini
-- **`alert.pending`** — alert yang belum dikirim (jika Signal tidak aktif)
+- **`alert.pending`** — alert yang belum dikirim (jika Telegram tidak aktif)
 - **`ai`** — statistik penggunaan AI (berapa kali Groq gagal, berapa token terpakai)
 - **`signal.status`** → `"connected"` atau `"disconnected"`
 - **`system.startup_time`** → kapan sistem terakhir dinyalakan
@@ -667,7 +667,9 @@ Memeriksa apakah nomor HP ada di daftar putih:
 
 ---
 
-## 8. SIGNAL BOT
+## 8. TELEGRAM BOT
+
+> Folder masih bernama `signal/` (dipertahankan agar `require()` & npm scripts tidak berubah), tapi transport-nya sekarang **Telegram Bot API**.
 
 ### `signal/message-parser.js` — Pengurai Perintah
 
@@ -702,7 +704,7 @@ Validasi logika bisnis:
 
 ### `signal/response-formatter.js` — Pembuat Pesan Balasan
 
-Semua fungsi di sini mengembalikan string teks yang diformat untuk dibaca di Signal.
+Semua fungsi di sini mengembalikan string teks yang diformat untuk dibaca di Telegram.
 
 ```javascript
 function formatRupiah(n)
@@ -712,7 +714,7 @@ function formatRupiah(n)
 ```javascript
 stokRingkas(stok)
 ```
-Memfilter stok kritis dan rendah lalu format menjadi pesan dengan emoji. Tanda `*teks*` di Signal = **teks tebal**.
+Memfilter stok kritis dan rendah lalu format menjadi pesan dengan emoji. Tanda `*teks*` di Telegram (parse_mode Markdown) = **teks tebal**.
 
 ```javascript
 konfirmasiJual(produk, qty, total, sisaStok)
@@ -723,48 +725,38 @@ Membuat konfirmasi transaksi. Jika `sisaStok <= 2`, otomatis tambahkan peringata
 
 ### `signal/bot-handler.js` — Otak Bot
 
-File terbesar dan terpenting dalam sistem Signal bot.
+File terbesar dan terpenting dalam sistem bot.
 
 ```javascript
-const { spawnSync } = require('child_process');
+const axios = require('axios');
+const TG_API = `https://api.telegram.org/bot${BOT_TOKEN}`;
+async function tgApi(method, params, timeout) { ... }
 ```
-`spawnSync` digunakan alih-alih `execSync` untuk **mencegah command injection**. Perbedaan krusial:
-- `execSync("signal-cli send -m " + input)` → input bisa berisi `` `rm -rf /` `` dan akan dieksekusi shell
-- `spawnSync("signal-cli", ["-m", input])` → input selalu diperlakukan sebagai teks biasa, tidak pernah dieksekusi shell
+Semua komunikasi ke Telegram lewat satu helper `tgApi()` yang POST JSON ke endpoint Bot API. Karena body dikirim sebagai JSON (bukan argumen shell), input pengguna **tidak pernah dieksekusi sebagai perintah** — aman dari command injection.
 
 ```javascript
-function kirimPesan(teks, penerima)
+async function kirimPesan(teks, penerima)
 ```
-Mengirim pesan Signal menggunakan signal-cli dengan argumen array (aman dari injection). Pesan dipotong maksimal 4096 karakter (batas Signal).
+Mengirim pesan ke Telegram via `sendMessage`. Dicoba dengan `parse_mode: 'Markdown'` (format `*tebal*` / `_miring_` sama seperti Signal); jika Telegram menolak parsing, dikirim ulang sebagai teks polos agar pesan tetap sampai. Pesan panjang dipecah `pecahPesan()` (maks 4096 karakter, batas Telegram).
 
 ```javascript
-function catatJual(produk, qty)
+function envelopeFromTelegram(message) { ... }
 ```
-Proses pencatatan transaksi yang kompleks:
-1. Baca stok.csv
-2. Cari produk berdasarkan nama (partial match)
-3. Cek stok cukup
-4. Kurangi stok → tulis ulang stok.csv
-5. Buat record transaksi → append ke transaksi.csv
-6. Kembalikan hasil
+Adaptor yang mengubah update Telegram menjadi objek envelope ber-format Signal (`sourceNumber`, `dataMessage.message`, `groupInfo.groupId`). Tujuannya: seluruh logika `prosesEnvelope()` tetap berjalan **tanpa perubahan** meski transport sudah ganti. Pengirim diambil dari `message.from.id` (User ID numerik Telegram).
 
 ```javascript
-const envelopeMatch = line.match(/^Envelope from:\s*(\+\d+)/);
-if (envelopeMatch) {
-  currentSender = envelopeMatch[1];
+async function mulaiPolling() {
+  const updates = await tgApi('getUpdates', { offset, timeout: 30 });
+  for (const upd of updates) prosesEnvelope(envelopeFromTelegram(upd.message));
+}
 ```
-Membaca baris output signal-cli untuk mengetahui siapa pengirim pesan. Signal-cli mengeluarkan output seperti:
-```
-Envelope from: +6285165061698 ...
-Body: stok
-```
-Kode ini menangkap nomor sebelum melihat pesan, lalu menggunakannya untuk verifikasi whitelist.
+Bot menarik pesan masuk via **long polling** `getUpdates` (bukan webhook), jadi tidak perlu server publik. Tiap update disalurkan ke `prosesEnvelope` lewat adaptor di atas.
 
 ```javascript
-if (!isPhoneAllowed(currentSender, WHITELIST)) {
-  log(`⛔ Pesan ditolak dari ${currentSender}`);
+if (!diWhitelist && !grupDiizinkan && !adaPendingKonfirmasi && !diTerdaftar) {
+  log(`Ditolak dari ${sender || 'unknown'}`);
 ```
-Jika pengirim tidak ada di `SIGNAL_WHITELIST` di `.env`, perintah langsung ditolak dan tidak diproses. Ini mencegah orang luar mengontrol kios.
+Jika pengirim tidak ada di `TELEGRAM_WHITELIST` (dan bukan anggota grup terdaftar), perintah langsung ditolak. Ini mencegah orang luar mengontrol kios.
 
 ---
 
@@ -966,10 +958,12 @@ Validasi parameter `limit` dari URL (`/api/transaksi?limit=50`):
 File ini berisi semua rahasia sistem. **JANGAN pernah upload ke GitHub.**
 
 ```
-GROQ_API_KEY=gsk_...        ← Kunci akses Groq AI
-GEMINI_API_KEY=AIza...      ← Kunci akses Google Gemini
-SIGNAL_WHITELIST=+62...     ← Nomor HP yang boleh beri perintah
-DASHBOARD_API_KEY=...       ← Token keamanan dashboard web
+GROQ_API_KEY=gsk_...           ← Kunci akses Groq AI
+GEMINI_API_KEY=AIza...         ← Kunci akses Google Gemini
+TELEGRAM_BOT_TOKEN=123:ABC...  ← Token bot dari @BotFather
+TELEGRAM_GROUP_ID=-100...      ← Chat ID grup
+TELEGRAM_WHITELIST=123456789   ← User ID Telegram yang boleh beri perintah
+DASHBOARD_API_KEY=...          ← Token keamanan dashboard web
 ```
 
 Dibaca oleh `require('dotenv').config()` di setiap script yang membutuhkannya.
@@ -1022,8 +1016,8 @@ Sistem menerapkan 7 lapisan keamanan:
 
 | # | Lapisan | Implementasi | Melindungi dari |
 |---|---------|-------------|-----------------|
-| 1 | Command Injection | `spawnSync(cmd, [args])` | Perintah berbahaya via Signal |
-| 2 | Whitelist Pengirim | `isPhoneAllowed()` | Bot dikendalikan orang tak dikenal |
+| 1 | Command Injection | `spawnSync(cmd, [args])` (remote shell) | Perintah berbahaya via Telegram |
+| 2 | Whitelist Pengirim | `isWhitelisted()` | Bot dikendalikan orang tak dikenal |
 | 3 | Rate Limiting | `cekRateLimit()` + middleware | Spam & brute force |
 | 4 | Input Sanitization | `sanitizeInput()` | Karakter kontrol tersembunyi |
 | 5 | CSV Injection | `buatBarisCsvAman()` | Formula berbahaya di spreadsheet |
@@ -1055,8 +1049,9 @@ Format cron yang digunakan: `menit jam hari bulan hari-dalam-minggu`
 |-------|----------|--------|
 | `ENOENT: no such file or directory` | File CSV atau konfigurasi tidak ada | Jalankan ulang setup atau buat file yang hilang |
 | `Groq gagal ... coba Gemini` | API Groq timeout atau rate limit | Normal — sistem otomatis fallback ke Gemini |
-| `❌ signal-cli tidak ditemukan` | signal-cli belum diinstall | Download dari GitHub releases, install sesuai INSTRUKSI-DEPLOY.md |
-| `⛔ Pesan ditolak dari +62...` | Nomor tidak ada di whitelist | Tambahkan nomor ke `SIGNAL_WHITELIST` di `.env` |
+| `Token Telegram tidak valid` | `TELEGRAM_BOT_TOKEN` salah/kosong | Cek token dari @BotFather, set di `.env` |
+| `getUpdates error: ... 409` | Ada instance bot lain yang sedang polling | Pastikan hanya satu proses `signal:start` berjalan |
+| `⛔ Ditolak dari ...` | User ID tidak ada di whitelist | Tambahkan User ID ke `TELEGRAM_WHITELIST` di `.env` |
 | `⏱️ Rate limit tercapai` | Terlalu banyak perintah dalam 1 menit | Tunggu 1 menit, kirim perintah kembali |
 | `Stok tidak cukup` | Qty yang diminta melebihi stok | Cek stok dengan perintah "stok" |
 | `exit code 1` | Error fatal pada script | Lihat log di `logs/` untuk detail |
@@ -1123,13 +1118,13 @@ Owner bisa kasih akses lebar ke asisten (`irma`) tanpa khawatir token AI dipakai
 
 ---
 
-### 14.2 Ganti AI Model dari Signal
+### 14.2 Ganti AI Model dari Telegram
 
 **Apa itu?**
-Owner bisa pilih AI model lewat perintah Signal (`ganti ai utama gemini_flash_20`) — tidak perlu edit kode. API key tetap manual di `.env`.
+Owner bisa pilih AI model lewat perintah Telegram (`ganti ai utama gemini_flash_20`) — tidak perlu edit kode. API key tetap manual di `.env`.
 
 **Kenapa berguna?**
-- Kalau kuota Groq habis → tinggal ganti ke Gemini lewat WhatsApp.
+- Kalau kuota Groq habis → tinggal ganti ke Gemini lewat Telegram.
 - Test model baru tanpa restart bot.
 
 **File yang terkait:**
@@ -1235,7 +1230,7 @@ Bot punya beberapa `Map` in-memory untuk state pending (konfirmasi, approval). T
 | Tambah handler cron | `cron/handlers.js` |
 | Edit data stok manual | `data/stok.csv` |
 | Edit data user manual | `data/users.json` |
-| Edit nomor owner | `.env` → `SIGNAL_WHITELIST=+62...` (bisa banyak, dipisah koma) |
+| Edit owner | `.env` → `TELEGRAM_WHITELIST=123456789` (User ID, bisa banyak, dipisah koma) |
 
 ---
 

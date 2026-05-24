@@ -854,5 +854,85 @@
     "respons": "ℹ️ *Status Sistem*\n🕐 23/05/2026 13:32\n🤖 AI: groq\n📶 Signal: aktif\n💾 Checkpoint: 17:55\n\n┌─────────────────────────────────────────┐\n│ 📦 INVENTORY   : 239 tugas                  │\n│ 🔧 BUG STATUS  : 3 bug (0 fixed)            │\n│ 🧠 LEARNED     : 0 rules                    │\n│ ✅ SYSTEM      : Operational                │\n└─────────────────────────────────────────┘\n\n🤖 *Token AI Hari Ini:*\n• Terpakai: 50.976 token (19x panggilan)\n• Hemat PicaMan: 8.800 token\n• Efisiensi: 15% token dihemat\n• Gro",
     "intent": "AI_CHAT",
     "dari_grup": false
+  },
+  {
+    "ts": "2026-05-24 18:17",
+    "sender": "+6285165061698",
+    "pesan": "Status",
+    "respons": "ℹ️ *Status Sistem*\n🕐 24/05/2026 17:17\n🤖 AI: groq\n📶 Signal: aktif\n💾 Checkpoint: 17:55\n\n┌─────────────────────────────────────────┐\n│ 📦 INVENTORY   : 240 tugas                  │\n│ 🔧 BUG STATUS  : 3 bug (0 fixed)            │\n│ 🧠 LEARNED     : 0 rules                    │\n│ ✅ SYSTEM      : Operational                │\n└─────────────────────────────────────────┘\n\n🤖 *Token AI Hari Ini:*\n• Terpakai: 0 token (0x panggilan)\n• Hemat PicaMan: 0 token\n• Efisiensi: 0% token dihemat\n• Groq: 59x | Ge",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-24 18:18",
+    "sender": "+6285165061698",
+    "pesan": "Apa saja update barang hari ini",
+    "respons": "📦 *Stok Hampir Habis:*\n🔴 Minyak Goreng Test: sisa 0  (KRITIS!)\n\nSegera restock ya kak! 🛒",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-24 18:18",
+    "sender": "+6285165061698",
+    "pesan": "Harga gula di rote ndao",
+    "respons": "Maaf kak, *gula rote ndao* tidak tersedia 🙏\n\nYang mirip/sejenis tersedia:\n• Gula Pasir 1kg — Rp15.000 (stok: 13 bungkus)",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-24 18:18",
+    "sender": "+6285165061698",
+    "pesan": "Perkiraan Harga gula pasir di rote ndao",
+    "respons": "Aduh, ada yang error nih kak 😅\n_Produk tidak ditemukan_\nCoba lagi bentar ya!",
+    "intent": "AI_CHAT",
+    "dari_grup": true
+  },
+  {
+    "ts": "2026-05-24 19:04",
+    "sender": "+6285165061698",
+    "pesan": "Tambah user",
+    "respons": "Saya tidak bisa melakukan penambahan user karena saya hanya dapat mengakses fungsi yang telah disediakan. Fungsi-fungsi tersebut terkait dengan pengelolaan stok dan transaksi di kios, bukan manajemen user.\n\nNamun, saya dapat membantu Anda dengan pertanyaan terkait stok atau transaksi. Silakan bertanya!",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-24 19:04",
+    "sender": "+6285165061698",
+    "pesan": "Fungsi",
+    "respons": "Tidak ada fungsi yang dapat dieksekusi. Silakan berikan perintah atau pertanyaan yang spesifik.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-24 19:04",
+    "sender": "+6285165061698",
+    "pesan": "Tampilkan fungsi",
+    "respons": "Aduh, ada yang error nih kak 😅\n_Produk tidak ditemukan_\nCoba lagi bentar ya!",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-24 19:04",
+    "sender": "+6285165061698",
+    "pesan": "Apa saja fungsi mu",
+    "respons": "Maaf kak, AI lagi sibuk nih 😅 Coba perintah manual ya, ketik *bantuan* buat lihat daftarnya.",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-24 19:05",
+    "sender": "+6285165061698",
+    "pesan": "Hi",
+    "respons": "Hai! Selamat datang di Kios Desa Maju. Ada yang bisa saya bantu?",
+    "intent": "AI_CHAT",
+    "dari_grup": false
+  },
+  {
+    "ts": "2026-05-24 19:05",
+    "sender": "+6285165061698",
+    "pesan": "Apa yang bisa kamu lakukan",
+    "respons": "Saya dapat membantu dengan beberapa tugas, seperti:\n\n* Mencatat penjualan atau pembelian produk\n* Menambah produk baru\n* Mengubah harga produk\n* Mengatur stok produk\n* Melihat laporan omzet, laba, dan transaksi\n* Mengecek produk yang stoknya tipis atau hampir habis\n* Membatalkan transaksi\n\nApakah ada tugas spesifik yang ingin Anda lakukan?",
+    "intent": "AI_CHAT",
+    "dari_grup": false
   }
 ]

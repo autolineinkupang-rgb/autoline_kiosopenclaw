@@ -1,6 +1,6 @@
-# Kak Kios — Bot Signal Kios Desa
+# Kak Kios — Bot Telegram Kios Desa
 
-Bot manajemen kios via Signal dengan kepribadian santai dan AI Groq/Gemini.
+Bot manajemen kios via Telegram dengan kepribadian santai dan AI Groq/Gemini.
 
 ## Cara Jalankan
 
@@ -8,12 +8,15 @@ Bot manajemen kios via Signal dengan kepribadian santai dan AI Groq/Gemini.
 # Copy dan isi variabel .env
 cp .env.example .env   # atau buat manual
 
+# Verifikasi token & ambil link undangan grup (sekali saja)
+npm run signal:setup
+
 npm run signal:start
 ```
 
-Tanpa Signal (mode demo):
+Tanpa Telegram (mode demo):
 ```bash
-# Jalankan tanpa SIGNAL_PHONE_NUMBER → otomatis mode demo
+# Jalankan tanpa TELEGRAM_BOT_TOKEN → otomatis mode demo
 npm run signal:start
 ```
 
@@ -21,13 +24,16 @@ npm run signal:start
 
 | Variabel | Keterangan |
 |---|---|
-| `SIGNAL_PHONE_NUMBER` | Nomor HP terdaftar di signal-cli (e.g. `+6281234567890`) |
-| `SIGNAL_RECIPIENT` | Nomor HP tujuan notifikasi |
-| `SIGNAL_WHITELIST` | Nomor-nomor yang boleh kirim perintah (pisah koma) |
-| `SIGNAL_CLI_PATH` | Path ke signal-cli (default: `signal-cli`) |
+| `TELEGRAM_BOT_TOKEN` | Token bot dari [@BotFather](https://t.me/BotFather) |
+| `TELEGRAM_GROUP_ID` | Chat ID grup (biasanya angka negatif, mis. `-1001234567890`) |
+| `TELEGRAM_RECIPIENT` | User ID Telegram tujuan notifikasi pribadi |
+| `TELEGRAM_WHITELIST` | User ID yang boleh kirim perintah (pisah koma) |
+| `TELEGRAM_GROUP_INVITE_LINK` | Link undangan grup (otomatis diisi `signal:setup`) |
 | `GROQ_API_KEY` | API key Groq untuk AI utama |
 | `GEMINI_API_KEY` | API key Gemini untuk AI cadangan |
 | `PYTHON_BIN` | Path Python 3 (default: `python3`) |
+
+> Identitas user pakai **User ID numerik Telegram** (bukan nomor HP). Cara dapat: user kirim pesan ke bot, ID-nya muncul di `logs/signal.log` (`Pesan dari <id>`). Bot harus jadi **admin grup** agar link undangan & keluarkan member berfungsi.
 
 ## Perintah Bot
 
@@ -48,7 +54,7 @@ npm run signal:start
 ## Arsitektur
 
 ```
-Signal ──► bot-handler.js  (komunikasi & routing)
+Telegram ──► bot-handler.js  (komunikasi & routing)
                │
                ├──► message-parser.js   (parse perintah)
                ├──► response-formatter.js (format pesan)

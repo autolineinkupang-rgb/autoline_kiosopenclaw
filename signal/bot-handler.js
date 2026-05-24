@@ -6,6 +6,7 @@ const { spawnSync, spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const dayjs = require('dayjs');
+const axios = require('axios');
 
 const { parsePerintah, validasiPerintah } = require('./message-parser');
 const { detect, detectAsync, resetBasePatterns } = require('./intent-detector');
@@ -123,13 +124,15 @@ const MEMORY_FILE = path.join(ROOT, 'memory', 'kios-memory.json');
 const LOG_FILE = path.join(ROOT, 'logs', 'signal.log');
 const ACTIVITY_LOG = path.join(ROOT, 'logs', 'bot-activity.log');
 
-const PHONE = process.env.SIGNAL_NUMBER || process.env.SIGNAL_PHONE_NUMBER;
-const RECIPIENT = process.env.SIGNAL_RECIPIENT;
-const GROUP_ID = process.env.SIGNAL_GROUP_ID;
-const WHITELIST = process.env.SIGNAL_WHITELIST || RECIPIENT || '';
-const SIGNAL_CLI = process.env.SIGNAL_CLI_PATH || 'signal-cli';
+const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+const RECIPIENT = process.env.TELEGRAM_RECIPIENT;
+const GROUP_ID = process.env.TELEGRAM_GROUP_ID;
+const WHITELIST = process.env.TELEGRAM_WHITELIST || RECIPIENT || '';
+const GROUP_INVITE_LINK = process.env.TELEGRAM_GROUP_INVITE_LINK || '';
+const TG_API = `https://api.telegram.org/bot${BOT_TOKEN}`;
 
-// Set berisi semua nomor/uuid whitelist (normalized, sudah di-parse sekali)
+// Set berisi semua user-id whitelist (normalized, sudah di-parse sekali).
+// Telegram pakai user-id numerik; normalisasi hanya buang spasi/tanda kurung.
 const _normalizePhone = (p) => String(p).replace(/[\s\-()]/g, '');
 const WHITELIST_SET = new Set(
   WHITELIST.split(',').map(s => _normalizePhone(s.trim())).filter(Boolean)
@@ -266,46 +269,33 @@ function cekKonfirmasi(sender, teksInput) {
   return null; // Masih nunggu konfirmasi valid
 }
 
-let rpcProc = null;
-let rpcId = 0;
-const pendingRpc = new Map();
-let rpcBuffer = '';
-
-function rpcWrite(method, params) {
-  return new Promise((resolve, reject) => {
-    if (!rpcProc || rpcProc.killed) {
-      reject(new Error('signal-cli tidak berjalan'));
-      return;
-    }
-    const id = ++rpcId;
-    const timer = setTimeout(() => {
-      pendingRpc.delete(id);
-      reject(new Error(`RPC timeout [${method}]`));
-    }, 12000);
-    pendingRpc.set(id, { resolve, reject, timer });
-    rpcProc.stdin.write(JSON.stringify({ jsonrpc: '2.0', id, method, params }) + '\n', 'utf8');
+// ── Telegram Bot API ─────────────────────────────────────────────────────────
+async function tgApi(method, params = {}, timeout = 15000) {
+  if (!BOT_TOKEN) throw new Error('TELEGRAM_BOT_TOKEN belum diset');
+  const r = await axios.post(`${TG_API}/${method}`, params, {
+    timeout,
+    headers: { 'Content-Type': 'application/json' },
   });
+  if (!r.data || !r.data.ok) {
+    throw new Error(r.data?.description || `Telegram API error [${method}]`);
+  }
+  return r.data.result;
 }
 
-function rpcOnLine(line) {
-  let msg;
-  try { msg = JSON.parse(line); } catch { return; }
-
-  // Pesan masuk = notifikasi tanpa id
-  if (msg.method === 'receive' && msg.params) {
-    prosesEnvelope(msg.params.envelope || msg.params).catch(() => {});
-    return;
-  }
-
-  // Respons atas request kita
-  if (msg.id !== undefined) {
-    const pend = pendingRpc.get(msg.id);
-    if (!pend) return;
-    clearTimeout(pend.timer);
-    pendingRpc.delete(msg.id);
-    if (msg.error) pend.reject(new Error(msg.error.message || JSON.stringify(msg.error)));
-    else pend.resolve(msg.result);
-  }
+// Adaptor: ubah update Telegram menjadi envelope ber-format Signal agar
+// prosesEnvelope() tetap berjalan tanpa perubahan logika.
+function envelopeFromTelegram(message) {
+  const chat = message.chat || {};
+  const from = message.from || {};
+  const isGroup = chat.type === 'group' || chat.type === 'supergroup';
+  return {
+    sourceNumber: from.id != null ? String(from.id) : null,
+    sourceUuid: from.username ? `@${from.username}` : null,
+    dataMessage: {
+      message: message.text || message.caption || null,
+      groupInfo: isGroup ? { groupId: String(chat.id) } : null,
+    },
+  };
 }
 
 function pecahPesan(teks, limit = 3900) {
@@ -325,26 +315,29 @@ function pecahPesan(teks, limit = 3900) {
   return chunks;
 }
 
+// Kirim satu pesan ke chat tertentu. Coba Markdown (format *bold* / _italic_
+// sama seperti Signal); jika Telegram menolak parsing, kirim ulang plain text
+// agar pesan tetap sampai.
+async function _tgSend(chatId, message) {
+  try {
+    await tgApi('sendMessage', {
+      chat_id: chatId, text: message,
+      parse_mode: 'Markdown', disable_web_page_preview: true,
+    });
+  } catch (e) {
+    await tgApi('sendMessage', { chat_id: chatId, text: message, disable_web_page_preview: true });
+  }
+}
+
 async function kirimPesan(teks, penerima = RECIPIENT) {
   if (!penerima) { log('[PREVIEW] ' + teks.slice(0, 100)); return false; }
   try {
-    const chunks = pecahPesan(teks);
-    for (const message of chunks) {
-      await rpcWrite('send', { recipient: [penerima], message });
+    for (const message of pecahPesan(teks)) {
+      await _tgSend(penerima, message);
     }
     log(`Terkirim ke ${penerima}`);
     return true;
   } catch (e) {
-    // signal-cli kadang menolak send jika konteks quote tidak lengkap — retry dengan quoteTimestamp=0
-    if (/quote author/i.test(e.message)) {
-      try {
-        for (const message of pecahPesan(teks)) {
-          await rpcWrite('send', { recipient: [penerima], message, quoteTimestamp: 0, quoteAuthor: penerima });
-        }
-        log(`Terkirim ke ${penerima} (quote-retry)`);
-        return true;
-      } catch (e2) { log(`Gagal kirim (quote-retry): ${e2.message}`); return false; }
-    }
     log(`Gagal kirim: ${e.message}`);
     return false;
   }
@@ -354,21 +347,27 @@ async function kirimKeGrup(teks) {
   if (!GROUP_ID) { log('GROUP_ID belum diset'); return false; }
   try {
     for (const message of pecahPesan(teks)) {
-      await rpcWrite('send', { groupId: GROUP_ID, message });
+      await _tgSend(GROUP_ID, message);
     }
     log('Terkirim ke grup');
     return true;
   } catch (e) { log(`Gagal kirim grup: ${e.message}`); return false; }
 }
 
-async function undangKeGrup(phone) {
-  if (!GROUP_ID) throw new Error('GROUP_ID belum diset');
-  await rpcWrite('updateGroup', { groupId: GROUP_ID, addMembers: [phone] });
+// Bot Telegram tidak bisa menambah member grup via API — kirim link undangan.
+async function undangKeGrup(chatId) {
+  if (!GROUP_INVITE_LINK) throw new Error('TELEGRAM_GROUP_INVITE_LINK belum diset');
+  await kirimPesan(
+    `Silakan klik link berikut untuk bergabung ke grup *Kios Cerdas HQ*:\n${GROUP_INVITE_LINK}`,
+    chatId,
+  );
 }
 
-async function keluarkanDariGrup(phone) {
-  if (!GROUP_ID) throw new Error('GROUP_ID belum diset');
-  await rpcWrite('updateGroup', { groupId: GROUP_ID, removeMembers: [phone] });
+// Keluarkan member: ban lalu unban = kick tanpa blok permanen. Bot harus admin grup.
+async function keluarkanDariGrup(chatId) {
+  if (!GROUP_ID) throw new Error('TELEGRAM_GROUP_ID belum diset');
+  await tgApi('banChatMember', { chat_id: GROUP_ID, user_id: Number(chatId) });
+  await tgApi('unbanChatMember', { chat_id: GROUP_ID, user_id: Number(chatId), only_if_banned: true });
 }
 
 function alertAdmin(pesan) {
@@ -961,56 +960,44 @@ async function prosesEnvelope(envelope) {
   }
 }
 
-let restartDelay = 5000;
-let rpcStartTime = 0;
+let pollOffset = 0;
+let polling = false;
+let pollBackoff = 5000;
 
-function mulaiJsonRpc() {
-  log('Memulai signal-cli jsonRpc...');
-  rpcStartTime = Date.now();
-  rpcProc = spawn(SIGNAL_CLI, ['-u', PHONE, 'jsonRpc'], {
-    stdio: ['pipe', 'pipe', 'pipe'],
-  });
-  rpcBuffer = '';
-
-  rpcProc.stdout.on('data', (data) => {
-    rpcBuffer += data.toString();
-    const lines = rpcBuffer.split('\n');
-    rpcBuffer = lines.pop();
-    lines.forEach(line => { if (line.trim()) rpcOnLine(line.trim()); });
-  });
-
-  rpcProc.stderr.on('data', (d) => {
-    const m = d.toString().trim();
-    if (m) log(`[signal-cli] ${m}`);
-  });
-
-  rpcProc.on('close', (code) => {
-    const uptime = Date.now() - rpcStartTime;
-    // Reset delay jika sudah stabil >60 detik, jika tidak backoff (max 60 detik)
-    if (uptime > 60000) {
-      restartDelay = 5000;
-    } else {
-      restartDelay = Math.min(restartDelay * 2, 60000);
+// Long polling getUpdates: tarik update Telegram lalu salurkan ke prosesEnvelope.
+async function mulaiPolling() {
+  if (polling) return;
+  polling = true;
+  log('Memulai Telegram long polling (getUpdates)...');
+  while (polling) {
+    try {
+      const updates = await tgApi(
+        'getUpdates',
+        { offset: pollOffset, timeout: 30, allowed_updates: ['message'] },
+        40000,
+      );
+      pollBackoff = 5000; // sukses → reset backoff
+      for (const upd of updates) {
+        pollOffset = upd.update_id + 1;
+        const message = upd.message;
+        if (!message) continue;
+        prosesEnvelope(envelopeFromTelegram(message)).catch(() => {});
+      }
+    } catch (e) {
+      // 409 (instance lain polling), timeout, atau error jaringan → backoff
+      log(`getUpdates error: ${e.message} — retry ${pollBackoff / 1000}s`);
+      await new Promise(r => setTimeout(r, pollBackoff));
+      pollBackoff = Math.min(pollBackoff * 2, 60000);
     }
-    log(`signal-cli jsonRpc exit (${code}) uptime ${Math.round(uptime / 1000)}s — restart ${restartDelay / 1000}s...`);
-    rpcProc = null;
-    // Batalkan semua pending RPC
-    for (const [, pend] of pendingRpc) { clearTimeout(pend.timer); pend.reject(new Error('restart')); }
-    pendingRpc.clear();
-    setTimeout(mulaiJsonRpc, restartDelay);
-  });
-
-  rpcProc.on('error', (e) => {
-    log(`signal-cli error: ${e.message}`);
-  });
+  }
 }
 
 async function main() {
-  log('Irma (bot) v5.1 + PicaMan (openclaw) v5.1 — online Rote Barat Laut WITA');
+  log('Irma (bot) v5.1 + PicaMan (openclaw) v5.1 — online Rote Barat Laut WITA (Telegram)');
   fs.mkdirSync(path.join(ROOT, 'logs'), { recursive: true });
 
-  if (!PHONE) {
-    log('SIGNAL_NUMBER tidak diset — mode demo');
+  if (!BOT_TOKEN) {
+    log('TELEGRAM_BOT_TOKEN tidak diset — mode demo');
     for (const c of ['halo', 'stok mie goreng', 'laporan', 'bantuan']) {
       console.log(`\n> ${c}`);
       console.log(await prosesPerintah(c, 'demo'));
@@ -1018,9 +1005,13 @@ async function main() {
     return;
   }
 
-  const cek = spawnSync(SIGNAL_CLI, ['--version'], { timeout: 5000, encoding: 'utf8' });
-  if (cek.error) { log('signal-cli tidak ditemukan.'); process.exit(1); }
-  log(`signal-cli: ${(cek.stdout + cek.stderr).trim()}`);
+  try {
+    const me = await tgApi('getMe', {});
+    log(`Telegram bot: @${me.username} (id ${me.id})`);
+  } catch (e) {
+    log(`Token Telegram tidak valid: ${e.message}`);
+    process.exit(1);
+  }
 
   CronHandlers.init(kirimKeGrup, kirimPesan);
   initCron(CronHandlers);
@@ -1111,7 +1102,7 @@ async function main() {
   CronHandlers.cekPendingOnStartup();
 
   log(`Whitelist: ${WHITELIST || '(kosong)'} | Grup: ${GROUP_ID || '(belum diset)'}`);
-  mulaiJsonRpc();
+  mulaiPolling();
 }
 
 if (require.main === module) {

@@ -62,7 +62,10 @@
       "Bash(awk -F'] ' '{print $2}')",
       "Bash(grep -rnE \"\\(gsk_[A-Za-z0-9]{20,}|AIza[A-Za-z0-9_-]{30,}|sk-[A-Za-z0-9]{30,}\\)\" signal/ scripts/ skills/ config/ cron/)",
       "Bash(grep -v \":0$\")",
-      "Bash(grep -nE \"new Map\\\\\\(\\\\\\)|setInterval|setTimeout.*\\\\\\)\\\\s*;$\" /home/kevinman/kios-openclaw/signal/bot-handler.js)"
+      "Bash(grep -nE \"new Map\\\\\\(\\\\\\)|setInterval|setTimeout.*\\\\\\)\\\\s*;$\" /home/kevinman/kios-openclaw/signal/bot-handler.js)",
+      "Bash(echo \"exit:$?\")",
+      "Bash(echo \"---exit:$?---\")",
+      "Bash(echo \"exit grep sisa: $?\")"
     ]
   },
   "enableAllProjectMcpServers": true,

@@ -2,15 +2,15 @@
 'use strict';
 
 require('dotenv').config();
-const { spawnSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
+const axios = require('axios');
 
-const PHONE = process.env.SIGNAL_NUMBER || process.env.SIGNAL_PHONE_NUMBER;
-const RECIPIENT = process.env.SIGNAL_RECIPIENT;
-const SIGNAL_CLI = process.env.SIGNAL_CLI_PATH || 'signal-cli';
+const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+const GROUP_ID = process.env.TELEGRAM_GROUP_ID;
 const ENV_FILE = path.join(__dirname, '..', '.env');
 const LOG_FILE = path.join(__dirname, '..', 'logs', 'signal-error.log');
+const TG_API = `https://api.telegram.org/bot${BOT_TOKEN}`;
 
 function log(msg) {
   const ts = new Date().toISOString();
@@ -31,109 +31,64 @@ function simpanEnvVar(key, value) {
   fs.writeFileSync(ENV_FILE, content, 'utf8');
 }
 
-function cekSignalCli() {
-  const r = spawnSync(SIGNAL_CLI, ['--version'], { encoding: 'utf8', timeout: 5000 });
-  if (r.error) {
-    log(`signal-cli tidak ditemukan: ${r.error.message}`);
-    log('Panduan install: https://github.com/AsamK/signal-cli/releases');
+async function tg(method, params = {}) {
+  const r = await axios.post(`${TG_API}/${method}`, params, { timeout: 15000 });
+  if (!r.data || !r.data.ok) throw new Error(r.data?.description || `error [${method}]`);
+  return r.data.result;
+}
+
+async function main() {
+  log('=== TELEGRAM SETUP DIMULAI ===');
+
+  if (!BOT_TOKEN) { log('FATAL: TELEGRAM_BOT_TOKEN tidak diset di .env'); process.exit(1); }
+  if (!GROUP_ID)  { log('FATAL: TELEGRAM_GROUP_ID tidak diset di .env'); process.exit(1); }
+
+  // 1. Verifikasi token bot
+  let me;
+  try {
+    me = await tg('getMe');
+    log(`Bot terhubung: @${me.username} (id ${me.id})`);
+  } catch (e) {
+    log(`Token Telegram tidak valid: ${e.message}`);
+    log('Buat bot baru via @BotFather, lalu set TELEGRAM_BOT_TOKEN di .env');
     process.exit(1);
   }
-  log(`signal-cli tersedia: ${(r.stdout + r.stderr).trim()}`);
-}
 
-function buatGrup() {
-  log(`Membuat grup "Kios Cerdas HQ" dengan anggota ${RECIPIENT}...`);
-
-  // signal-cli >= 0.11 pakai updateGroup (tanpa --group-id = buat baru)
-  // Gunakan -o json untuk output yang mudah di-parse
-  const r = spawnSync(SIGNAL_CLI, [
-    '-o', 'json',
-    '-u', PHONE,
-    'updateGroup',
-    '--name', 'Kios Cerdas HQ',
-    '--member', RECIPIENT,
-  ], { encoding: 'utf8', timeout: 30000 });
-
-  const stdout = (r.stdout || '').trim();
-  const stderr = (r.stderr || '').trim();
-  log(`stdout: ${stdout || '(kosong)'}`);
-  if (stderr) log(`stderr: ${stderr}`);
-
-  if (r.error) {
-    log(`Error: ${r.error.message}`);
-    return null;
+  // 2. Verifikasi akses ke grup
+  try {
+    const chat = await tg('getChat', { chat_id: GROUP_ID });
+    log(`Grup terdeteksi: "${chat.title || chat.id}" (${chat.type})`);
+  } catch (e) {
+    log(`Tidak bisa akses grup ${GROUP_ID}: ${e.message}`);
+    log('Pastikan bot sudah ditambahkan ke grup & TELEGRAM_GROUP_ID benar (biasanya angka negatif).');
+    process.exit(1);
   }
 
-  // Parse JSON output dari signal-cli
-  for (const line of stdout.split('\n')) {
-    try {
-      const json = JSON.parse(line.trim());
-      // Format: {"groupId":"...","...":"..."} atau {"result":{"groupId":"..."}}
-      const gid = json.groupId || json.result?.groupId || json.id || json.result?.id;
-      if (gid) return gid;
-    } catch { /* bukan JSON, coba pattern */ }
-  }
-
-  // Fallback: regex terhadap seluruh output
-  const allOutput = stdout + '\n' + stderr;
-  const patterns = [
-    /groupId["\s:]+([A-Za-z0-9+/=]{20,})/,
-    /id["\s:]+([A-Za-z0-9+/=]{20,})/,
-    /"([A-Za-z0-9+/=]{30,})"/,
-    /^([A-Za-z0-9+/=]{20,})$/m,
-  ];
-  for (const pat of patterns) {
-    const m = allOutput.match(pat);
-    if (m) return m[1].trim();
-  }
-
-  log('Tidak bisa parse group ID secara otomatis.');
-  log('Set manual di .env: SIGNAL_GROUP_ID=<id dari output di atas>');
-  return null;
-}
-
-function kirimKegrup(teks, groupId) {
-  const r = spawnSync(SIGNAL_CLI, [
-    '-u', PHONE, 'send', '-g', groupId, '-m', teks,
-  ], { encoding: 'utf8', timeout: 15000 });
-
-  if (r.error || r.status !== 0) {
-    log(`Gagal kirim ke grup: ${r.error?.message || r.stderr}`);
-    return false;
-  }
-  log('Pesan sambutan terkirim ke grup!');
-  return true;
-}
-
-function main() {
-  log('=== SIGNAL SETUP DIMULAI ===');
-
-  if (!PHONE) { log('FATAL: SIGNAL_NUMBER tidak diset di .env'); process.exit(1); }
-  if (!RECIPIENT) { log('FATAL: SIGNAL_RECIPIENT tidak diset di .env'); process.exit(1); }
-
-  cekSignalCli();
-
-  let groupId = process.env.SIGNAL_GROUP_ID;
-  if (groupId) {
-    log(`Grup sudah ada: ${groupId} — skip pembuatan`);
-  } else {
-    groupId = buatGrup();
-    if (!groupId) {
-      log('Setup grup gagal. Cek logs/signal-error.log untuk detail.');
-      process.exit(1);
+  // 3. Ambil/buat link undangan grup (bot harus admin) → simpan ke .env
+  try {
+    const link = await tg('exportChatInviteLink', { chat_id: GROUP_ID });
+    if (link) {
+      simpanEnvVar('TELEGRAM_GROUP_INVITE_LINK', link);
+      log(`Link undangan grup disimpan ke .env: ${link}`);
     }
-    log(`Grup berhasil dibuat, ID: ${groupId}`);
-    simpanEnvVar('SIGNAL_GROUP_ID', groupId);
-    log('SIGNAL_GROUP_ID disimpan ke .env');
+  } catch (e) {
+    log(`Tidak bisa ambil link undangan (bot perlu jadi admin grup): ${e.message}`);
+    log('Set manual di .env: TELEGRAM_GROUP_INVITE_LINK=<link undangan grup>');
   }
 
+  // 4. Kirim pesan sambutan ke grup
   const sambutan =
     'Halo kak! 👋 Grup Kios Cerdas udah siap nih!\n' +
     'Aku bakal kirim laporan dan notifikasi di sini ya 📊\n' +
     'Ketik *bantuan* kalau mau lihat perintah yang bisa aku lakukan!';
+  try {
+    await tg('sendMessage', { chat_id: GROUP_ID, text: sambutan, parse_mode: 'Markdown' });
+    log('Pesan sambutan terkirim ke grup!');
+  } catch (e) {
+    log(`Gagal kirim sambutan: ${e.message}`);
+  }
 
-  kirimKegrup(sambutan, groupId);
   log('=== SETUP SELESAI ===');
 }
 
-main();
+main().catch(e => { log(`FATAL: ${e.message}`); process.exit(1); });

@@ -192,6 +192,10 @@
     {
       "re": "periksa\\ semua\\ user",
       "tipe": "CEK_KRITIS"
+    },
+    {
+      "re": "apa\\ saja\\ update\\ barang\\ hari\\ ini",
+      "tipe": "CEK_KRITIS"
     }
   ]
 }

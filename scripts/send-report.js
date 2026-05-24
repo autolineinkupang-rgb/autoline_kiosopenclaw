@@ -2,16 +2,14 @@
 'use strict';
 
 require('dotenv').config();
-const { spawnSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const { parse } = require('csv-parse/sync');
 const dayjs = require('dayjs');
 const axios = require('axios');
 
-const PHONE = process.env.SIGNAL_NUMBER || process.env.SIGNAL_PHONE_NUMBER;
-const GROUP_ID = process.env.SIGNAL_GROUP_ID;
-const SIGNAL_CLI = process.env.SIGNAL_CLI_PATH || 'signal-cli';
+const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+const GROUP_ID = process.env.TELEGRAM_GROUP_ID;
 const TZ = process.env.KIOS_TIMEZONE || 'Asia/Makassar';
 const DATA_DIR = path.join(__dirname, '..', 'data');
 const LOG_FILE = path.join(__dirname, '..', 'logs', 'signal-error.log');
@@ -105,27 +103,34 @@ function formatLaporan(tanggal, data) {
   return msg;
 }
 
-// --- Kirim ke Signal ---
+// --- Kirim ke Telegram ---
 
-function kirimKeGrup(teks) {
-  if (!PHONE || !GROUP_ID) {
-    log('SIGNAL_NUMBER atau SIGNAL_GROUP_ID tidak diset — tampilkan preview:');
+async function kirimKeGrup(teks) {
+  if (!BOT_TOKEN || !GROUP_ID) {
+    log('TELEGRAM_BOT_TOKEN atau TELEGRAM_GROUP_ID tidak diset — tampilkan preview:');
     console.log('\n' + '='.repeat(50));
     console.log(teks);
     console.log('='.repeat(50) + '\n');
     return false;
   }
 
-  const r = spawnSync(SIGNAL_CLI, [
-    '-u', PHONE, 'send', '-g', GROUP_ID, '-m', teks.slice(0, 4096),
-  ], { encoding: 'utf8', timeout: 15000 });
-
-  if (r.error || r.status !== 0) {
-    log(`Gagal kirim laporan: ${r.error?.message || r.stderr}`);
-    return false;
+  const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+  const text = teks.slice(0, 4096);
+  try {
+    await axios.post(url, { chat_id: GROUP_ID, text, parse_mode: 'Markdown', disable_web_page_preview: true }, { timeout: 15000 });
+    log('Laporan terkirim ke grup!');
+    return true;
+  } catch (e) {
+    // Markdown ditolak → kirim ulang plain text agar laporan tetap sampai
+    try {
+      await axios.post(url, { chat_id: GROUP_ID, text, disable_web_page_preview: true }, { timeout: 15000 });
+      log('Laporan terkirim ke grup (plain)!');
+      return true;
+    } catch (e2) {
+      log(`Gagal kirim laporan: ${e2.response?.data?.description || e2.message}`);
+      return false;
+    }
   }
-  log('Laporan terkirim ke grup!');
-  return true;
 }
 
 async function main() {
@@ -142,7 +147,7 @@ async function main() {
   }
 
   const laporan = formatLaporan(tanggal, data);
-  const terkirim = kirimKeGrup(laporan);
+  const terkirim = await kirimKeGrup(laporan);
 
   if (terkirim) {
     await simpanKeRedis(`laporan:${tanggal}`, { ...data, dikirim_at: new Date().toISOString() });

@@ -1246,5 +1246,117 @@
     "berhasil": true,
     "resp_len": 68,
     "count": 1
+  },
+  {
+    "ts": "2026-05-24 18:18",
+    "pesan": "Apa saja update barang hari ini",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-24 18:18",
+    "pesan": "Apa saja update barang hari ini",
+    "intent": "CEK_KRITIS",
+    "berhasil": true,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-24 18:18",
+    "pesan": "Harga gula di rote ndao",
+    "intent": "LOKAL",
+    "berhasil": true,
+    "resp_len": 120,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-24 18:18",
+    "pesan": "Perkiraan Harga gula pasir di rote ndao",
+    "intent": "PICAMAN:ESTIMASI_HARGA",
+    "berhasil": true,
+    "resp_len": 76,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-24 19:04",
+    "pesan": "Tambah user",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-24 19:04",
+    "pesan": "Tambah user",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 303,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-24 19:04",
+    "pesan": "Fungsi",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-24 19:04",
+    "pesan": "Fungsi",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 95,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-24 19:04",
+    "pesan": "Apa saja fungsi mu",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-24 19:04",
+    "pesan": "Apa saja fungsi mu",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 92,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-24 19:05",
+    "pesan": "Hi",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-24 19:05",
+    "pesan": "Hi",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 64,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-24 19:05",
+    "pesan": "Apa yang bisa kamu lakukan",
+    "intent": "UNKNOWN",
+    "berhasil": false,
+    "resp_len": 0,
+    "count": 1
+  },
+  {
+    "ts": "2026-05-24 19:05",
+    "pesan": "Apa yang bisa kamu lakukan",
+    "intent": "AI_RESPONS",
+    "berhasil": true,
+    "resp_len": 341,
+    "count": 1
   }
 ]

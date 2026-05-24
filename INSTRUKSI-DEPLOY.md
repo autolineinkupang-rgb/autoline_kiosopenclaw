@@ -52,16 +52,22 @@ schtasks /create /tn "KiosCekStok" /tr "node C:\path\kios-openclaw\scripts\cek-s
 schtasks /create /tn "KiosBackup" /tr "node C:\path\kios-openclaw\scripts\backup.js" /sc daily /st 22:00
 ```
 
-## 6. Install Signal CLI (untuk bot)
+## 6. Setup Bot Telegram
 
-1. Download dari: https://github.com/AsamK/signal-cli/releases
-2. Ekstrak ke `C:\signal-cli\`
-3. Daftarkan nomor HP:
+1. Buka [@BotFather](https://t.me/BotFather) di Telegram → `/newbot` → ikuti instruksi → salin **bot token**.
+2. Buat grup, tambahkan bot ke grup, lalu **jadikan bot admin** (perlu untuk link undangan & kelola member).
+3. Dapatkan `TELEGRAM_GROUP_ID`: tambahkan [@RawDataBot](https://t.me/RawDataBot) sementara ke grup, atau cek `logs/signal.log` saat ada pesan grup masuk (chat id grup biasanya angka negatif `-100...`).
+4. Isi `.env`:
    ```
-   signal-cli -u +62XXXXXXXXXX register
-   signal-cli -u +62XXXXXXXXXX verify KODE_SMS
+   TELEGRAM_BOT_TOKEN=123456:ABC-...
+   TELEGRAM_GROUP_ID=-1001234567890
+   TELEGRAM_RECIPIENT=123456789        # user id owner
+   TELEGRAM_WHITELIST=123456789        # user id yang boleh kirim perintah (pisah koma)
    ```
-4. Update `SIGNAL_PHONE_NUMBER` dan `SIGNAL_CLI_PATH` di `.env`
+5. Verifikasi & ambil link undangan grup:
+   ```
+   npm run signal:setup
+   ```
 
 ## 7. Jalankan Sistem
 

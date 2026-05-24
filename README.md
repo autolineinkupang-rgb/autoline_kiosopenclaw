@@ -1,12 +1,12 @@
 # Kios Openclaw v5.0
 
-Sistem manajemen kios desa berbasis AI — dioperasikan via Signal, tanpa biaya langganan.
+Sistem manajemen kios desa berbasis AI — dioperasikan via Telegram, tanpa biaya langganan.
 
 ## Teknologi
 
 | Komponen | Stack |
 |---|---|
-| Bot/Signal | Node.js + signal-cli |
+| Bot/Telegram | Node.js + Telegram Bot API |
 | AI Utama | Groq (Llama 4 Scout) |
 | AI Cadangan | Gemini 2.0 Flash |
 | Skills | Python 3 (CSV lokal) |
@@ -22,7 +22,7 @@ cp .env.example .env   # atau buat manual
 # 2. Install dependensi
 npm install
 
-# 3. Jalankan bot Signal
+# 3. Jalankan bot Telegram
 npm run signal:start
 ```
 
@@ -30,9 +30,10 @@ npm run signal:start
 
 | Variabel | Keterangan |
 |---|---|
-| `SIGNAL_PHONE_NUMBER` | Nomor terdaftar di signal-cli |
-| `SIGNAL_RECIPIENT` | Nomor tujuan notifikasi |
-| `SIGNAL_WHITELIST` | Nomor yang boleh pakai bot (pisah koma) |
+| `TELEGRAM_BOT_TOKEN` | Token bot dari @BotFather |
+| `TELEGRAM_GROUP_ID` | Chat ID grup (angka negatif) |
+| `TELEGRAM_RECIPIENT` | User ID tujuan notifikasi |
+| `TELEGRAM_WHITELIST` | User ID yang boleh pakai bot (pisah koma) |
 | `GROQ_API_KEY` | API key Groq |
 | `GEMINI_API_KEY` | API key Gemini |
 | `PYTHON_BIN` | Path Python 3 (default: `python3`) |
@@ -44,7 +45,7 @@ npm run signal:start
 ## Struktur Folder
 
 ```
-signal/          — Bot handler, AI, intent detector, formatter
+signal/          — Bot handler (transport Telegram), AI, intent detector, formatter
 skills/          — Modul Python (stok, laporan, kasir, dll) + JS helpers
 scripts/         — Cron scripts, backup, security, setup
 cron/            — Penjadwal laporan & alert
@@ -57,7 +58,7 @@ logs/            — Log bot & sistem
 ## Arsitektur
 
 ```
-Signal ──► bot-handler.js
+Telegram ──► bot-handler.js
                │
                ├── message-parser.js    (parse teks)
                ├── intent-detector.js   (routing perintah)

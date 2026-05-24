@@ -1,6 +1,6 @@
 # Kak Kios — Referensi Perintah Bot v5.0
 
-Panduan perintah Signal untuk **Kios Desa Maju** milik Ruflo.
+Panduan perintah Telegram untuk **Kios Desa Maju** milik Ruflo.
 
 ---
 
@@ -191,7 +191,7 @@ Tambah atau hapus user yang boleh akses bot.
 
 | Role | Akses |
 |---|---|
-| `owner` | Semua. Tidak butuh approval untuk AI. (Diset di `.env` lewat `SIGNAL_WHITELIST`) |
+| `owner` | Semua. Tidak butuh approval untuk AI. (Diset di `.env` lewat `TELEGRAM_WHITELIST`) |
 | `irma` | Semua. **Tapi setiap pakai AI butuh approval owner** (balas `aprove`). |
 | `kasir` | Jual, lihat stok/laporan, shift. |
 | `viewer` | Hanya lihat stok & laporan. |
