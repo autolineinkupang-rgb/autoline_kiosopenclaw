@@ -34,7 +34,10 @@
       "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\('Riwayat OK, total tx:', len\\(d['data']['transaksi']\\)\\)\")",
       "Bash(python3 -c \"import ast; ast.parse\\(open\\('/home/kevinman/kios-openclaw/skills/stok.py'\\).read\\(\\)\\); print\\('stok.py OK'\\)\")",
       "Bash(python3 -c \"import ast; ast.parse\\(open\\('/home/kevinman/kios-openclaw/skills/helper.py'\\).read\\(\\)\\); print\\('helper.py OK'\\)\")",
-      "Bash(python3 *)"
+      "Bash(python3 *)",
+      "Bash(curl -sI https://autoline-kiosopenclaw.vercel.app)",
+      "Bash(curl -s https://autoline-kiosopenclaw.vercel.app/api/stok)",
+      "Bash(curl -s https://autoline-kiosopenclaw.vercel.app/api/laporan)"
     ]
   },
   "enableAllProjectMcpServers": true,

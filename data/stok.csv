@@ -1,5 +1,5 @@
 id,nama,kategori,satuan,stok,harga_beli,harga_jual,stok_minimum,stok_kritis,supplier,last_update,has_exp,exp_date
-001,Beras Premium 5kg,sembako,karung,22,62000,70000,10,3,Pak Haji Soleh,2026-05-19,0,
+001,Beras Premium 5kg,sembako,karung,22,60,75,10,3,Pak Haji Soleh,2026-05-24,0,
 002,Beras Medium 5kg,sembako,karung,29,55000,62000,10,3,Pak Haji Soleh,2026-05-17,0,
 003,Gula Pasir 1kg,sembako,bungkus,18,13500,15000,8,2,Distributor UD Maju,2026-05-18,0,
 004,Minyak Goreng 1L,sembako,botol,18,17000,19000,8,2,Distributor UD Maju,2026-05-17,0,
@@ -18,3 +18,4 @@ id,nama,kategori,satuan,stok,harga_beli,harga_jual,stok_minimum,stok_kritis,supp
 017,Susu Kaleng Omela Kental Manis,umum,kaleng,48,0,14000,5,2,,2026-05-19,0,
 018,es batu,umum,pcs,19,1000,1150,5,2,,2026-05-19,0,
 019,Tepung Merek Kompas,sembako,pcs,10,0,14000,5,3,-,2026-05-19,1,2027-05-02
+020,modal pulsa terpisah sebesar,umum,pcs,500000,0,0,5,2,,2026-05-24,0,

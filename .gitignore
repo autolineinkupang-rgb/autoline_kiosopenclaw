@@ -25,6 +25,10 @@ Thumbs.db
 # Vercel
 .vercel
 
+.swarm/
+.claude-flow/
+
+
 # Local backups
 backups/
 .env
